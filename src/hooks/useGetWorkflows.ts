@@ -1,16 +1,20 @@
 import { useQuery } from 'react-query';
 import useGithubClient from './useGithubClient';
+import { DATA_STALE_TIME, OWNER, REPOSITORY_NAME } from '../constants';
 
 function useGetWorkflows() {
     const client = useGithubClient();
 
-    const env = import.meta.env;
+    const owner = OWNER;
+    const repo = REPOSITORY_NAME;
 
-    const owner = env.VITE_GITHUB_REPO_OWNER ?? '';
-    const repo = env.VITE_GITHUB_REPO_NAME ?? '';
-
-    const { data, isLoading } = useQuery('workflows', () =>
-        client.get_workflows_async(owner, repo),
+    const { data, isLoading } = useQuery(
+        'workflows',
+        () => client.get_workflows_async(owner, repo),
+        {
+            staleTime: DATA_STALE_TIME,
+            keepPreviousData: true,
+        },
     );
 
     return { data, isLoading };

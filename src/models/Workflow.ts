@@ -1,15 +1,23 @@
+export enum EWorkflowState {
+    ACTIVE = 'active',
+    DELETED = 'deleted',
+    DISABLED_MANUAL = 'disabled_manually',
+    DISABLED_INACTIVE = 'disabled_inactivity',
+    DISABLED_FORK = 'disabled_fork',
+}
+
 export interface IWorkflow {
     id: number;
     name: string;
     path: string;
-    state: string;
+    state: EWorkflowState;
 }
 
 class Workflow implements IWorkflow {
     id: number;
     name: string;
     path: string;
-    state: string;
+    state: EWorkflowState;
 
     constructor(workflow: IWorkflow) {
         this.id = workflow.id;
