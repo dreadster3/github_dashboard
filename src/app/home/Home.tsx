@@ -1,24 +1,21 @@
 import useGetWorkflowRuns from '../../hooks/useGetWorkflowRuns';
 import useGetWorkflows from '../../hooks/useGetWorkflows';
-import { IWorkflow } from '../../models/Workflow';
+import WorkflowTable from './WorkflowTable';
 
 function Home() {
-    const { data } = useGetWorkflows();
-    const { data: run } = useGetWorkflowRuns(data?.[0].id, {
-        page: 1,
-        per_page: 1,
-    });
+    // const { data, isLoading } = useGetWorkflows();
+    // const { data: run } = useGetWorkflowRuns(data?.[0].id, {
+    //     page: 1,
+    //     per_page: 1,
+    // });
 
-    console.log(run);
+    // if (isLoading) {
+    //     return <div>Loading...</div>;
+    // }
 
     return (
         <div>
-            {data?.map((workflow: IWorkflow) => (
-                <div key={workflow.id}>
-                    <h1>{workflow.name}</h1>
-                    <p>{workflow.state}</p>
-                </div>
-            ))}
+            <WorkflowTable data={[]} />
         </div>
     );
 }

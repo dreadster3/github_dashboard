@@ -28,7 +28,7 @@ class GithubClient {
         owner: string,
         repository_name: string,
         options?: IPageQueryParameters,
-    ) {
+    ): Promise<IWorkflow[]> {
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: `/repos/${owner}/${repository_name}/actions/workflows`,
@@ -47,7 +47,7 @@ class GithubClient {
         repository_name: string,
         workflow_id: number,
         options?: IWorkflowRunQueryParameters,
-    ) {
+    ): Promise<IWorkflowRun[]> {
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: `/repos/${owner}/${repository_name}/actions/workflows/${workflow_id}/runs`,
