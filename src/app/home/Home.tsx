@@ -14,7 +14,7 @@ function Home() {
     // }
 
     return (
-        <div>
+        <div className="flex flex-col items-center pt-32">
             <WorkflowTable data={[]} />
         </div>
     );
