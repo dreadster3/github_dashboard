@@ -1,53 +1,47 @@
 import {
+    FilterFn,
+    RowSelectionState,
     TableOptions,
     flexRender,
     getCoreRowModel,
     getFilteredRowModel,
     useReactTable,
 } from '@tanstack/react-table';
-import { EWorkflowState, IWorkflow } from '../../models/Workflow';
-import { columns } from './columns';
-import { useMemo, useState } from 'react';
+import { IWorkflow } from '../../../models/Workflow';
+import { columns, filter_fn, get_columns } from './columns';
+import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import icons from '../../constants/icons';
+import icons from '../../../constants/icons';
+import clsx from 'clsx';
+import { useQueryClient } from 'react-query';
 
 interface IWorkflowTableProps {
     data: IWorkflow[];
 }
 
-function WorkflowTable({ data }: IWorkflowTableProps) {
-    const [globalFilter, setGlobalFilter] = useState('');
+declare module '@tanstack/table-core' {
+    interface FilterFns {
+        status: FilterFn<any>;
+    }
+}
 
-    const memo_data = useMemo(
-        () => [
-            {
-                id: 1,
-                name: 'test',
-                state: EWorkflowState.ACTIVE,
-                path: 'test',
-            },
-            {
-                id: 2,
-                name: 'test2',
-                state: EWorkflowState.ACTIVE,
-                path: 'test2',
-            },
-            {
-                id: 3,
-                name: 'something',
-                state: EWorkflowState.DELETED,
-                path: 'something',
-            },
-        ],
-        [],
-    );
+function WorkflowTable({ data }: IWorkflowTableProps) {
+    const [globalFilter, setGlobalFilter] = useState<string>('');
+    const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
+    const queryClient = useQueryClient();
 
     const options: TableOptions<IWorkflow> = {
-        data: memo_data,
-        columns: columns,
+        data: data,
+        columns: get_columns(queryClient),
+        filterFns: {
+            status: filter_fn,
+        },
         state: {
             globalFilter,
+            rowSelection,
         },
+        enableRowSelection: true,
+        onRowSelectionChange: setRowSelection,
         onGlobalFilterChange: setGlobalFilter,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
@@ -57,9 +51,9 @@ function WorkflowTable({ data }: IWorkflowTableProps) {
 
     return (
         <div className="w-1/2 overflow-hidden">
-            <div className="pt-2 pb-2 border-2 rounded-md">
+            <div className="h-full flex flex-row pb-2 border-2 justify-between">
                 <div className="relative">
-                    <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                    <div className="absolute inset-y-0 left-0 -top-1 flex items-center pl-3 pointer-events-none">
                         <FontAwesomeIcon
                             className="text-gray-400"
                             icon={icons.s_search}
@@ -73,6 +67,21 @@ function WorkflowTable({ data }: IWorkflowTableProps) {
                         placeholder="Search..."
                     />
                 </div>
+                <button
+                    type="button"
+                    className={clsx(
+                        'bg-blue-400 p-2 rounded-lg text-white text-sm shadow-blue-500',
+                        'enabled:shadow-sm',
+                        'disabled:bg-gray-400',
+                        'hover:shadow-blue-100 hover:shadow-md',
+                        !(
+                            table.getIsSomeRowsSelected() ||
+                            table.getIsAllRowsSelected()
+                        ) && 'invisible',
+                    )}
+                >
+                    Dispatch
+                </button>
             </div>
             <div className="bg-white border-2 rounded-lg overflow-hidden">
                 <table className="table-auto w-full text-sm text-left">

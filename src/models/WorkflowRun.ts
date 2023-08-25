@@ -14,7 +14,7 @@ export interface IWorkflowRun {
     id: number;
     name: string;
     status: EWorkflowRunStatus;
-    conclusion: EWorkflowRunConclusion;
+    conclusion: EWorkflowRunConclusion | undefined;
     workflow_id: number;
     branch: string;
 }
@@ -23,7 +23,7 @@ class WorkflowRun implements IWorkflowRun {
     id: number;
     name: string;
     status: EWorkflowRunStatus;
-    conclusion: EWorkflowRunConclusion;
+    conclusion: EWorkflowRunConclusion | undefined;
     workflow_id: number;
     branch: string;
 

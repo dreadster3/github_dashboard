@@ -1,21 +1,19 @@
+import { useMemo } from 'react';
 import useGetWorkflowRuns from '../../hooks/useGetWorkflowRuns';
 import useGetWorkflows from '../../hooks/useGetWorkflows';
-import WorkflowTable from './WorkflowTable';
+import WorkflowTable from './data_table/WorkflowTable';
 
 function Home() {
-    // const { data, isLoading } = useGetWorkflows();
-    // const { data: run } = useGetWorkflowRuns(data?.[0].id, {
-    //     page: 1,
-    //     per_page: 1,
-    // });
+    const { data, isLoading } = useGetWorkflows();
+    const workflow_data = useMemo(() => data ?? [], [data]);
 
-    // if (isLoading) {
-    //     return <div>Loading...</div>;
-    // }
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
 
     return (
         <div className="flex flex-col items-center pt-32">
-            <WorkflowTable data={[]} />
+            <WorkflowTable data={workflow_data} />
         </div>
     );
 }

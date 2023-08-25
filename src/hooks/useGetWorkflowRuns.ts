@@ -13,7 +13,7 @@ function useGetWorkflowRuns(
     const repo = REPOSITORY_NAME;
 
     const { data, isLoading } = useQuery(
-        ['workflow_runs', 'workflow_id'],
+        ['workflow_runs', workflow_id],
         async () =>
             githubClient.get_workflow_runs_async(
                 owner,
@@ -22,8 +22,10 @@ function useGetWorkflowRuns(
                 options,
             ),
         {
+            cacheTime: 1000 * 60 * 2,
             staleTime: DATA_STALE_TIME,
-            keepPreviousData: true,
+            refetchOnWindowFocus: true,
+            refetchInterval: DATA_STALE_TIME,
             enabled: !!workflow_id,
         },
     );
