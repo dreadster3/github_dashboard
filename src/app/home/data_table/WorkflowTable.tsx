@@ -1,5 +1,4 @@
 import {
-    FilterFn,
     RowSelectionState,
     TableOptions,
     flexRender,
