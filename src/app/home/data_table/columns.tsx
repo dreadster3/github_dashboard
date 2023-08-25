@@ -7,13 +7,6 @@ import { IWorkflowRun } from '../../../models/WorkflowRun';
 
 const columnHelper = createColumnHelper<IWorkflow>();
 
-export const filter_fn = (rows, column_id, filterValue, addMeta): boolean => {
-    console.log(rows);
-    console.log(filterValue);
-    console.log('test');
-    return true;
-};
-
 export const get_columns = (query_client: QueryClient) => {
     const columns: ColumnDef<IWorkflow, any>[] = [
         {

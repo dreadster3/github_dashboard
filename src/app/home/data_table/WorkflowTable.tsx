@@ -8,7 +8,7 @@ import {
     useReactTable,
 } from '@tanstack/react-table';
 import { IWorkflow } from '../../../models/Workflow';
-import { columns, filter_fn, get_columns } from './columns';
+import { get_columns } from './columns';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import icons from '../../../constants/icons';
@@ -19,12 +19,6 @@ interface IWorkflowTableProps {
     data: IWorkflow[];
 }
 
-declare module '@tanstack/table-core' {
-    interface FilterFns {
-        status: FilterFn<any>;
-    }
-}
-
 function WorkflowTable({ data }: IWorkflowTableProps) {
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
@@ -33,9 +27,6 @@ function WorkflowTable({ data }: IWorkflowTableProps) {
     const options: TableOptions<IWorkflow> = {
         data: data,
         columns: get_columns(queryClient),
-        filterFns: {
-            status: filter_fn,
-        },
         state: {
             globalFilter,
             rowSelection,
