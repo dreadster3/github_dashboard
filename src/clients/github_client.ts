@@ -28,7 +28,7 @@ class GithubClient {
         owner: string,
         repository_name: string,
         options?: IPageQueryParameters,
-    ) {
+    ): Promise<IWorkflow[]> {
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: `/repos/${owner}/${repository_name}/actions/workflows`,
@@ -47,7 +47,7 @@ class GithubClient {
         repository_name: string,
         workflow_id: number,
         options?: IWorkflowRunQueryParameters,
-    ) {
+    ): Promise<IWorkflowRun[]> {
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: `/repos/${owner}/${repository_name}/actions/workflows/${workflow_id}/runs`,
@@ -59,6 +59,25 @@ class GithubClient {
         return response.data.workflow_runs.map(
             (workflow_run: IWorkflowRun) => new WorkflowRun(workflow_run),
         );
+    }
+
+    async dispatch_workflow_async(
+        owner: string,
+        respository_name: string,
+        workflow_id: number,
+        branch: string,
+        inputs?: { [key: string]: string },
+    ): Promise<void> {
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: `/repos/${owner}/${respository_name}/actions/workflows/${workflow_id}/dispatches`,
+            data: {
+                ref: branch,
+                inputs: inputs,
+            },
+        };
+
+        await this.axiosInstance.request(config);
     }
 }
 
