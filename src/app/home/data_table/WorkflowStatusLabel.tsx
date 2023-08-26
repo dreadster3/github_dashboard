@@ -20,12 +20,7 @@ function WorkflowStatusLabel({ workflow_id }: IWorkflowStatusLabelProps) {
         per_page: 1,
     });
 
-    const workflow_run = useMemo(() => {
-        console.log('Workflow id: %s', workflow_id);
-        console.log(data);
-
-        return data?.[0];
-    }, [data]);
+    const workflow_run = useMemo(() => data?.[0], [data]);
 
     const text_color_from_status = (wr: IWorkflowRun | undefined): string => {
         if (wr === undefined) {
@@ -70,16 +65,10 @@ function WorkflowStatusLabel({ workflow_id }: IWorkflowStatusLabelProps) {
         return <div>Loading...</div>;
     }
 
-    const get_color = (wr: IWorkflowRun | undefined): string => {
-        const result = text_color_from_status(wr);
-        // console.log('Workflow id: %s | Color: %s', wr?.workflow_id, result);
-        return result;
-    };
-
     return (
         <>
             <FontAwesomeIcon
-                className={clsx('px-3', get_color(workflow_run))}
+                className={clsx('px-3', text_color_from_status(workflow_run))}
                 icon={icon_from_status(workflow_run)}
             />
         </>

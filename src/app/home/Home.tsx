@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-import useGetWorkflowRuns from '../../hooks/useGetWorkflowRuns';
 import useGetWorkflows from '../../hooks/useGetWorkflows';
 import WorkflowTable from './data_table/WorkflowTable';
 

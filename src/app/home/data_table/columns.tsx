@@ -4,6 +4,7 @@ import WorkflowStatusLabel from './WorkflowStatusLabel';
 import IndeterminateCheckbox from '../../../components/IndeterminateCheckbox';
 import { QueryClient } from 'react-query';
 import { IWorkflowRun } from '../../../models/WorkflowRun';
+import { Link } from 'react-router-dom';
 
 const columnHelper = createColumnHelper<IWorkflow>();
 
@@ -29,7 +30,14 @@ export const get_columns = (query_client: QueryClient) => {
         },
         columnHelper.accessor('id', {
             id: 'id',
-            cell: (cell) => cell.renderValue(),
+            cell: (cell) => (
+                <Link
+                    className="text-blue-500 underline"
+                    to={`/workflow/${cell.getValue()}`}
+                >
+                    {cell.getValue()}
+                </Link>
+            ),
         }),
         columnHelper.accessor('name', {
             id: 'name',
