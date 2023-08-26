@@ -8,6 +8,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import icons from '../../../constants/icons';
 import clsx from 'clsx';
+import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 
 interface IWorkflowStatusLabelProps {
     workflow_id: number;
@@ -19,7 +20,12 @@ function WorkflowStatusLabel({ workflow_id }: IWorkflowStatusLabelProps) {
         per_page: 1,
     });
 
-    const workflow_run = useMemo(() => data?.[0], [data]);
+    const workflow_run = useMemo(() => {
+        console.log('Workflow id: %s', workflow_id);
+        console.log(data);
+
+        return data?.[0];
+    }, [data]);
 
     const text_color_from_status = (wr: IWorkflowRun | undefined): string => {
         if (wr === undefined) {
@@ -37,9 +43,9 @@ function WorkflowStatusLabel({ workflow_id }: IWorkflowStatusLabelProps) {
 
         switch (wr.status) {
             case EWorkflowRunStatus.QUEUED:
-                return 'text-gray-400';
-            case EWorkflowRunStatus.IN_PROGRESS:
                 return 'text-yellow-400';
+            case EWorkflowRunStatus.IN_PROGRESS:
+                return 'text-yellow-400 animate-spin';
             case EWorkflowRunStatus.COMPLETED:
                 return 'text-green-400';
             default:
@@ -47,15 +53,34 @@ function WorkflowStatusLabel({ workflow_id }: IWorkflowStatusLabelProps) {
         }
     };
 
+    const icon_from_status = (wr: IWorkflowRun | undefined): IconDefinition => {
+        if (wr === undefined) {
+            return icons.s_circle;
+        }
+
+        switch (wr.status) {
+            case EWorkflowRunStatus.IN_PROGRESS:
+                return icons.s_circle_notch;
+        }
+
+        return icons.s_circle;
+    };
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
 
+    const get_color = (wr: IWorkflowRun | undefined): string => {
+        const result = text_color_from_status(wr);
+        // console.log('Workflow id: %s | Color: %s', wr?.workflow_id, result);
+        return result;
+    };
+
     return (
         <>
             <FontAwesomeIcon
-                className={clsx('px-3', text_color_from_status(workflow_run))}
-                icon={icons.s_circle}
+                className={clsx('px-3', get_color(workflow_run))}
+                icon={icon_from_status(workflow_run)}
             />
         </>
     );

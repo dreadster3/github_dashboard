@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query';
+import { useInfiniteQuery, useQuery } from 'react-query';
 import useGithubClient from './useGithubClient';
 import { DATA_STALE_TIME, OWNER, REPOSITORY_NAME } from '../constants';
 import { IWorkflowRunQueryParameters } from '../clients/github_client';
@@ -22,8 +22,6 @@ function useGetWorkflowRuns(
                 options,
             ),
         {
-            cacheTime: 1000 * 60 * 2,
-            staleTime: DATA_STALE_TIME,
             refetchOnWindowFocus: true,
             refetchInterval: DATA_STALE_TIME,
             enabled: !!workflow_id,

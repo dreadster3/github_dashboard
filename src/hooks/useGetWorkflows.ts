@@ -8,13 +8,8 @@ function useGetWorkflows() {
     const owner = OWNER;
     const repo = REPOSITORY_NAME;
 
-    const { data, isLoading } = useQuery(
-        'workflows',
-        () => client.get_workflows_async(owner, repo),
-        {
-            staleTime: DATA_STALE_TIME,
-            keepPreviousData: true,
-        },
+    const { data, isLoading } = useQuery('workflows', () =>
+        client.get_workflows_async(owner, repo),
     );
 
     return { data, isLoading };
