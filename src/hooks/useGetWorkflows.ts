@@ -1,6 +1,6 @@
 import { useQuery } from 'react-query';
 import useGithubClient from './useGithubClient';
-import { DATA_STALE_TIME, OWNER, REPOSITORY_NAME } from '../constants';
+import { OWNER, REPOSITORY_NAME } from '../constants';
 
 function useGetWorkflows() {
     const client = useGithubClient();
@@ -8,7 +8,7 @@ function useGetWorkflows() {
     const owner = OWNER;
     const repo = REPOSITORY_NAME;
 
-    const { data, isLoading } = useQuery('workflows', () =>
+    const { data, isLoading } = useQuery(['workflows'], () =>
         client.get_workflows_async(owner, repo),
     );
 

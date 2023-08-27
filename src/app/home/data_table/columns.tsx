@@ -5,10 +5,12 @@ import IndeterminateCheckbox from '../../../components/IndeterminateCheckbox';
 import { QueryClient } from 'react-query';
 import { IWorkflowRun } from '../../../models/WorkflowRun';
 import { Link } from 'react-router-dom';
+import { IWorkflowRuns } from '../../../models/WorkflowRuns';
 
 const columnHelper = createColumnHelper<IWorkflow>();
 
 export const get_columns = (query_client: QueryClient) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const columns: ColumnDef<IWorkflow, any>[] = [
         {
             id: 'select',
@@ -32,7 +34,7 @@ export const get_columns = (query_client: QueryClient) => {
             id: 'id',
             cell: (cell) => (
                 <Link
-                    className="text-blue-500 underline"
+                    className="hover:text-blue-500 hover:underline"
                     to={`/workflow/${cell.getValue()}`}
                 >
                     {cell.getValue()}
@@ -50,16 +52,22 @@ export const get_columns = (query_client: QueryClient) => {
         {
             header: 'status',
             accessorFn: (row) => {
-                const data: IWorkflowRun[] | undefined =
+                const data: IWorkflowRuns | undefined =
                     query_client.getQueryData(['workflow_runs', row.id]);
 
-                if (!data) return '';
+                const runs = data?.workflow_runs ?? [];
 
-                return `${data[0].conclusion}-${data[0].status}`;
+                if (runs.length === 0) return '';
+
+                return `${runs[0].conclusion}-${runs[0].status}`;
             },
             cell: (cell) => {
                 return (
-                    <WorkflowStatusLabel workflow_id={cell.row.original.id} />
+                    <div className="text-center">
+                        <WorkflowStatusLabel
+                            workflow_id={cell.row.original.id}
+                        />
+                    </div>
                 );
             },
         },

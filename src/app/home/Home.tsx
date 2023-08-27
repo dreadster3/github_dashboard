@@ -4,7 +4,7 @@ import WorkflowTable from './data_table/WorkflowTable';
 
 function Home() {
     const { data, isLoading } = useGetWorkflows();
-    const workflow_data = useMemo(() => data ?? [], [data]);
+    const workflow_data = useMemo(() => data?.workflows ?? [], [data]);
 
     if (isLoading) {
         return <div>Loading...</div>;

@@ -19,6 +19,15 @@ export interface IWorkflowRun {
     branch: string;
 }
 
+export interface IGithubWorkflowRun {
+    id: number;
+    name: string;
+    status: EWorkflowRunStatus;
+    conclusion: EWorkflowRunConclusion | undefined;
+    workflow_id: number;
+    head_branch: string;
+}
+
 class WorkflowRun implements IWorkflowRun {
     id: number;
     name: string;
@@ -27,13 +36,13 @@ class WorkflowRun implements IWorkflowRun {
     workflow_id: number;
     branch: string;
 
-    constructor(workflow_run: IWorkflowRun) {
+    constructor(workflow_run: IGithubWorkflowRun) {
         this.id = workflow_run.id;
         this.name = workflow_run.name;
         this.status = workflow_run.status;
         this.conclusion = workflow_run.conclusion;
         this.workflow_id = workflow_run.workflow_id;
-        this.branch = workflow_run.branch;
+        this.branch = workflow_run.head_branch;
     }
 }
 
