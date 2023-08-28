@@ -1,6 +1,9 @@
 {
-    "semi": true,
-    "tabWidth": 4,
-    "singleQuote": true,
-    "bracketSameLine": false
+	"semi": true,
+	"tabWidth": 4,
+	"singleQuote": true,
+	"bracketSameLine": false,
+	"plugins": [
+		"prettier-plugin-organize-imports"
+	]
 }

@@ -1,10 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import Workflow, { EWorkflowState, IWorkflow } from '../models/Workflow';
-import WorkflowRun, {
-    EWorkflowRunStatus,
-    IGithubWorkflowRun,
-    IWorkflowRun,
-} from '../models/WorkflowRun';
+import { EWorkflowState } from '../models/Workflow';
+import { EWorkflowRunStatus } from '../models/WorkflowRun';
 import { IWorkflowRuns, WorkflowRuns } from '../models/WorkflowRuns';
 import { IWorkflows, Workflows } from '../models/Workflows';
 
