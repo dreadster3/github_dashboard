@@ -5,16 +5,16 @@ import WorkflowRunsTable from './data_table/WorkflowRunsTable';
 
 function WorkflowView() {
     const [current_page, set_current_page] = useState(1);
+    const [per_page, set_per_page] = useState(10);
     const params = useParams();
     const workflow_id = parseInt(params.id!);
     const { data, isLoading } = useGetWorkflowRuns(workflow_id, {
         page: current_page,
-        per_page: 10,
+        per_page: per_page,
     });
-    const table_data = useMemo(() => data?.workflow_runs ?? [], [data]);
     const total_pages = useMemo(
-        () => Math.ceil((data?.total_count ?? 0) / 10),
-        [data],
+        () => Math.ceil((data?.total_count ?? 0) / per_page),
+        [data, per_page],
     );
 
     if (isLoading) {
@@ -24,7 +24,9 @@ function WorkflowView() {
     return (
         <div className="flex flex-col items-center pt-32">
             <WorkflowRunsTable
-                data={table_data}
+                data={data}
+                perPage={per_page}
+                setPerPage={set_per_page}
                 currentPage={current_page}
                 setCurrentPage={set_current_page}
                 totalPages={total_pages}

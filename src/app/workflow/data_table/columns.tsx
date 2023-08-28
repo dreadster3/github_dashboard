@@ -20,7 +20,7 @@ export const columns: ColumnDef<IWorkflowRun, any>[] = [
     }),
     {
         id: 'status',
-        header: (context) => <div className="text-center">status</div>,
+        header: (_) => <div className="text-center">status</div>,
         cell: (cell) => (
             <StatusLabel
                 status={

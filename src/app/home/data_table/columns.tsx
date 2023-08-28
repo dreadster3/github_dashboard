@@ -3,7 +3,6 @@ import { IWorkflow } from '../../../models/Workflow';
 import WorkflowStatusLabel from './WorkflowStatusLabel';
 import IndeterminateCheckbox from '../../../components/IndeterminateCheckbox';
 import { QueryClient } from 'react-query';
-import { IWorkflowRun } from '../../../models/WorkflowRun';
 import { Link } from 'react-router-dom';
 import { IWorkflowRuns } from '../../../models/WorkflowRuns';
 

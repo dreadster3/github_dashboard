@@ -1,14 +1,13 @@
 import {
     RowSelectionState,
     TableOptions,
-    flexRender,
     getCoreRowModel,
     getFilteredRowModel,
     useReactTable,
 } from '@tanstack/react-table';
 import { IWorkflow } from '../../../models/Workflow';
 import { get_columns } from './columns';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import icons from '../../../constants/icons';
 import clsx from 'clsx';
@@ -16,19 +15,35 @@ import { useQueryClient } from 'react-query';
 import useDispatchWorkflow from '../../../hooks/useDispatchWorkflow';
 import DataTable from '../../../components/DataTable';
 import SearchBar from '../../../components/SearchBar';
+import DataTableNavigation from '../../../components/DataTableNavigation';
+import DataTableItemsPerPage from '../../../components/DataTableItemsPerPage';
+import { IWorkflows } from '../../../models/Workflows';
 
 interface IWorkflowTableProps {
-    data: IWorkflow[];
+    data: IWorkflows | undefined;
+    totalPages: number;
+    perPage: number;
+    setPerPage: (perPage: number) => void;
+    currentPage: number;
+    setCurrentPage: (page: number) => void;
 }
 
-function WorkflowTable({ data }: IWorkflowTableProps) {
+function WorkflowTable({
+    data,
+    totalPages,
+    perPage,
+    setPerPage,
+    currentPage,
+    setCurrentPage,
+}: IWorkflowTableProps) {
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
     const { dispatch_workflow, isLoading } = useDispatchWorkflow();
     const queryClient = useQueryClient();
+    const table_data = useMemo(() => data?.workflows ?? [], [data]);
 
     const options: TableOptions<IWorkflow> = {
-        data: data,
+        data: table_data,
         columns: get_columns(queryClient),
         state: {
             globalFilter,
@@ -84,6 +99,27 @@ function WorkflowTable({ data }: IWorkflowTableProps) {
             </div>
             <div className="bg-white border-2 rounded-lg overflow-hidden">
                 <DataTable table={table} />
+            </div>
+            <div className="pt-2 flex items-center">
+                <div className="basis-1/3 text-xs self-start">
+                    Showing {(currentPage - 1) * perPage + 1}-
+                    {Math.min(
+                        currentPage * perPage,
+                        data?.total_count ?? Infinity,
+                    )}{' '}
+                    of {data?.total_count} results
+                </div>
+                <DataTableNavigation
+                    className="basis-1/3"
+                    totalPages={totalPages}
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
+                />
+                <DataTableItemsPerPage
+                    className="basis-1/3"
+                    perPage={perPage}
+                    setPerPage={setPerPage}
+                />
             </div>
         </div>
     );

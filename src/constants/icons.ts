@@ -1,5 +1,10 @@
 import {
+    faChevronDown,
+    faChevronLeft,
+    faChevronRight,
     faCircle,
+    faCircleChevronLeft,
+    faCircleChevronRight,
     faCircleNotch,
     faMagnifyingGlass,
     faSpinner,
@@ -10,6 +15,9 @@ const icons = {
     s_circle: faCircle,
     s_spinner: faSpinner,
     s_circle_notch: faCircleNotch,
+    s_chevron_left: faCircleChevronLeft,
+    s_chevron_right: faCircleChevronRight,
+    s_chevron_down: faChevronDown,
 };
 
 export default icons;
