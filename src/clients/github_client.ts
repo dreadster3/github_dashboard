@@ -1,9 +1,8 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import Workflow, { EWorkflowState, IWorkflow } from '../models/Workflow';
-import WorkflowRun, {
-    EWorkflowRunStatus,
-    IWorkflowRun,
-} from '../models/WorkflowRun';
+import { EWorkflowState } from '../models/Workflow';
+import { EWorkflowRunStatus } from '../models/WorkflowRun';
+import { IWorkflowRuns, WorkflowRuns } from '../models/WorkflowRuns';
+import { IWorkflows, Workflows } from '../models/Workflows';
 
 export interface IPageQueryParameters {
     per_page?: number;
@@ -28,7 +27,7 @@ class GithubClient {
         owner: string,
         repository_name: string,
         options?: IPageQueryParameters,
-    ): Promise<IWorkflow[]> {
+    ): Promise<IWorkflows> {
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: `/repos/${owner}/${repository_name}/actions/workflows`,
@@ -37,9 +36,7 @@ class GithubClient {
 
         const response = await this.axiosInstance.request(config);
 
-        return response.data.workflows.map(
-            (workflow: IWorkflow) => new Workflow(workflow),
-        );
+        return new Workflows(response.data);
     }
 
     async get_workflow_runs_async(
@@ -47,7 +44,7 @@ class GithubClient {
         repository_name: string,
         workflow_id: number,
         options?: IWorkflowRunQueryParameters,
-    ): Promise<IWorkflowRun[]> {
+    ): Promise<IWorkflowRuns> {
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: `/repos/${owner}/${repository_name}/actions/workflows/${workflow_id}/runs`,
@@ -56,9 +53,7 @@ class GithubClient {
 
         const response = await this.axiosInstance.request(config);
 
-        return response.data.workflow_runs.map(
-            (workflow_run: IWorkflowRun) => new WorkflowRun(workflow_run),
-        );
+        return new WorkflowRuns(response.data);
     }
 
     async dispatch_workflow_async(

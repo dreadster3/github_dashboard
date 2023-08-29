@@ -1,11 +1,18 @@
-import { useMemo } from 'react';
-import useGetWorkflowRuns from '../../hooks/useGetWorkflowRuns';
+import { useMemo, useState } from 'react';
 import useGetWorkflows from '../../hooks/useGetWorkflows';
 import WorkflowTable from './data_table/WorkflowTable';
 
 function Home() {
-    const { data, isLoading } = useGetWorkflows();
-    const workflow_data = useMemo(() => data ?? [], [data]);
+    const [current_page, set_current_page] = useState(1);
+    const [per_page, set_per_page] = useState(10);
+    const { data, isLoading } = useGetWorkflows({
+        page: current_page,
+        per_page: per_page,
+    });
+    const total_pages = useMemo(
+        () => Math.ceil((data?.total_count ?? 0) / per_page),
+        [data, per_page],
+    );
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -13,7 +20,14 @@ function Home() {
 
     return (
         <div className="flex flex-col items-center pt-32">
-            <WorkflowTable data={workflow_data} />
+            <WorkflowTable
+                data={data}
+                setPerPage={set_per_page}
+                perPage={per_page}
+                totalPages={total_pages}
+                currentPage={current_page}
+                setCurrentPage={set_current_page}
+            />
         </div>
     );
 }

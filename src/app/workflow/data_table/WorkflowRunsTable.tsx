@@ -1,26 +1,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { useQueryClient } from '@tanstack/react-query';
-import {
-    RowSelectionState,
-    TableOptions,
-    getCoreRowModel,
-    getFilteredRowModel,
-    useReactTable,
-} from '@tanstack/react-table';
+import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import clsx from 'clsx';
-import { useMemo, useState } from 'react';
 import DataTable from '../../../components/DataTable';
 import DataTableItemsPerPage from '../../../components/DataTableItemsPerPage';
 import DataTableNavigation from '../../../components/DataTableNavigation';
-import SearchBar from '../../../components/SearchBar';
 import icons from '../../../constants/icons';
 import useDispatchWorkflow from '../../../hooks/useDispatchWorkflow';
-import { IWorkflow } from '../../../models/Workflow';
-import { IWorkflows } from '../../../models/Workflows';
-import { get_columns } from './columns';
+import { IWorkflowRuns } from '../../../models/WorkflowRuns';
+import { columns } from './columns';
 
-interface IWorkflowTableProps {
-    data: IWorkflows | undefined;
+interface IWorkflowRunsTableProps {
+    data: IWorkflowRuns | undefined;
+    workflow_id: number;
     totalPages: number;
     perPage: number;
     setPerPage: (perPage: number) => void;
@@ -28,62 +19,39 @@ interface IWorkflowTableProps {
     setCurrentPage: (page: number) => void;
 }
 
-function WorkflowTable({
+function WorkflowRunsTable({
     data,
-    totalPages,
     perPage,
     setPerPage,
     currentPage,
     setCurrentPage,
-}: IWorkflowTableProps) {
-    const [globalFilter, setGlobalFilter] = useState<string>('');
-    const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-    const { dispatch_workflow, isLoading } = useDispatchWorkflow();
-    const queryClient = useQueryClient();
-    const table_data = useMemo(() => data?.workflows ?? [], [data]);
+    totalPages,
+    workflow_id,
+}: IWorkflowRunsTableProps) {
+    const workflow_runs = data?.workflow_runs ?? [];
+    const { isLoading, dispatch_workflow } = useDispatchWorkflow();
 
-    const options: TableOptions<IWorkflow> = {
-        data: table_data,
-        columns: get_columns(queryClient),
-        state: {
-            globalFilter,
-            rowSelection,
-        },
-        enableRowSelection: true,
-        onRowSelectionChange: setRowSelection,
-        onGlobalFilterChange: setGlobalFilter,
+    const table = useReactTable({
+        data: workflow_runs,
+        columns: columns,
         getCoreRowModel: getCoreRowModel(),
-        getFilteredRowModel: getFilteredRowModel(),
-    };
+    });
 
-    const table = useReactTable(options);
-
-    const handle_dispatch_button_click = async () => {
-        const rows = table.getSelectedRowModel().rows;
-
-        const dispatches = rows.map((row) =>
-            dispatch_workflow({
-                workflow_id: row.original.id,
-            }),
-        );
-
-        await Promise.all(dispatches);
+    const handle_dispatch_button_click = () => {
+        dispatch_workflow({
+            workflow_id,
+        });
     };
 
     return (
         <div className="overflow-hidden w-1/2">
-            <div className="flex flex-row justify-between pb-2 h-full border-2">
-                <SearchBar value={globalFilter} onChange={setGlobalFilter} />
+            <div className="flex flex-row-reverse justify-between pb-2 h-full border-2">
                 <button
                     type="button"
                     className={clsx(
                         'bg-blue-400 p-2 rounded-lg shadow-sm text-white text-sm shadow-blue-500 w-20 pointer-events-auto',
                         'disabled:bg-gray-400 disabled:pointer-events-none',
                         'hover:shadow-blue-100 hover:shadow-md',
-                        !(
-                            table.getIsSomeRowsSelected() ||
-                            table.getIsAllRowsSelected()
-                        ) && 'invisible',
                     )}
                     onClick={handle_dispatch_button_click}
                 >
@@ -125,4 +93,4 @@ function WorkflowTable({
     );
 }
 
-export default WorkflowTable;
+export default WorkflowRunsTable;

@@ -1,13 +1,15 @@
+import { QueryClient } from '@tanstack/react-query';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { IWorkflow } from '../../../models/Workflow';
-import WorkflowStatusLabel from './WorkflowStatusLabel';
+import { Link } from 'react-router-dom';
 import IndeterminateCheckbox from '../../../components/IndeterminateCheckbox';
-import { QueryClient } from 'react-query';
-import { IWorkflowRun } from '../../../models/WorkflowRun';
+import { IWorkflow } from '../../../models/Workflow';
+import { IWorkflowRuns } from '../../../models/WorkflowRuns';
+import WorkflowStatusLabel from './WorkflowStatusLabel';
 
 const columnHelper = createColumnHelper<IWorkflow>();
 
 export const get_columns = (query_client: QueryClient) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const columns: ColumnDef<IWorkflow, any>[] = [
         {
             id: 'select',
@@ -29,7 +31,14 @@ export const get_columns = (query_client: QueryClient) => {
         },
         columnHelper.accessor('id', {
             id: 'id',
-            cell: (cell) => cell.renderValue(),
+            cell: (cell) => (
+                <Link
+                    className="hover:text-blue-500 hover:underline"
+                    to={`/workflow/${cell.getValue()}`}
+                >
+                    {cell.getValue()}
+                </Link>
+            ),
         }),
         columnHelper.accessor('name', {
             id: 'name',
@@ -42,16 +51,22 @@ export const get_columns = (query_client: QueryClient) => {
         {
             header: 'status',
             accessorFn: (row) => {
-                const data: IWorkflowRun[] | undefined =
+                const data: IWorkflowRuns | undefined =
                     query_client.getQueryData(['workflow_runs', row.id]);
 
-                if (!data) return '';
+                const runs = data?.workflow_runs ?? [];
 
-                return `${data[0].conclusion}-${data[0].status}`;
+                if (runs.length === 0) return '';
+
+                return `${runs[0].conclusion}-${runs[0].status}`;
             },
             cell: (cell) => {
                 return (
-                    <WorkflowStatusLabel workflow_id={cell.row.original.id} />
+                    <div className="text-center">
+                        <WorkflowStatusLabel
+                            workflow_id={cell.row.original.id}
+                        />
+                    </div>
                 );
             },
         },
