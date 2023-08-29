@@ -1,4 +1,5 @@
 import { ColumnDef, createColumnHelper } from '@tanstack/table-core';
+import { Link } from 'react-router-dom';
 import StatusLabel from '../../../components/StatusLabel';
 import { IWorkflowRun } from '../../../models/WorkflowRun';
 
@@ -9,7 +10,14 @@ export const columns: ColumnDef<IWorkflowRun, any>[] = [
     columnHelper.accessor('run_number', {
         id: 'run_number',
         header: '#',
-        cell: (cell) => cell.renderValue(),
+        cell: (cell) => (
+            <Link
+                className="hover:text-blue-500 hover:underline"
+                to={`/workflows/${cell.row.original.workflow_id}/runs/${cell.row.original.id}`}
+            >
+                {cell.renderValue()}
+            </Link>
+        ),
     }),
     columnHelper.accessor('name', {
         id: 'name',

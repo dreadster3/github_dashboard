@@ -7,7 +7,7 @@ function WorkflowView() {
     const [current_page, set_current_page] = useState(1);
     const [per_page, set_per_page] = useState(10);
     const params = useParams();
-    const workflow_id = parseInt(params.id!);
+    const workflow_id = parseInt(params.workflowId!);
     const { data, isLoading, prefetchNextPage } = useGetWorkflowRuns(
         workflow_id,
         {

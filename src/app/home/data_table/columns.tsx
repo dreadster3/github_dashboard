@@ -34,9 +34,9 @@ export const get_columns = (query_client: QueryClient) => {
             cell: (cell) => (
                 <Link
                     className="hover:text-blue-500 hover:underline"
-                    to={`/workflow/${cell.getValue()}`}
+                    to={`/workflows/${cell.getValue()}/runs`}
                 >
-                    {cell.getValue()}
+                    {cell.renderValue()}
                 </Link>
             ),
         }),
