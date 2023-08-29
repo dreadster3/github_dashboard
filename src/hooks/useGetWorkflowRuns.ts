@@ -15,7 +15,7 @@ function useGetWorkflowRuns(
     const owner = OWNER;
     const repo = REPOSITORY_NAME;
 
-    const { data, isLoading } = useQuery(
+    const { data, isLoading, isFetching } = useQuery(
         [
             'workflow_runs',
             workflow_id,
@@ -119,7 +119,7 @@ function useGetWorkflowRuns(
         }
     };
 
-    return { data, isLoading, prefetchNextPage };
+    return { data, isLoading, isFetching, prefetchNextPage };
 }
 
 export default useGetWorkflowRuns;

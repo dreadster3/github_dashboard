@@ -17,6 +17,7 @@ interface IWorkflowRunsTableProps {
     setPerPage: (perPage: number) => void;
     currentPage: number;
     setCurrentPage: (page: number) => void;
+    isDataLoading: boolean;
 }
 
 function WorkflowRunsTable({
@@ -27,6 +28,7 @@ function WorkflowRunsTable({
     setCurrentPage,
     totalPages,
     workflow_id,
+    isDataLoading,
 }: IWorkflowRunsTableProps) {
     const workflow_runs = data?.workflow_runs ?? [];
     const { isLoading, dispatch_workflow } = useDispatchWorkflow();
@@ -44,7 +46,7 @@ function WorkflowRunsTable({
     };
 
     return (
-        <div className="overflow-hidden w-1/2">
+        <div className="overflow-hidden w-2/3">
             <div className="flex flex-row-reverse justify-between pb-2 h-full border-2">
                 <button
                     type="button"
@@ -84,6 +86,7 @@ function WorkflowRunsTable({
                     setCurrentPage={setCurrentPage}
                 />
                 <DataTableItemsPerPage
+                    disabled={isDataLoading}
                     className="basis-1/3"
                     perPage={perPage}
                     setPerPage={setPerPage}

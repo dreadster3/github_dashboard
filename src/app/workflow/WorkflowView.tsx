@@ -8,13 +8,11 @@ function WorkflowView() {
     const [per_page, set_per_page] = useState(10);
     const params = useParams();
     const workflow_id = parseInt(params.workflowId!);
-    const { data, isLoading, prefetchNextPage } = useGetWorkflowRuns(
-        workflow_id,
-        {
+    const { data, isLoading, isFetching, prefetchNextPage } =
+        useGetWorkflowRuns(workflow_id, {
             page: current_page,
             per_page: per_page,
-        },
-    );
+        });
     const total_pages = useMemo(
         () => Math.ceil((data?.total_count ?? 0) / per_page),
         [data, per_page],
@@ -33,6 +31,7 @@ function WorkflowView() {
     return (
         <div className="flex flex-col items-center pt-32">
             <WorkflowRunsTable
+                isDataLoading={isLoading || isFetching}
                 workflow_id={workflow_id}
                 data={data}
                 perPage={per_page}

@@ -1,7 +1,6 @@
 import {
+    faCheck,
     faChevronDown,
-    faChevronLeft,
-    faChevronRight,
     faCircle,
     faCircleChevronLeft,
     faCircleChevronRight,
@@ -18,6 +17,7 @@ const icons = {
     s_chevron_left: faCircleChevronLeft,
     s_chevron_right: faCircleChevronRight,
     s_chevron_down: faChevronDown,
+    s_check: faCheck,
 };
 
 export default icons;

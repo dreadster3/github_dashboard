@@ -71,7 +71,7 @@ function WorkflowTable({
     };
 
     return (
-        <div className="overflow-hidden w-1/2">
+        <div className="overflow-hidden w-7/12">
             <div className="flex flex-row justify-between pb-2 h-full border-2">
                 <SearchBar value={globalFilter} onChange={setGlobalFilter} />
                 <button
