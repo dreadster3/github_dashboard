@@ -1,7 +1,7 @@
-import { useQuery } from 'react-query';
-import useGithubClient from './useGithubClient';
-import { OWNER, REPOSITORY_NAME } from '../constants';
+import { useQuery } from '@tanstack/react-query';
 import { IPageQueryParameters } from '../clients/github_client';
+import { OWNER, REPOSITORY_NAME } from '../constants';
+import useGithubClient from './useGithubClient';
 
 function useGetWorkflows(options?: IPageQueryParameters) {
     const client = useGithubClient();
@@ -9,8 +9,12 @@ function useGetWorkflows(options?: IPageQueryParameters) {
     const owner = OWNER;
     const repo = REPOSITORY_NAME;
 
-    const { data, isLoading } = useQuery(['workflows'], () =>
-        client.get_workflows_async(owner, repo, options),
+    const { data, isLoading } = useQuery(
+        [
+            'workflows',
+            { page: options?.page ?? 1, per_page: options?.per_page },
+        ],
+        () => client.get_workflows_async(owner, repo, options),
     );
 
     return { data, isLoading };

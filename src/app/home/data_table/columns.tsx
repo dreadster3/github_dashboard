@@ -1,10 +1,10 @@
+import { QueryClient } from '@tanstack/react-query';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { IWorkflow } from '../../../models/Workflow';
-import WorkflowStatusLabel from './WorkflowStatusLabel';
-import IndeterminateCheckbox from '../../../components/IndeterminateCheckbox';
-import { QueryClient } from 'react-query';
 import { Link } from 'react-router-dom';
+import IndeterminateCheckbox from '../../../components/IndeterminateCheckbox';
+import { IWorkflow } from '../../../models/Workflow';
 import { IWorkflowRuns } from '../../../models/WorkflowRuns';
+import WorkflowStatusLabel from './WorkflowStatusLabel';
 
 const columnHelper = createColumnHelper<IWorkflow>();
 

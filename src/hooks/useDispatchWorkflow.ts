@@ -1,7 +1,8 @@
-import { useMutation, useQueryClient } from 'react-query';
-import useGithubClient from './useGithubClient';
+import { QueryKey, useMutation, useQueryClient } from '@tanstack/react-query';
 import { OWNER, REPOSITORY_NAME } from '../constants';
-import { EWorkflowRunStatus, IWorkflowRun } from '../models/WorkflowRun';
+import { EWorkflowRunStatus } from '../models/WorkflowRun';
+import { IWorkflowRuns } from '../models/WorkflowRuns';
+import useGithubClient from './useGithubClient';
 
 interface IUseDispatchWorkflowMutationProps {
     workflow_id: number;
@@ -32,22 +33,53 @@ function useDispatchWorkflow() {
         },
         {
             onSuccess: (_, vars) => {
+                const queries: [QueryKey, IWorkflowRuns | undefined][] =
+                    queryClient.getQueriesData({
+                        queryKey: [
+                            'workflow_runs',
+                            vars.workflow_id,
+                            { page: 1 },
+                        ],
+                        exact: false,
+                    });
+
+                const query = queries.reduce(
+                    (
+                        prev: [QueryKey, IWorkflowRuns | undefined],
+                        current: [QueryKey, IWorkflowRuns | undefined],
+                    ) => {
+                        return (prev[1]?.workflow_runs ?? 0) >
+                            (current[1]?.workflow_runs ?? 0)
+                            ? prev
+                            : current;
+                    },
+                );
+
                 // OPTIMISTIC UPDATE
-                const data: IWorkflowRun[] | undefined =
-                    queryClient.getQueryData([
-                        'workflow_runs',
-                        vars.workflow_id,
-                    ]);
+                const old_data: IWorkflowRuns | undefined = query[1];
 
-                if (data && data.length > 0) {
-                    const workflow = data[0];
+                const old_runs = old_data?.workflow_runs;
 
-                    workflow.status = EWorkflowRunStatus.QUEUED;
-                    workflow.conclusion = undefined;
+                if (old_runs && old_runs.length > 0) {
+                    const workflow = old_runs[0];
+                    const new_workflow = Object.assign({}, workflow, {
+                        id: workflow.id + 1,
+                        status: EWorkflowRunStatus.QUEUED,
+                        conclusion: undefined,
+                    });
 
-                    queryClient.setQueryData(
-                        ['workflow_runs', vars.workflow_id],
-                        [workflow],
+                    queryClient.setQueriesData(
+                        {
+                            queryKey: ['workflow_runs', vars.workflow_id],
+                            exact: false,
+                        },
+                        {
+                            total_count: old_data.total_count + 1,
+                            workflow_runs: [
+                                new_workflow,
+                                ...old_runs.slice(0, old_runs.length - 1),
+                            ],
+                        },
                     );
                 }
             },

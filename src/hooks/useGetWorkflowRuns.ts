@@ -1,9 +1,9 @@
-import { useQuery, useQueryClient } from 'react-query';
-import useGithubClient from './useGithubClient';
-import { DATA_STALE_TIME, OWNER, REPOSITORY_NAME } from '../constants';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { IWorkflowRunQueryParameters } from '../clients/github_client';
+import { DATA_STALE_TIME, OWNER, REPOSITORY_NAME } from '../constants';
 import { IWorkflowRun } from '../models/WorkflowRun';
 import { IWorkflowRuns } from '../models/WorkflowRuns';
+import useGithubClient from './useGithubClient';
 
 function useGetWorkflowRuns(
     workflow_id: number,
@@ -15,13 +15,15 @@ function useGetWorkflowRuns(
     const owner = OWNER;
     const repo = REPOSITORY_NAME;
 
-    const queryParams = Object.assign(
-        options?.per_page ? { per_page: options.per_page } : {},
-        options?.page ? { page: options.page } : {},
-    );
-
     const { data, isLoading } = useQuery(
-        ['workflow_runs', workflow_id, queryParams],
+        [
+            'workflow_runs',
+            workflow_id,
+            {
+                page: options?.page ?? 1,
+                per_page: options?.per_page,
+            },
+        ],
         async () =>
             githubClient.get_workflow_runs_async(
                 owner,
@@ -32,7 +34,6 @@ function useGetWorkflowRuns(
         {
             refetchOnWindowFocus: true,
             refetchInterval: DATA_STALE_TIME,
-            keepPreviousData: true,
             initialData: () => {
                 const cached_data: IWorkflowRuns | undefined =
                     queryClient.getQueryData(
@@ -47,9 +48,7 @@ function useGetWorkflowRuns(
 
                 if (
                     cached_workflow_runs.length <
-                    (queryParams.per_page ??
-                        cached_data?.total_count ??
-                        Infinity)
+                    (options?.per_page ?? cached_data?.total_count ?? Infinity)
                 ) {
                     return undefined;
                 }
@@ -95,7 +94,32 @@ function useGetWorkflowRuns(
         },
     );
 
-    return { data, isLoading };
+    const prefetchNextPage = () => {
+        if (options?.per_page) {
+            queryClient.prefetchQuery(
+                [
+                    'workflow_runs',
+                    workflow_id,
+                    {
+                        page: (options?.page ?? 1) + 1,
+                        per_page: options.per_page,
+                    },
+                ],
+                async () =>
+                    githubClient.get_workflow_runs_async(
+                        owner,
+                        repo,
+                        workflow_id,
+                        {
+                            page: (options?.page ?? 1) + 1,
+                            per_page: options.per_page,
+                        },
+                    ),
+            );
+        }
+    };
+
+    return { data, isLoading, prefetchNextPage };
 }
 
 export default useGetWorkflowRuns;

@@ -1,6 +1,6 @@
 import { ColumnDef, createColumnHelper } from '@tanstack/table-core';
-import { IWorkflowRun } from '../../../models/WorkflowRun';
 import StatusLabel from '../../../components/StatusLabel';
+import { IWorkflowRun } from '../../../models/WorkflowRun';
 
 const columnHelper = createColumnHelper<IWorkflowRun>();
 
@@ -20,7 +20,7 @@ export const columns: ColumnDef<IWorkflowRun, any>[] = [
     }),
     {
         id: 'status',
-        header: (_) => <div className="text-center">status</div>,
+        header: 'status',
         cell: (cell) => (
             <StatusLabel
                 status={

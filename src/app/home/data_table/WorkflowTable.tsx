@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useQueryClient } from '@tanstack/react-query';
 import {
     RowSelectionState,
     TableOptions,
@@ -5,19 +7,17 @@ import {
     getFilteredRowModel,
     useReactTable,
 } from '@tanstack/react-table';
-import { IWorkflow } from '../../../models/Workflow';
-import { get_columns } from './columns';
-import { useMemo, useState } from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import icons from '../../../constants/icons';
 import clsx from 'clsx';
-import { useQueryClient } from 'react-query';
-import useDispatchWorkflow from '../../../hooks/useDispatchWorkflow';
+import { useMemo, useState } from 'react';
 import DataTable from '../../../components/DataTable';
-import SearchBar from '../../../components/SearchBar';
-import DataTableNavigation from '../../../components/DataTableNavigation';
 import DataTableItemsPerPage from '../../../components/DataTableItemsPerPage';
+import DataTableNavigation from '../../../components/DataTableNavigation';
+import SearchBar from '../../../components/SearchBar';
+import icons from '../../../constants/icons';
+import useDispatchWorkflow from '../../../hooks/useDispatchWorkflow';
+import { IWorkflow } from '../../../models/Workflow';
 import { IWorkflows } from '../../../models/Workflows';
+import { get_columns } from './columns';
 
 interface IWorkflowTableProps {
     data: IWorkflows | undefined;
@@ -71,8 +71,8 @@ function WorkflowTable({
     };
 
     return (
-        <div className="w-1/2 overflow-hidden">
-            <div className="h-full flex flex-row pb-2 border-2 justify-between">
+        <div className="overflow-hidden w-1/2">
+            <div className="flex flex-row justify-between pb-2 h-full border-2">
                 <SearchBar value={globalFilter} onChange={setGlobalFilter} />
                 <button
                     type="button"
@@ -97,11 +97,11 @@ function WorkflowTable({
                     )}
                 </button>
             </div>
-            <div className="bg-white border-2 rounded-lg overflow-hidden">
+            <div className="overflow-hidden bg-white rounded-lg border-2">
                 <DataTable table={table} />
             </div>
-            <div className="pt-2 flex items-center">
-                <div className="basis-1/3 text-xs self-start">
+            <div className="flex items-center pt-2">
+                <div className="self-start text-xs basis-1/3">
                     Showing {(currentPage - 1) * perPage + 1}-
                     {Math.min(
                         currentPage * perPage,

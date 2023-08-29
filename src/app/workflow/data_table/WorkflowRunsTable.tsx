@@ -1,13 +1,17 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import { columns } from './columns';
+import clsx from 'clsx';
 import DataTable from '../../../components/DataTable';
-import DataTableNavigation from '../../../components/DataTableNavigation';
-import { IWorkflowRuns } from '../../../models/WorkflowRuns';
-import { useMemo } from 'react';
 import DataTableItemsPerPage from '../../../components/DataTableItemsPerPage';
+import DataTableNavigation from '../../../components/DataTableNavigation';
+import icons from '../../../constants/icons';
+import useDispatchWorkflow from '../../../hooks/useDispatchWorkflow';
+import { IWorkflowRuns } from '../../../models/WorkflowRuns';
+import { columns } from './columns';
 
 interface IWorkflowRunsTableProps {
     data: IWorkflowRuns | undefined;
+    workflow_id: number;
     totalPages: number;
     perPage: number;
     setPerPage: (perPage: number) => void;
@@ -22,8 +26,10 @@ function WorkflowRunsTable({
     currentPage,
     setCurrentPage,
     totalPages,
+    workflow_id,
 }: IWorkflowRunsTableProps) {
-    const workflow_runs = useMemo(() => data?.workflow_runs ?? [], [data]);
+    const workflow_runs = data?.workflow_runs ?? [];
+    const { isLoading, dispatch_workflow } = useDispatchWorkflow();
 
     const table = useReactTable({
         data: workflow_runs,
@@ -31,13 +37,39 @@ function WorkflowRunsTable({
         getCoreRowModel: getCoreRowModel(),
     });
 
+    const handle_dispatch_button_click = () => {
+        dispatch_workflow({
+            workflow_id,
+        });
+    };
+
     return (
-        <div className="w-1/2 overflow-hidden">
-            <div className="bg-white border-2 rounded-lg overflow-hidden">
+        <div className="overflow-hidden w-1/2">
+            <div className="flex flex-row-reverse justify-between pb-2 h-full border-2">
+                <button
+                    type="button"
+                    className={clsx(
+                        'bg-blue-400 p-2 rounded-lg shadow-sm text-white text-sm shadow-blue-500 w-20 pointer-events-auto',
+                        'disabled:bg-gray-400 disabled:pointer-events-none',
+                        'hover:shadow-blue-100 hover:shadow-md',
+                    )}
+                    onClick={handle_dispatch_button_click}
+                >
+                    {isLoading ? (
+                        <FontAwesomeIcon
+                            icon={icons.s_spinner}
+                            className={'animate-spin'}
+                        />
+                    ) : (
+                        <>Dispatch</>
+                    )}
+                </button>
+            </div>
+            <div className="overflow-hidden bg-white rounded-lg border-2">
                 <DataTable table={table} />
             </div>
-            <div className="pt-2 flex items-center">
-                <div className="basis-1/3 text-xs self-start">
+            <div className="flex items-center pt-2">
+                <div className="self-start text-xs basis-1/3">
                     Showing {(currentPage - 1) * perPage + 1}-
                     {Math.min(
                         currentPage * perPage,
