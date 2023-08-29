@@ -6,8 +6,9 @@ const columnHelper = createColumnHelper<IWorkflowRun>();
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const columns: ColumnDef<IWorkflowRun, any>[] = [
-    columnHelper.accessor('id', {
-        id: 'id',
+    columnHelper.accessor('run_number', {
+        id: 'run_number',
+        header: '#',
         cell: (cell) => cell.renderValue(),
     }),
     columnHelper.accessor('name', {

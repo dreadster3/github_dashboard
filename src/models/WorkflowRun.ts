@@ -13,6 +13,7 @@ export enum EWorkflowRunConclusion {
 export interface IWorkflowRun {
     id: number;
     name: string;
+    run_number: number;
     status: EWorkflowRunStatus;
     conclusion: EWorkflowRunConclusion | undefined;
     workflow_id: number;
@@ -22,6 +23,7 @@ export interface IWorkflowRun {
 export interface IGithubWorkflowRun {
     id: number;
     name: string;
+    run_number: number;
     status: EWorkflowRunStatus;
     conclusion: EWorkflowRunConclusion | undefined;
     workflow_id: number;
@@ -31,6 +33,7 @@ export interface IGithubWorkflowRun {
 class WorkflowRun implements IWorkflowRun {
     id: number;
     name: string;
+    run_number: number;
     status: EWorkflowRunStatus;
     conclusion: EWorkflowRunConclusion | undefined;
     workflow_id: number;
@@ -39,6 +42,7 @@ class WorkflowRun implements IWorkflowRun {
     constructor(workflow_run: IGithubWorkflowRun) {
         this.id = workflow_run.id;
         this.name = workflow_run.name;
+        this.run_number = workflow_run.run_number;
         this.status = workflow_run.status;
         this.conclusion = workflow_run.conclusion;
         this.workflow_id = workflow_run.workflow_id;

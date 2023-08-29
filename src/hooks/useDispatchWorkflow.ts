@@ -62,8 +62,8 @@ function useDispatchWorkflow() {
 
                 if (old_runs && old_runs.length > 0) {
                     const workflow = old_runs[0];
-                    const new_workflow = Object.assign({}, workflow, {
-                        id: workflow.id + 1,
+                    const new_workflow_run = Object.assign({}, workflow, {
+                        run_number: workflow.run_number + 1,
                         status: EWorkflowRunStatus.QUEUED,
                         conclusion: undefined,
                     });
@@ -76,7 +76,7 @@ function useDispatchWorkflow() {
                         {
                             total_count: old_data.total_count + 1,
                             workflow_runs: [
-                                new_workflow,
+                                new_workflow_run,
                                 ...old_runs.slice(0, old_runs.length - 1),
                             ],
                         },
