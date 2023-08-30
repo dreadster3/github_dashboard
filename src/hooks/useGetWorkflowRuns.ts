@@ -67,14 +67,22 @@ function useGetWorkflowRuns(
                 queryClient.getQueryState(['workflow_runs'])?.dataUpdatedAt,
             placeholderData: () => {
                 const cached_data: IRuns | undefined = queryClient.getQueryData(
-                    ['workflow_runs', workflow_id],
+                    [
+                        'workflow_runs',
+                        {
+                            page: options?.page ?? 1,
+                            per_page: options?.per_page,
+                        },
+                    ],
                     {
                         exact: false,
                     },
                 );
 
                 const cached_workflow_runs: IRun[] =
-                    cached_data?.workflow_runs ?? [];
+                    cached_data?.workflow_runs.filter(
+                        (w) => w.workflow_id == workflow_id,
+                    ) ?? [];
 
                 return {
                     total_count: cached_workflow_runs.length,

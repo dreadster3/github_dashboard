@@ -13,7 +13,10 @@ function useGetAllWorkflowRuns(options?: IWorkflowRunQueryParameters) {
     const repo = REPOSITORY_NAME;
 
     const { data, isLoading, error } = useQuery(
-        ['workflow_runs'],
+        [
+            'workflow_runs',
+            { page: options?.page ?? 1, per_page: options?.per_page },
+        ],
         () => {
             return github_client.get_all_workflow_runs_async(
                 owner,
