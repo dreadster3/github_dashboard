@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import { EWorkflowState } from '../models/Workflow';
-import { EWorkflowRunStatus } from '../models/WorkflowRun';
-import { IWorkflowRuns, WorkflowRuns } from '../models/WorkflowRuns';
+import Jobs, { IJobs } from '../models/Jobs';
+import Runs, { IRuns } from '../models/Runs';
+import { EConclusion, EStatus } from '../models/Status';
 import { IWorkflows, Workflows } from '../models/Workflows';
 
 export interface IPageQueryParameters {
@@ -13,7 +13,7 @@ export interface IWorkflowRunQueryParameters extends IPageQueryParameters {
     actor?: string;
     branch?: string;
     event?: string;
-    status?: EWorkflowState | EWorkflowRunStatus;
+    status?: EStatus | EConclusion;
 }
 
 class GithubClient {
@@ -44,7 +44,7 @@ class GithubClient {
         repository_name: string,
         workflow_id: number,
         options?: IWorkflowRunQueryParameters,
-    ): Promise<IWorkflowRuns> {
+    ): Promise<IRuns> {
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: `/repos/${owner}/${repository_name}/actions/workflows/${workflow_id}/runs`,
@@ -53,7 +53,23 @@ class GithubClient {
 
         const response = await this.axiosInstance.request(config);
 
-        return new WorkflowRuns(response.data);
+        return new Runs(response.data);
+    }
+
+    async get_all_workflow_runs_async(
+        owner: string,
+        repository_name: string,
+        options?: IWorkflowRunQueryParameters,
+    ): Promise<IRuns> {
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/repos/${owner}/${repository_name}/actions/runs`,
+            params: options,
+        };
+
+        const response = await this.axiosInstance.request(config);
+
+        return new Runs(response.data);
     }
 
     async dispatch_workflow_async(
@@ -73,6 +89,23 @@ class GithubClient {
         };
 
         await this.axiosInstance.request(config);
+    }
+
+    async get_workflow_run_jobs_async(
+        owner: string,
+        repository_name: string,
+        run_id: number,
+        options?: IPageQueryParameters,
+    ): Promise<IJobs> {
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/repos/${owner}/${repository_name}/actions/runs/${run_id}/jobs`,
+            params: options,
+        };
+
+        const response = await this.axiosInstance.request(config);
+
+        return new Jobs(response.data);
     }
 }
 

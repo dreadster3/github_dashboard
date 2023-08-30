@@ -71,8 +71,8 @@ function WorkflowTable({
     };
 
     return (
-        <div className="overflow-hidden w-1/2">
-            <div className="flex flex-row justify-between pb-2 h-full border-2">
+        <div className="overflow-hidden w-2/3">
+            <div className="flex flex-row justify-between pb-2 w-full border-2">
                 <SearchBar value={globalFilter} onChange={setGlobalFilter} />
                 <button
                     type="button"
@@ -97,7 +97,7 @@ function WorkflowTable({
                     )}
                 </button>
             </div>
-            <div className="overflow-hidden bg-white rounded-lg border-2">
+            <div className="overflow-auto bg-white rounded-lg border-2">
                 <DataTable table={table} />
             </div>
             <div className="flex items-center pt-2">

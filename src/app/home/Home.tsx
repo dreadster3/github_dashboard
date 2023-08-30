@@ -1,8 +1,12 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import LatestWorkflows from '../../components/LatestWorkflows';
+import Loading from '../../components/Loading';
 import useGetWorkflows from '../../hooks/useGetWorkflows';
+import { useSideBarNavigation } from '../../providers/SideBarNavigationProvider';
 import WorkflowTable from './data_table/WorkflowTable';
 
 function Home() {
+    const { set_menu_items } = useSideBarNavigation();
     const [current_page, set_current_page] = useState(1);
     const [per_page, set_per_page] = useState(10);
     const { data, isLoading } = useGetWorkflows({
@@ -14,12 +18,16 @@ function Home() {
         [data, per_page],
     );
 
+    useEffect(() => {
+        set_menu_items(<LatestWorkflows />);
+    }, [set_menu_items]);
+
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     return (
-        <div className="flex flex-col items-center pt-32">
+        <div className="flex flex-row justify-center w-full">
             <WorkflowTable
                 data={data}
                 setPerPage={set_per_page}

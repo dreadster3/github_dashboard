@@ -7,8 +7,8 @@ interface IDataTableProps {
 
 function DataTable({ table }: IDataTableProps) {
     return (
-        <table className="table-auto w-full text-sm text-left">
-            <thead className="bg-black text-white text-center">
+        <table className="w-full min-w-max text-sm text-left">
+            <thead className="sticky top-0 text-center text-white bg-black">
                 {table.getHeaderGroups().map((headerGroup) => (
                     <tr key={headerGroup.id}>
                         {headerGroup.headers.map((header) => (
@@ -28,7 +28,7 @@ function DataTable({ table }: IDataTableProps) {
                 {table.getRowModel().rows.map((row) => (
                     <tr key={row.id}>
                         {row.getVisibleCells().map((cell) => (
-                            <td className="px-6 py-4 text-center" key={cell.id}>
+                            <td className="py-4 px-6 text-center" key={cell.id}>
                                 {flexRender(
                                     cell.column.columnDef.cell,
                                     cell.getContext(),
