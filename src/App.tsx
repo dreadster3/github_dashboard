@@ -21,7 +21,7 @@ function App() {
                 <AuthenticationProvider>
                     <AppRoutes />
                 </AuthenticationProvider>
-                <ReactQueryDevtools initialIsOpen={true} />
+                <ReactQueryDevtools initialIsOpen={false} />
             </SideBarNavigationProvider>
         </QueryClientProvider>
     );
