@@ -24,7 +24,7 @@ function SideNavButton({ icon, text, to }: ISideNavButtonProps) {
 }
 
 function SideNavSeparator() {
-    return <div className="border-t"></div>;
+    return <div className="border-t border-b"></div>;
 }
 
 function SideNav() {
@@ -48,14 +48,20 @@ function SideNav() {
                     <SideNavButton key={button.text} {...button} />
                 ))}
                 <SideNavSeparator />
-                {workflows?.workflows.map((workflow) => (
-                    <SideNavButton
-                        key={workflow.id}
-                        text={workflow.name}
-                        to={`/workflows/${workflow.id}/runs`}
-                        icon={<WorkflowStatusLabel workflow_id={workflow.id} />}
-                    />
-                ))}
+                {workflows?.workflows
+                    .slice(0, 5)
+                    .map((workflow) => (
+                        <SideNavButton
+                            key={workflow.id}
+                            text={workflow.name}
+                            to={`/workflows/${workflow.id}/runs`}
+                            icon={
+                                <WorkflowStatusLabel
+                                    workflow_id={workflow.id}
+                                />
+                            }
+                        />
+                    ))}
             </div>
         </div>
     );
