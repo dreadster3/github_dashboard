@@ -8,7 +8,13 @@ function WorkflowRunView() {
 
     console.log(data);
 
-    return <div></div>;
+    return (
+        <div className="flex w-full">
+            <div className="flex flex-row">
+                <div>Hello</div>
+            </div>
+        </div>
+    );
 }
 
 export default WorkflowRunView;

@@ -5,6 +5,7 @@ import {
     faCircleChevronLeft,
     faCircleChevronRight,
     faCircleNotch,
+    faHome,
     faMagnifyingGlass,
     faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
@@ -18,6 +19,7 @@ const icons = {
     s_chevron_right: faCircleChevronRight,
     s_chevron_down: faChevronDown,
     s_check: faCheck,
+    s_home: faHome,
 };
 
 export default icons;
