@@ -26,11 +26,7 @@ function WorkflowView() {
     }, [current_page, per_page, prefetchNextPage]);
 
     useEffect(() => {
-        set_menu_items(
-            <>
-                <LatestWorkflows />
-            </>,
-        );
+        set_menu_items(<LatestWorkflows />);
     }, [set_menu_items]);
 
     if (isLoading) {

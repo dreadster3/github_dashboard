@@ -18,12 +18,8 @@ function Home() {
     );
 
     useEffect(() => {
-        set_menu_items(
-            <>
-                <LatestWorkflows />
-            </>,
-        );
-    }, []);
+        set_menu_items(<LatestWorkflows />);
+    }, [set_menu_items]);
 
     if (isLoading) {
         return <div>Loading...</div>;

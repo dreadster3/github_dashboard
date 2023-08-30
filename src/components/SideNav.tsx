@@ -48,9 +48,13 @@ function SideNav() {
 
     return (
         <div className="flex overflow-hidden flex-col w-52 h-full min-h-screen bg-white rounded-xl shadow-lg">
-            <div className="flex justify-center items-center h-20 shadow-md">
-                <h1 className="text-3xl text-blue-500 uppercase">GitDash</h1>
-            </div>
+            <Link to="/">
+                <div className="flex justify-center items-center h-20 shadow-md">
+                    <h1 className="text-3xl text-blue-500 uppercase">
+                        GitDash
+                    </h1>
+                </div>
+            </Link>
             <div className="flex flex-col w-full">
                 {constant_buttons.map((button) => (
                     <SideNavButton {...button} />
