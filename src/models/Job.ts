@@ -1,4 +1,5 @@
 import { EConclusion, EStatus } from './Status';
+import { IStep } from './Step';
 
 export interface IJob {
     id: number;
@@ -6,6 +7,7 @@ export interface IJob {
     name: string;
     status: EStatus;
     conclusion: EConclusion | undefined;
+    steps: IStep[];
 }
 
 class Job implements IJob {
@@ -14,6 +16,7 @@ class Job implements IJob {
     name: string;
     status: EStatus;
     conclusion: EConclusion | undefined;
+    steps: IStep[];
 
     constructor(job: IJob) {
         this.id = job.id;
@@ -21,6 +24,7 @@ class Job implements IJob {
         this.name = job.name;
         this.status = job.status;
         this.conclusion = job.conclusion;
+        this.steps = job.steps;
     }
 }
 

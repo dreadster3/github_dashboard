@@ -1,5 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import * as Separator from '@radix-ui/react-separator';
+import clsx from 'clsx';
 import { Link } from 'react-router-dom';
 import icons from '../constants/icons';
 import { useSideBarNavigation } from '../providers/SideBarNavigationProvider';
@@ -9,13 +10,25 @@ export interface ISideNavButtonProps {
     icon?: React.ReactNode;
     text: string;
     to: string;
+    className?: string;
+    onClick?: () => void;
 }
 
-export function SideNavButton({ icon, text, to }: ISideNavButtonProps) {
+export function SideNavButton({
+    icon,
+    text,
+    to,
+    className,
+    onClick,
+}: ISideNavButtonProps) {
     return (
         <Link
             to={to}
-            className="flex flex-row items-center h-12 text-gray-500 transition-transform duration-200 ease-in transform hover:text-gray-800 hover:translate-x-2"
+            className={clsx(
+                'flex flex-row items-center h-12 text-gray-500 transition-transform duration-200 ease-in transform hover:text-gray-800 hover:translate-x-2',
+                className,
+            )}
+            onClick={onClick}
         >
             <span className="inline-flex justify-center items-center w-12 h-12 text-lg text-gray-400">
                 {icon}

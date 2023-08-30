@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import LatestWorkflows from '../../components/LatestWorkflows';
+import Loading from '../../components/Loading';
 import useGetWorkflows from '../../hooks/useGetWorkflows';
 import { useSideBarNavigation } from '../../providers/SideBarNavigationProvider';
 import WorkflowTable from './data_table/WorkflowTable';
@@ -22,7 +23,7 @@ function Home() {
     }, [set_menu_items]);
 
     if (isLoading) {
-        return <div>Loading...</div>;
+        return <Loading />;
     }
 
     return (
