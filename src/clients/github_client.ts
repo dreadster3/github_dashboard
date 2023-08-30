@@ -2,7 +2,6 @@ import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import Jobs, { IJobs } from '../models/Jobs';
 import Runs, { IRuns } from '../models/Runs';
 import { EConclusion, EStatus } from '../models/Status';
-import { EWorkflowState } from '../models/Workflow';
 import { IWorkflows, Workflows } from '../models/Workflows';
 
 export interface IPageQueryParameters {
@@ -14,7 +13,7 @@ export interface IWorkflowRunQueryParameters extends IPageQueryParameters {
     actor?: string;
     branch?: string;
     event?: string;
-    status?: EWorkflowState | EStatus | EConclusion;
+    status?: EStatus | EConclusion;
 }
 
 class GithubClient {
@@ -49,6 +48,22 @@ class GithubClient {
         const config: AxiosRequestConfig = {
             method: 'GET',
             url: `/repos/${owner}/${repository_name}/actions/workflows/${workflow_id}/runs`,
+            params: options,
+        };
+
+        const response = await this.axiosInstance.request(config);
+
+        return new Runs(response.data);
+    }
+
+    async get_all_workflow_runs_async(
+        owner: string,
+        repository_name: string,
+        options?: IWorkflowRunQueryParameters,
+    ): Promise<IRuns> {
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/repos/${owner}/${repository_name}/actions/runs`,
             params: options,
         };
 

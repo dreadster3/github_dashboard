@@ -81,6 +81,19 @@ function useDispatchWorkflow() {
                             ],
                         },
                     );
+
+                    queryClient.setQueryData(
+                        ['workflow_runs'],
+                        (old_data: IRuns | undefined) => {
+                            return {
+                                total_count: old_data?.total_count ?? 0 + 1,
+                                workflow_runs: [
+                                    new_workflow_run,
+                                    ...(old_data?.workflow_runs ?? []),
+                                ],
+                            };
+                        },
+                    );
                 }
             },
         },

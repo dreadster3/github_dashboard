@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
+import LatestWorkflows from '../../components/LatestWorkflows';
 import useGetWorkflowRuns from '../../hooks/useGetWorkflowRuns';
+import { useSideBarNavigation } from '../../providers/SideBarNavigationProvider';
 import WorkflowRunsTable from './data_table/WorkflowRunsTable';
 
 function WorkflowView() {
+    const { set_menu_items } = useSideBarNavigation();
     const [current_page, set_current_page] = useState(1);
     const [per_page, set_per_page] = useState(10);
     const params = useParams();
@@ -22,7 +25,13 @@ function WorkflowView() {
         prefetchNextPage();
     }, [current_page, per_page, prefetchNextPage]);
 
-    console.log(data);
+    useEffect(() => {
+        set_menu_items(
+            <>
+                <LatestWorkflows />
+            </>,
+        );
+    }, [set_menu_items]);
 
     if (isLoading) {
         return <div>Loading...</div>;

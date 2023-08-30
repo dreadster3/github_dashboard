@@ -1,67 +1,62 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import WorkflowStatusLabel from '../app/home/data_table/WorkflowStatusLabel';
+import * as Separator from '@radix-ui/react-separator';
+import { Link } from 'react-router-dom';
 import icons from '../constants/icons';
-import useGetWorkflows from '../hooks/useGetWorkflows';
+import { useSideBarNavigation } from '../providers/SideBarNavigationProvider';
 
-interface ISideNavButtonProps {
+export interface ISideNavButtonProps {
+    key: string;
     icon?: React.ReactNode;
     text: string;
     to: string;
 }
 
-function SideNavButton({ icon, text, to }: ISideNavButtonProps) {
+export function SideNavButton({ icon, text, to }: ISideNavButtonProps) {
     return (
-        <a
-            href={to}
+        <Link
+            to={to}
             className="flex flex-row items-center h-12 text-gray-500 transition-transform duration-200 ease-in transform hover:text-gray-800 hover:translate-x-2"
         >
             <span className="inline-flex justify-center items-center w-12 h-12 text-lg text-gray-400">
                 {icon}
             </span>
             <span className="text-sm font-medium">{text}</span>
-        </a>
+        </Link>
     );
 }
 
-function SideNavSeparator() {
-    return <div className="border-t border-b"></div>;
+export function SideNavSeparator() {
+    return (
+        <Separator.Root
+            className="bg-gray-400 data-[orientation=horizontal]:w-full h-px"
+            orientation="horizontal"
+        />
+    );
 }
 
 function SideNav() {
     const constant_buttons: ISideNavButtonProps[] = [
         {
+            key: 'home',
             icon: <FontAwesomeIcon icon={icons.s_home} />,
             text: 'Home',
             to: '/',
         },
     ];
 
-    const { data: workflows } = useGetWorkflows();
+    const { menu_items } = useSideBarNavigation();
 
     return (
-        <div className="flex overflow-hidden flex-col w-52 h-full min-h-screen bg-white rounded-xl">
+        <div className="flex overflow-hidden flex-col w-52 h-full min-h-screen bg-white rounded-xl shadow-lg">
             <div className="flex justify-center items-center h-20 shadow-md">
                 <h1 className="text-3xl text-blue-500 uppercase">GitDash</h1>
             </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col w-full">
                 {constant_buttons.map((button) => (
-                    <SideNavButton key={button.text} {...button} />
+                    <SideNavButton {...button} />
                 ))}
                 <SideNavSeparator />
-                {workflows?.workflows
-                    .slice(0, 5)
-                    .map((workflow) => (
-                        <SideNavButton
-                            key={workflow.id}
-                            text={workflow.name}
-                            to={`/workflows/${workflow.id}/runs`}
-                            icon={
-                                <WorkflowStatusLabel
-                                    workflow_id={workflow.id}
-                                />
-                            }
-                        />
-                    ))}
+                {menu_items}
             </div>
         </div>
     );

@@ -36,7 +36,7 @@ function useGetWorkflowRuns(
             refetchInterval: DATA_STALE_TIME,
             initialData: () => {
                 const cached_data: IRuns | undefined = queryClient.getQueryData(
-                    ['workflow_runs', workflow_id, { page: options?.page }],
+                    ['workflow_runs', workflow_id],
                     {
                         exact: false,
                     },
@@ -64,11 +64,7 @@ function useGetWorkflowRuns(
                 };
             },
             initialDataUpdatedAt: () =>
-                queryClient.getQueryState([
-                    'workflow_runs',
-                    workflow_id,
-                    { page: options?.page },
-                ])?.dataUpdatedAt,
+                queryClient.getQueryState(['workflow_runs'])?.dataUpdatedAt,
             placeholderData: () => {
                 const cached_data: IRuns | undefined = queryClient.getQueryData(
                     ['workflow_runs', workflow_id],
