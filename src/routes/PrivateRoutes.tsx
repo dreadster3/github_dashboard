@@ -17,6 +17,7 @@ function PrivateRoutes() {
                     path="/workflows/:workflowId/runs/:runId"
                     element={<WorkflowRunView />}
                 />
+                {/* <Route path="*" element={<TestView />} /> */}
             </Route>
         </Routes>
     );

@@ -1,8 +1,8 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { IWorkflowRunQueryParameters } from '../clients/github_client';
 import { DATA_STALE_TIME, OWNER, REPOSITORY_NAME } from '../constants';
-import { IWorkflowRun } from '../models/WorkflowRun';
-import { IWorkflowRuns } from '../models/WorkflowRuns';
+import { IRun } from '../models/Run';
+import { IRuns } from '../models/Runs';
 import useGithubClient from './useGithubClient';
 
 function useGetWorkflowRuns(
@@ -35,15 +35,14 @@ function useGetWorkflowRuns(
             refetchOnWindowFocus: true,
             refetchInterval: DATA_STALE_TIME,
             initialData: () => {
-                const cached_data: IWorkflowRuns | undefined =
-                    queryClient.getQueryData(
-                        ['workflow_runs', workflow_id, { page: options?.page }],
-                        {
-                            exact: false,
-                        },
-                    );
+                const cached_data: IRuns | undefined = queryClient.getQueryData(
+                    ['workflow_runs', workflow_id, { page: options?.page }],
+                    {
+                        exact: false,
+                    },
+                );
 
-                const cached_workflow_runs: IWorkflowRun[] =
+                const cached_workflow_runs: IRun[] =
                     cached_data?.workflow_runs ?? [];
 
                 if (
@@ -71,12 +70,14 @@ function useGetWorkflowRuns(
                     { page: options?.page },
                 ])?.dataUpdatedAt,
             placeholderData: () => {
-                const cached_data: IWorkflowRuns | undefined =
-                    queryClient.getQueryData(['workflow_runs', workflow_id], {
+                const cached_data: IRuns | undefined = queryClient.getQueryData(
+                    ['workflow_runs', workflow_id],
+                    {
                         exact: false,
-                    });
+                    },
+                );
 
-                const cached_workflow_runs: IWorkflowRun[] =
+                const cached_workflow_runs: IRun[] =
                     cached_data?.workflow_runs ?? [];
 
                 return {

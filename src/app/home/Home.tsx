@@ -19,7 +19,7 @@ function Home() {
     }
 
     return (
-        <div className="flex flex-col items-center pt-32">
+        <div className="flex flex-row justify-center w-full">
             <WorkflowTable
                 data={data}
                 setPerPage={set_per_page}

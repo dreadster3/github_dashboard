@@ -1,8 +1,8 @@
-import WorkflowRun, { IGithubWorkflowRun, IWorkflowRun } from './WorkflowRun';
+import WorkflowRun, { IGithubWorkflowRun, IRun } from './Run';
 
-export interface IWorkflowRuns {
+export interface IRuns {
     total_count: number;
-    workflow_runs: IWorkflowRun[];
+    workflow_runs: IRun[];
 }
 
 export interface IGithubWorkflowRuns {
@@ -10,9 +10,9 @@ export interface IGithubWorkflowRuns {
     workflow_runs: IGithubWorkflowRun[];
 }
 
-export class WorkflowRuns implements IWorkflowRuns {
+class Runs implements IRuns {
     total_count: number;
-    workflow_runs: IWorkflowRun[];
+    workflow_runs: IRun[];
 
     constructor(workflow_runs: IGithubWorkflowRuns) {
         this.total_count = workflow_runs.total_count;
@@ -21,3 +21,5 @@ export class WorkflowRuns implements IWorkflowRuns {
         );
     }
 }
+
+export default Runs;

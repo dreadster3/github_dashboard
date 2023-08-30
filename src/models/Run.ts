@@ -1,21 +1,11 @@
-export enum EWorkflowRunStatus {
-    QUEUED = 'queued',
-    IN_PROGRESS = 'in_progress',
-    COMPLETED = 'completed',
-}
+import { EConclusion, EStatus } from './Status';
 
-export enum EWorkflowRunConclusion {
-    SUCCESS = 'success',
-    FAILURE = 'failure',
-    CANCELLED = 'cancelled',
-}
-
-export interface IWorkflowRun {
+export interface IRun {
     id: number;
     name: string;
     run_number: number;
-    status: EWorkflowRunStatus;
-    conclusion: EWorkflowRunConclusion | undefined;
+    status: EStatus;
+    conclusion: EConclusion | undefined;
     workflow_id: number;
     branch: string;
 }
@@ -24,18 +14,18 @@ export interface IGithubWorkflowRun {
     id: number;
     name: string;
     run_number: number;
-    status: EWorkflowRunStatus;
-    conclusion: EWorkflowRunConclusion | undefined;
+    status: EStatus;
+    conclusion: EConclusion | undefined;
     workflow_id: number;
     head_branch: string;
 }
 
-class WorkflowRun implements IWorkflowRun {
+class Run implements IRun {
     id: number;
     name: string;
     run_number: number;
-    status: EWorkflowRunStatus;
-    conclusion: EWorkflowRunConclusion | undefined;
+    status: EStatus;
+    conclusion: EConclusion | undefined;
     workflow_id: number;
     branch: string;
 
@@ -50,4 +40,4 @@ class WorkflowRun implements IWorkflowRun {
     }
 }
 
-export default WorkflowRun;
+export default Run;

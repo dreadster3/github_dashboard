@@ -1,7 +1,7 @@
 import { QueryKey, useMutation, useQueryClient } from '@tanstack/react-query';
 import { OWNER, REPOSITORY_NAME } from '../constants';
-import { EWorkflowRunStatus } from '../models/WorkflowRun';
-import { IWorkflowRuns } from '../models/WorkflowRuns';
+import { IRuns } from '../models/Runs';
+import { EStatus } from '../models/Status';
 import useGithubClient from './useGithubClient';
 
 interface IUseDispatchWorkflowMutationProps {
@@ -33,7 +33,7 @@ function useDispatchWorkflow() {
         },
         {
             onSuccess: (_, vars) => {
-                const queries: [QueryKey, IWorkflowRuns | undefined][] =
+                const queries: [QueryKey, IRuns | undefined][] =
                     queryClient.getQueriesData({
                         queryKey: [
                             'workflow_runs',
@@ -45,8 +45,8 @@ function useDispatchWorkflow() {
 
                 const query = queries.reduce(
                     (
-                        prev: [QueryKey, IWorkflowRuns | undefined],
-                        current: [QueryKey, IWorkflowRuns | undefined],
+                        prev: [QueryKey, IRuns | undefined],
+                        current: [QueryKey, IRuns | undefined],
                     ) => {
                         return (prev[1]?.workflow_runs ?? 0) >
                             (current[1]?.workflow_runs ?? 0)
@@ -56,7 +56,7 @@ function useDispatchWorkflow() {
                 );
 
                 // OPTIMISTIC UPDATE
-                const old_data: IWorkflowRuns | undefined = query[1];
+                const old_data: IRuns | undefined = query[1];
 
                 const old_runs = old_data?.workflow_runs;
 
@@ -64,7 +64,7 @@ function useDispatchWorkflow() {
                     const workflow = old_runs[0];
                     const new_workflow_run = Object.assign({}, workflow, {
                         run_number: workflow.run_number + 1,
-                        status: EWorkflowRunStatus.QUEUED,
+                        status: EStatus.QUEUED,
                         conclusion: undefined,
                     });
 

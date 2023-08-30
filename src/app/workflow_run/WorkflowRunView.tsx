@@ -1,11 +1,12 @@
 import { useParams } from 'react-router-dom';
+import useGetJobs from '../../hooks/useGetJobs';
 
 function WorkflowRunView() {
     const params = useParams();
-    const workflow_id = parseInt(params.workflowId!);
     const run_id = parseInt(params.runId!);
+    const { data, isLoading } = useGetJobs(run_id);
 
-    console.log(workflow_id, run_id);
+    console.log(data);
 
     return <div></div>;
 }

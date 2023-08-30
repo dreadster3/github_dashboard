@@ -2,8 +2,8 @@ import { QueryClient } from '@tanstack/react-query';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { Link } from 'react-router-dom';
 import IndeterminateCheckbox from '../../../components/IndeterminateCheckbox';
+import { IRuns } from '../../../models/Runs';
 import { IWorkflow } from '../../../models/Workflow';
-import { IWorkflowRuns } from '../../../models/WorkflowRuns';
 import WorkflowStatusLabel from './WorkflowStatusLabel';
 
 const columnHelper = createColumnHelper<IWorkflow>();
@@ -51,8 +51,10 @@ export const get_columns = (query_client: QueryClient) => {
         {
             header: 'status',
             accessorFn: (row) => {
-                const data: IWorkflowRuns | undefined =
-                    query_client.getQueryData(['workflow_runs', row.id]);
+                const data: IRuns | undefined = query_client.getQueryData(
+                    ['workflow_runs', row.id],
+                    { exact: false },
+                );
 
                 const runs = data?.workflow_runs ?? [];
 

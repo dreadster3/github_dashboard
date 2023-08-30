@@ -6,11 +6,11 @@ import DataTableItemsPerPage from '../../../components/DataTableItemsPerPage';
 import DataTableNavigation from '../../../components/DataTableNavigation';
 import icons from '../../../constants/icons';
 import useDispatchWorkflow from '../../../hooks/useDispatchWorkflow';
-import { IWorkflowRuns } from '../../../models/WorkflowRuns';
+import { IRuns } from '../../../models/Runs';
 import { columns } from './columns';
 
 interface IWorkflowRunsTableProps {
-    data: IWorkflowRuns | undefined;
+    data: IRuns | undefined;
     workflow_id: number;
     totalPages: number;
     perPage: number;
@@ -47,7 +47,7 @@ function WorkflowRunsTable({
 
     return (
         <div className="overflow-hidden w-2/3">
-            <div className="flex flex-row-reverse justify-between pb-2 h-full border-2">
+            <div className="flex flex-row-reverse pb-2 w-full border-2">
                 <button
                     type="button"
                     className={clsx(
@@ -67,7 +67,7 @@ function WorkflowRunsTable({
                     )}
                 </button>
             </div>
-            <div className="overflow-hidden bg-white rounded-lg border-2">
+            <div className="overflow-auto bg-white rounded-lg border-2 max-h-[600px]">
                 <DataTable table={table} />
             </div>
             <div className="flex items-center pt-2">
