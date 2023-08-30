@@ -97,7 +97,7 @@ function WorkflowTable({
                     )}
                 </button>
             </div>
-            <div className="overflow-hidden bg-white rounded-lg border-2">
+            <div className="overflow-auto bg-white rounded-lg border-2">
                 <DataTable table={table} />
             </div>
             <div className="flex items-center pt-2">
