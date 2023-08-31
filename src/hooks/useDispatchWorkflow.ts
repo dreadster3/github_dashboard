@@ -70,7 +70,11 @@ function useDispatchWorkflow() {
 
                     queryClient.setQueriesData(
                         {
-                            queryKey: ['workflow_runs', vars.workflow_id],
+                            queryKey: [
+                                'workflow_runs',
+                                vars.workflow_id,
+                                { page: 1 },
+                            ],
                             exact: false,
                         },
                         {
@@ -82,8 +86,11 @@ function useDispatchWorkflow() {
                         },
                     );
 
-                    queryClient.setQueryData(
-                        ['workflow_runs'],
+                    queryClient.setQueriesData(
+                        {
+                            queryKey: ['workflow_runs', { page: 1 }],
+                            exact: false,
+                        },
                         (old_data: IRuns | undefined) => {
                             return {
                                 total_count: old_data?.total_count ?? 0 + 1,
