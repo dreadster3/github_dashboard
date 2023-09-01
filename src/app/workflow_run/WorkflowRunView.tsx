@@ -24,7 +24,11 @@ function WorkflowRunView() {
             <>
                 {jobs?.jobs.map((job, index) => (
                     <SideNavButton
-                        className={index === active_job ? 'bg-blue-200' : ''}
+                        className={
+                            index === active_job
+                                ? 'bg-blue-200 dark:bg-blue-900'
+                                : ''
+                        }
                         onClick={() => set_active_job(index)}
                         key={job.id.toString()}
                         text={job.name}
@@ -52,7 +56,7 @@ function WorkflowRunView() {
                         jobs?.jobs?.[active_job] &&
                         jobs.jobs[active_job].steps.map((step) => (
                             <AccordionItem key={step.number} value={step.name}>
-                                <AccordionTrigger>
+                                <AccordionTrigger className="bg-black">
                                     <StatusLabel
                                         status={step.conclusion ?? step.status}
                                     />

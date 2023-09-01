@@ -1,4 +1,3 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQueryClient } from '@tanstack/react-query';
 import {
     RowSelectionState,
@@ -10,10 +9,10 @@ import {
 import clsx from 'clsx';
 import { useMemo, useState } from 'react';
 import DataTable from '../../../components/DataTable';
-import DataTableItemsPerPage from '../../../components/DataTableItemsPerPage';
-import DataTableNavigation from '../../../components/DataTableNavigation';
-import SearchBar from '../../../components/SearchBar';
-import icons from '../../../constants/icons';
+import TablePagination from '../../../components/TablePagination';
+import Button from '../../../components/core/Button';
+import TableAddon from '../../../components/core/TableAddon';
+import SearchBar from '../../../components/table_addons/SearchBar';
 import useDispatchWorkflow from '../../../hooks/useDispatchWorkflow';
 import { IWorkflow } from '../../../models/Workflow';
 import { IWorkflows } from '../../../models/Workflows';
@@ -30,7 +29,6 @@ interface IWorkflowTableProps {
 
 function WorkflowTable({
     data,
-    totalPages,
     perPage,
     setPerPage,
     currentPage,
@@ -72,55 +70,30 @@ function WorkflowTable({
 
     return (
         <div className="overflow-hidden w-2/3">
-            <div className="flex flex-row justify-between pb-2 w-full border-2">
+            <TableAddon>
                 <SearchBar value={globalFilter} onChange={setGlobalFilter} />
-                <button
-                    type="button"
+                <Button
                     className={clsx(
-                        'bg-blue-400 p-2 rounded-lg shadow-sm text-white text-sm shadow-blue-500 w-20 pointer-events-auto',
-                        'disabled:bg-gray-400 disabled:pointer-events-none',
-                        'hover:shadow-blue-100 hover:shadow-md',
                         !(
-                            table.getIsSomeRowsSelected() ||
-                            table.getIsAllRowsSelected()
+                            table.getIsAllRowsSelected() ||
+                            table.getIsSomeRowsSelected()
                         ) && 'invisible',
                     )}
+                    isLoading={isLoading}
                     onClick={handle_dispatch_button_click}
                 >
-                    {isLoading ? (
-                        <FontAwesomeIcon
-                            icon={icons.s_spinner}
-                            className={'animate-spin'}
-                        />
-                    ) : (
-                        <>Dispatch</>
-                    )}
-                </button>
-            </div>
-            <div className="overflow-auto bg-white rounded-lg border-2">
-                <DataTable table={table} />
-            </div>
-            <div className="flex items-center pt-2">
-                <div className="self-start text-xs basis-1/3">
-                    Showing {(currentPage - 1) * perPage + 1}-
-                    {Math.min(
-                        currentPage * perPage,
-                        data?.total_count ?? Infinity,
-                    )}{' '}
-                    of {data?.total_count} results
-                </div>
-                <DataTableNavigation
-                    className="basis-1/3"
-                    totalPages={totalPages}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
-                />
-                <DataTableItemsPerPage
-                    className="basis-1/3"
-                    perPage={perPage}
-                    setPerPage={setPerPage}
-                />
-            </div>
+                    Dispatch
+                </Button>
+            </TableAddon>
+            <DataTable table={table} />
+            <TablePagination
+                rowsPerPage={perPage}
+                count={table_data.length}
+                page={currentPage}
+                onPageChange={setCurrentPage}
+                OnRowsPerPageChange={setPerPage}
+                isLoading={isLoading}
+            />
         </div>
     );
 }

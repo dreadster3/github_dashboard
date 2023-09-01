@@ -29,7 +29,7 @@ export const AccordionItem = React.forwardRef<
 >(({ children, className, ...props }, forwardedRef) => (
     <RadixAccordion.Item
         className={clsx(
-            'focus-within:shadow mt-px overflow-hidden first:mt-0 first:rounded-t last:rounded-b focus-within:relative focus-within:z-10 ',
+            'focus-within:shadow mt-px overflow-hidden first:mt-0 first:rounded-t last:rounded-b focus-within:relative focus-within:z-10',
             className,
         )}
         {...props}
@@ -46,7 +46,7 @@ export const AccordionTrigger = React.forwardRef<
     <RadixAccordion.Header className="flex">
         <RadixAccordion.Trigger
             className={clsx(
-                'text-violet11 shadow-mauve6 hover:bg-mauve2 group flex h-[45px] flex-1 cursor-default items-center justify-between bg-white px-5 text-[15px] leading-none shadow-[0_1px_0] outline-none',
+                'text-violet11 shadow-mauve6 hover:bg-mauve2 group flex h-[45px] flex-1 cursor-default items-center justify-between bg-white px-5 text-[15px] leading-none shadow-[0_1px_0] outline-none dark:bg-neutral-800 dark:text-neutral-200',
                 className,
             )}
             {...props}
@@ -68,7 +68,7 @@ export const AccordionContent = React.forwardRef<
 >(({ children, className, ...props }, forwardedRef) => (
     <RadixAccordion.Content
         className={clsx(
-            'text-mauve11 bg-white data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-[15px]',
+            'text-mauve11 bg-white dark:bg-neutral-700 dark:text-neutral-200 data-[state=open]:animate-slideDown data-[state=closed]:animate-slideUp overflow-hidden text-[15px]',
             className,
         )}
         {...props}

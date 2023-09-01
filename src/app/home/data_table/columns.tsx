@@ -64,11 +64,7 @@ export const get_columns = (query_client: QueryClient) => {
             },
             cell: (cell) => {
                 return (
-                    <div className="text-center">
-                        <WorkflowStatusLabel
-                            workflow_id={cell.row.original.id}
-                        />
-                    </div>
+                    <WorkflowStatusLabel workflow_id={cell.row.original.id} />
                 );
             },
         },

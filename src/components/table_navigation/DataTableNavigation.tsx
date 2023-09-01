@@ -1,7 +1,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import NavigationButton from './NavigationButton';
-import icons from '../constants/icons';
 import clsx from 'clsx';
+import icons from '../../constants/icons';
+import NavigationButton from '../NavigationButton';
 
 interface IDataTableNavigationProps {
     className?: string;
@@ -32,7 +32,8 @@ function DataTableNavigation({
     return (
         <div className={clsx('flex justify-center gap-4', className)}>
             <NavigationButton
-                className="disabled:invisible"
+                variant="text"
+                className="dark:rounded-3xl dark:shadow-inner disabled:invisible dark:text-neutral-400 dark:shadow-neutral-700"
                 disabled={currentPage === 1}
                 onClick={() => setCurrentPage(currentPage - 1)}
             >
@@ -48,7 +49,8 @@ function DataTableNavigation({
                 <NavigationButton
                     key={page}
                     className={clsx(
-                        page === currentPage && 'bg-blue-500 text-white',
+                        page === currentPage && 'text-neutral-200',
+                        'dark:text-neutral-200 dark:shadow-sm dark:shadow-blue-400',
                     )}
                     onClick={() => setCurrentPage(page)}
                 >
@@ -56,7 +58,8 @@ function DataTableNavigation({
                 </NavigationButton>
             ))}
             <NavigationButton
-                className="disabled:invisible"
+                variant="text"
+                className="dark:rounded-3xl dark:shadow-inner disabled:invisible dark:text-neutral-400 dark:shadow-neutral-700"
                 disabled={currentPage === totalPages}
                 onClick={() => setCurrentPage(currentPage + 1)}
             >
