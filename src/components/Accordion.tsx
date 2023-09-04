@@ -46,7 +46,7 @@ export const AccordionTrigger = React.forwardRef<
     <RadixAccordion.Header className="flex">
         <RadixAccordion.Trigger
             className={clsx(
-                'text-violet11 shadow-mauve6 hover:bg-mauve2 group flex h-[45px] flex-1 cursor-default items-center justify-between bg-white px-5 text-[15px] leading-none shadow-[0_1px_0] outline-none dark:bg-neutral-800 dark:text-neutral-200',
+                'group flex h-[45px] flex-1 cursor-default items-center justify-between bg-ctp-base px-5 text-[15px] leading-none shadow-[0_1px_0] outline-none dark:bg-neutral-800 dark:text-neutral-200',
                 className,
             )}
             {...props}

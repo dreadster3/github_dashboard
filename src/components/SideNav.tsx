@@ -25,7 +25,7 @@ export function SideNavButton({
         <Link
             to={to}
             className={clsx(
-                'flex flex-row items-center h-12 text-gray-500 dark:text-gray-300 transition-transform duration-200 ease-in transform hover:text-gray-800 hover:translate-x-2',
+                'flex flex-row items-center h-12 text-ctp-text transition-transform duration-200 ease-in transform hover:text-ctp-blue hover:translate-x-2',
                 className,
             )}
             onClick={onClick}
@@ -65,7 +65,7 @@ function SideNav() {
     const { menu_items } = useSideBarNavigation();
 
     return (
-        <div className="flex overflow-hidden flex-col w-52 h-full min-h-screen bg-white rounded-r-xl shadow-lg dark:bg-neutral-950">
+        <div className="flex overflow-hidden flex-col w-52 h-full min-h-screen bg-ctp-surface0 rounded-r-xl shadow-lg">
             <Link to="/">
                 <div className="flex justify-center items-center h-20 shadow-md">
                     <h1 className="text-3xl text-blue-500 uppercase">

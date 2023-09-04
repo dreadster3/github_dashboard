@@ -11,7 +11,7 @@ import { useMemo, useState } from 'react';
 import DataTable from '../../../components/DataTable';
 import TablePagination from '../../../components/TablePagination';
 import Button from '../../../components/core/Button';
-import TableAddon from '../../../components/core/TableAddon';
+import TableAddon from '../../../components/core/table/TableAddon';
 import SearchBar from '../../../components/table_addons/SearchBar';
 import useDispatchWorkflow from '../../../hooks/useDispatchWorkflow';
 import { IWorkflow } from '../../../models/Workflow';

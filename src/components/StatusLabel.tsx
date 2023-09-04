@@ -45,7 +45,11 @@ function StatusLabel({ status, className }: IStatusLabelProps) {
     return (
         <>
             <FontAwesomeIcon
-                className={clsx(text_color_from_status(), className)}
+                className={clsx(
+                    text_color_from_status(),
+                    'rounded-full',
+                    className,
+                )}
                 icon={icon_from_status()}
             />
         </>

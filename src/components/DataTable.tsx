@@ -1,9 +1,9 @@
 import { Table as ReactTable, flexRender } from '@tanstack/react-table';
-import Table from './core/Table';
-import TableBody from './core/TableBody';
-import TableCell from './core/TableCell';
-import TableHeader from './core/TableHeader';
-import TableRow from './core/TableRow';
+import Table from './core/table/Table';
+import TableBody from './core/table/TableBody';
+import TableCell from './core/table/TableCell';
+import TableHeader from './core/table/TableHeader';
+import TableRow from './core/table/TableRow';
 
 interface IDataTableProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

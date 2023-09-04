@@ -26,7 +26,7 @@ function WorkflowRunView() {
                     <SideNavButton
                         className={
                             index === active_job
-                                ? 'bg-blue-200 dark:bg-blue-900'
+                                ? 'bg-ctp-blue !text-ctp-base'
                                 : ''
                         }
                         onClick={() => set_active_job(index)}
@@ -35,6 +35,11 @@ function WorkflowRunView() {
                         to={`/workflows/${workflow_id}/runs/${job.run_id}`}
                         icon={
                             <StatusLabel
+                                className={
+                                    index === active_job
+                                        ? 'border border-black'
+                                        : ''
+                                }
                                 status={job.conclusion ?? job.status}
                             />
                         }

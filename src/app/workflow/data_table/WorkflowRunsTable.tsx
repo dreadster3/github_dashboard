@@ -2,7 +2,7 @@ import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import DataTable from '../../../components/DataTable';
 import TablePagination from '../../../components/TablePagination';
 import Button from '../../../components/core/Button';
-import TableAddon from '../../../components/core/TableAddon';
+import TableAddon from '../../../components/core/table/TableAddon';
 import useDispatchWorkflow from '../../../hooks/useDispatchWorkflow';
 import { IRuns } from '../../../models/Runs';
 import { columns } from './columns';

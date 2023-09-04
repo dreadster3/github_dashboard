@@ -1,5 +1,5 @@
+import Pagination from './core/Pagination';
 import DataTableItemsPerPage from './table_navigation/DataTableItemsPerPage';
-import DataTableNavigation from './table_navigation/DataTableNavigation';
 
 interface ITablePaginationProps {
     rowsPerPageOptions?: number[];
@@ -22,11 +22,11 @@ const TablePagination = ({
 }: ITablePaginationProps) => {
     return (
         <div className="flex items-center pt-2">
-            <div className="self-start text-xs dark:text-gray-200 basis-1/3">
+            <div className="self-start text-xs text-ctp-text basis-1/3">
                 Showing {1 * (page - 1) + 1}-
                 {Math.min(page * rowsPerPage, count)} of {count} results
             </div>
-            <DataTableNavigation
+            <Pagination
                 className="basis-1/3"
                 totalPages={Math.ceil(count / rowsPerPage)}
                 currentPage={page}

@@ -1,3 +1,4 @@
+import { ThemeProvider } from '@material-tailwind/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { DATA_STALE_TIME } from './constants';
@@ -14,15 +15,66 @@ const queryClient = new QueryClient({
     },
 });
 
+const theme = {
+    iconButton: {
+        defaultProps: {
+            color: 'blue',
+        },
+        valid: {
+            colors: ['blue'],
+        },
+        styles: {
+            variants: {
+                filled: {
+                    blue: {
+                        background: 'bg-ctp-blue',
+                        color: 'text-ctp-base',
+                    },
+                },
+                text: {
+                    blue: {
+                        color: 'text-ctp-text',
+                    },
+                },
+            },
+        },
+    },
+    button: {
+        defaultProps: {
+            color: 'blue',
+        },
+        valid: {
+            colors: ['blue'],
+        },
+        styles: {
+            variants: {
+                filled: {
+                    blue: {
+                        background: 'bg-ctp-blue',
+                        color: 'text-ctp-base',
+                    },
+                },
+                text: {
+                    blue: {
+                        color: 'text-ctp-text',
+                    },
+                },
+            },
+        },
+    },
+};
+
 function App() {
     return (
         <QueryClientProvider client={queryClient}>
-            <SideBarNavigationProvider>
-                <AuthenticationProvider>
-                    <AppRoutes />
-                </AuthenticationProvider>
-                <ReactQueryDevtools initialIsOpen={false} />
-            </SideBarNavigationProvider>
+            <ThemeProvider value={theme}>
+                <SideBarNavigationProvider>
+                    <AuthenticationProvider>
+                        <AppRoutes />
+                    </AuthenticationProvider>
+                    <ReactQueryDevtools initialIsOpen={false} />
+                </SideBarNavigationProvider>
+            </ThemeProvider>
         </QueryClientProvider>
     );
 }
