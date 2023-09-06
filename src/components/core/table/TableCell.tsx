@@ -1,4 +1,3 @@
-import MuiTableCell from '@mui/material/TableCell';
 import clsx from 'clsx';
 import React from 'react';
 
@@ -10,18 +9,17 @@ interface ITableCellProps {
 
 const TableCell = React.forwardRef(
     (
-        { children, className, ...props }: ITableCellProps,
+        { children, className, align, ...props }: ITableCellProps,
         ref: React.Ref<HTMLTableCellElement>,
     ) => {
         return (
-            <MuiTableCell
+            <td
                 ref={ref}
-                className={clsx('text-center', className)}
-                align={props.align ?? 'left'}
+                className={clsx(`text-${align ?? 'left'}`, 'p-3', className)}
                 {...props}
             >
                 {children}
-            </MuiTableCell>
+            </td>
         );
     },
 );

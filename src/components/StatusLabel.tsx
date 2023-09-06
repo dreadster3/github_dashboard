@@ -20,15 +20,15 @@ function StatusLabel({ status, className }: IStatusLabelProps) {
     const text_color_from_status = (): string => {
         switch (status) {
             case EStatus.SUCCESS:
-                return 'text-green-400';
+                return 'text-ctp-green';
             case EStatus.FAILURE:
-                return 'text-red-400';
+                return 'text-ctp-red';
             case EStatus.CANCELLED:
                 return 'text-gray-400';
             case EStatus.QUEUED:
-                return 'text-yellow-400';
+                return 'text-ctp-yellow';
             case EStatus.IN_PROGRESS:
-                return 'text-yellow-400 animate-spin';
+                return 'text-ctp-yellow animate-spin';
             default:
                 return 'text-gray-400';
         }

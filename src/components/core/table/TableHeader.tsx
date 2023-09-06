@@ -1,4 +1,4 @@
-import { TableHead } from '@mui/material';
+import clsx from 'clsx';
 import React from 'react';
 
 interface ITableHeaderProps {
@@ -8,13 +8,13 @@ interface ITableHeaderProps {
 
 const TableHeader = React.forwardRef(
     (
-        { children, ...props }: ITableHeaderProps,
+        { children, className, ...props }: ITableHeaderProps,
         ref: React.Ref<HTMLTableSectionElement>,
     ) => {
         return (
-            <TableHead className="bg-black" ref={ref} {...props}>
+            <thead ref={ref} className={clsx(className)} {...props}>
                 {children}
-            </TableHead>
+            </thead>
         );
     },
 );

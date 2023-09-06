@@ -12,49 +12,49 @@ interface IDataTableProps {
 
 function DataTable({ table }: IDataTableProps) {
     return (
-        <div className="overflow-auto max-h-[600px]">
-            <Table>
-                <TableHeader>
-                    {table.getHeaderGroups().map((headerGroup) => (
-                        <TableRow key={headerGroup.id}>
-                            {headerGroup.headers.map((header) => (
-                                <TableCell
-                                    className="text-gray-300"
-                                    key={header.id}
-                                >
-                                    {header.isPlaceholder
-                                        ? null
-                                        : flexRender(
-                                              header.column.columnDef.header,
-                                              header.getContext(),
-                                          )}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    ))}
-                </TableHeader>
-                <TableBody>
-                    {table.getRowModel().rows.map((row) => (
-                        <TableRow
-                            className="last:border-0 odd:bg-gray-100 dark:bg-stone-800 dark:odd:bg-stone-900"
-                            key={row.id}
-                        >
-                            {row.getVisibleCells().map((cell) => (
-                                <TableCell
-                                    className="border-0 dark:text-gray-200"
-                                    key={cell.id}
-                                >
-                                    {flexRender(
-                                        cell.column.columnDef.cell,
-                                        cell.getContext(),
-                                    )}
-                                </TableCell>
-                            ))}
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </div>
+        <Table>
+            <TableHeader className="sticky left-0 top-0 shadow-lg">
+                {table.getHeaderGroups().map((headerGroup) => (
+                    <TableRow key={headerGroup.id}>
+                        {headerGroup.headers.map((header) => (
+                            <TableCell
+                                align="center"
+                                className="bg-ctp-surface0 text-ctp-text"
+                                key={header.id}
+                            >
+                                {header.isPlaceholder
+                                    ? null
+                                    : flexRender(
+                                          header.column.columnDef.header,
+                                          header.getContext(),
+                                      )}
+                            </TableCell>
+                        ))}
+                    </TableRow>
+                ))}
+            </TableHeader>
+            <TableBody>
+                {table.getRowModel().rows.map((row) => (
+                    <TableRow
+                        className="bg-ctp-surface1 text-ctp-text"
+                        key={row.id}
+                    >
+                        {row.getVisibleCells().map((cell) => (
+                            <TableCell
+                                align="center"
+                                className=""
+                                key={cell.id}
+                            >
+                                {flexRender(
+                                    cell.column.columnDef.cell,
+                                    cell.getContext(),
+                                )}
+                            </TableCell>
+                        ))}
+                    </TableRow>
+                ))}
+            </TableBody>
+        </Table>
     );
 }
 

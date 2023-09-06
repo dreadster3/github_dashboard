@@ -1,8 +1,8 @@
-import MuiTableBody from '@mui/material/TableBody';
 import React from 'react';
 
 interface ITableBodyProps {
     children?: React.ReactNode;
+    className?: string;
 }
 
 const TableBody = React.forwardRef(
@@ -11,9 +11,9 @@ const TableBody = React.forwardRef(
         ref: React.ForwardedRef<HTMLTableSectionElement>,
     ) => {
         return (
-            <MuiTableBody ref={ref} {...props}>
+            <tbody ref={ref} {...props}>
                 {children}
-            </MuiTableBody>
+            </tbody>
         );
     },
 );

@@ -39,13 +39,14 @@ function Pagination({
                 disabled={currentPage === 1}
                 className={clsx(currentPage === 1 && 'opacity-50')}
             >
-                <ChevronLeftIcon strokeWidth={2} className="w-4 h-4" />
+                <ChevronLeftIcon strokeWidth={2} className="h-4 w-4" />
             </Button>
             {Array.from(
                 { length: last_page - first_page + 1 },
                 (_, i) => i + first_page,
             ).map((page) => (
                 <IconButton
+                    key={page}
                     variant={currentPage === page ? 'filled' : 'text'}
                     className="rounded-full"
                     onClick={() => setCurrentPage(page)}
@@ -63,7 +64,7 @@ function Pagination({
                     setCurrentPage(Math.min(totalPages, currentPage + 1))
                 }
             >
-                <ChevronRightIcon strokeWidth={2} className="w-4 h-4" />
+                <ChevronRightIcon strokeWidth={2} className="h-4 w-4" />
             </Button>
         </div>
     );

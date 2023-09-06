@@ -1,4 +1,3 @@
-import MuiTableRow from '@mui/material/TableRow';
 import React from 'react';
 
 interface ITableRowProps {
@@ -12,9 +11,9 @@ const TableRow = React.forwardRef(
         ref: React.Ref<HTMLTableRowElement>,
     ) => {
         return (
-            <MuiTableRow ref={ref} className={className}>
+            <tr ref={ref} className={className}>
                 {children}
-            </MuiTableRow>
+            </tr>
         );
     },
 );

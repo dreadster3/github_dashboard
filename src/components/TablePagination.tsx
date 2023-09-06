@@ -21,8 +21,8 @@ const TablePagination = ({
     isLoading,
 }: ITablePaginationProps) => {
     return (
-        <div className="flex items-center pt-2">
-            <div className="self-start text-xs text-ctp-text basis-1/3">
+        <div className="flex items-center">
+            <div className="basis-1/3 self-start text-xs text-ctp-text">
                 Showing {1 * (page - 1) + 1}-
                 {Math.min(page * rowsPerPage, count)} of {count} results
             </div>

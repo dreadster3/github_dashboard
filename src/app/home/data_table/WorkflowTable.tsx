@@ -6,12 +6,14 @@ import {
     getFilteredRowModel,
     useReactTable,
 } from '@tanstack/react-table';
-import clsx from 'clsx';
 import { useMemo, useState } from 'react';
 import DataTable from '../../../components/DataTable';
 import TablePagination from '../../../components/TablePagination';
 import Button from '../../../components/core/Button';
-import TableAddon from '../../../components/core/table/TableAddon';
+import Card from '../../../components/core/card/Card';
+import CardBody from '../../../components/core/card/CardBody';
+import CardFooter from '../../../components/core/card/CardFooter';
+import CardHeader from '../../../components/core/card/CardHeader';
 import SearchBar from '../../../components/table_addons/SearchBar';
 import useDispatchWorkflow from '../../../hooks/useDispatchWorkflow';
 import { IWorkflow } from '../../../models/Workflow';
@@ -69,32 +71,36 @@ function WorkflowTable({
     };
 
     return (
-        <div className="overflow-hidden w-2/3">
-            <TableAddon>
+        <Card className="h-full w-2/3 overflow-hidden">
+            <CardHeader className="flex flex-row items-center justify-between p-3">
                 <SearchBar value={globalFilter} onChange={setGlobalFilter} />
                 <Button
-                    className={clsx(
+                    isInvisible={
                         !(
                             table.getIsAllRowsSelected() ||
                             table.getIsSomeRowsSelected()
-                        ) && 'invisible',
-                    )}
+                        )
+                    }
                     isLoading={isLoading}
                     onClick={handle_dispatch_button_click}
                 >
                     Dispatch
                 </Button>
-            </TableAddon>
-            <DataTable table={table} />
-            <TablePagination
-                rowsPerPage={perPage}
-                count={table_data.length}
-                page={currentPage}
-                onPageChange={setCurrentPage}
-                OnRowsPerPageChange={setPerPage}
-                isLoading={isLoading}
-            />
-        </div>
+            </CardHeader>
+            <CardBody className="max-h-[600px] overflow-scroll p-0">
+                <DataTable table={table} />
+            </CardBody>
+            <CardFooter className="p-3 shadow-2xl shadow-black">
+                <TablePagination
+                    rowsPerPage={perPage}
+                    count={table_data.length}
+                    page={currentPage}
+                    onPageChange={setCurrentPage}
+                    OnRowsPerPageChange={setPerPage}
+                    isLoading={isLoading}
+                />
+            </CardFooter>
+        </Card>
     );
 }
 

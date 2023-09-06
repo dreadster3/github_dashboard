@@ -62,6 +62,22 @@ const theme = {
             },
         },
     },
+    checkbox: {
+        defaultProps: {
+            color: 'blue',
+        },
+        valid: {
+            colors: ['blue'],
+        },
+        styles: {
+            colors: {
+                blue: {
+                    background: 'checked:bg-ctp-blue',
+                    border: 'border-ctp-overlay2 checked:border-ctp-blue',
+                },
+            },
+        },
+    },
 };
 
 function App() {

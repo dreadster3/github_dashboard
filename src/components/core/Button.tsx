@@ -11,6 +11,7 @@ export interface IButtonProps {
     type?: 'button' | 'submit' | 'reset';
     disabled?: boolean;
     isLoading?: boolean;
+    isInvisible?: boolean;
     color?: 'blue';
     size?: 'sm' | 'md' | 'lg';
     sx?: SxProps<Theme>;
@@ -18,13 +19,17 @@ export interface IButtonProps {
 
 const Button = React.forwardRef(
     (
-        { children, isLoading, ...props }: IButtonProps,
+        { children, isLoading, isInvisible, ...props }: IButtonProps,
         ref: Ref<HTMLButtonElement>,
     ) => {
         return (
             <MButton
                 ref={ref}
-                className={clsx('text-sm gap-2', props.className)}
+                className={clsx(
+                    'text-sm gap-2',
+                    isInvisible && 'invisible',
+                    props.className,
+                )}
                 variant={props.variant ?? 'filled'}
                 {...props}
             >

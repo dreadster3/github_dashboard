@@ -1,6 +1,4 @@
-import { Paper } from '@mui/material';
-import MuiTable from '@mui/material/Table';
-import TableContainer from '@mui/material/TableContainer';
+import clsx from 'clsx';
 import React from 'react';
 
 interface ITableContainerProps {
@@ -10,13 +8,13 @@ interface ITableContainerProps {
 
 const Table = React.forwardRef(
     (
-        { children, ...props }: ITableContainerProps,
+        { children, className }: ITableContainerProps,
         ref: React.Ref<HTMLTableElement>,
     ) => {
         return (
-            <TableContainer component={Paper} {...props}>
-                <MuiTable ref={ref}>{children}</MuiTable>
-            </TableContainer>
+            <table ref={ref} className={clsx('w-full min-w-max', className)}>
+                {children}
+            </table>
         );
     },
 );
