@@ -96,7 +96,7 @@ function WorkflowTable({
                     count={table_data.length}
                     page={currentPage}
                     onPageChange={setCurrentPage}
-                    OnRowsPerPageChange={setPerPage}
+                    onRowsPerPageChange={setPerPage}
                     isLoading={isLoading}
                 />
             </CardFooter>

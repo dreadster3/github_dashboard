@@ -64,7 +64,7 @@ function WorkflowRunsTable({
                     count={data?.total_count ?? workflow_runs.length}
                     page={currentPage}
                     onPageChange={setCurrentPage}
-                    OnRowsPerPageChange={setPerPage}
+                    onRowsPerPageChange={setPerPage}
                     isLoading={isDataLoading}
                 />
             </CardFooter>

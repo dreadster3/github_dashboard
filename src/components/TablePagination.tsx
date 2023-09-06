@@ -7,7 +7,7 @@ interface ITablePaginationProps {
     page: number;
     rowsPerPage: number;
     onPageChange: (newPage: number) => void;
-    OnRowsPerPageChange: (newRowsPerPage: number) => void;
+    onRowsPerPageChange: (newRowsPerPage: number) => void;
     isLoading?: boolean;
 }
 
@@ -17,9 +17,14 @@ const TablePagination = ({
     page,
     rowsPerPage,
     onPageChange,
-    OnRowsPerPageChange,
+    onRowsPerPageChange,
     isLoading,
 }: ITablePaginationProps) => {
+    const handle_per_page_change = (newRowsPerPage: number) => {
+        onRowsPerPageChange(newRowsPerPage);
+        onPageChange(1);
+    };
+
     return (
         <div className="flex items-center">
             <div className="basis-1/3 self-start text-xs text-ctp-text">
@@ -37,7 +42,7 @@ const TablePagination = ({
                 className="basis-1/3"
                 perPage={rowsPerPage}
                 options={rowsPerPageOptions}
-                setPerPage={OnRowsPerPageChange}
+                setPerPage={handle_per_page_change}
             />
         </div>
     );
