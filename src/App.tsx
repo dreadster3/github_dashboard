@@ -16,6 +16,18 @@ const queryClient = new QueryClient({
 });
 
 const theme = {
+    spinner: {
+        valid: {
+            colors: ['gray'],
+        },
+        styles: {
+            colors: {
+                gray: {
+                    color: 'text-ctp-base',
+                },
+            },
+        },
+    },
     iconButton: {
         defaultProps: {
             color: 'blue',

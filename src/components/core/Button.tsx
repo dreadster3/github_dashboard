@@ -1,5 +1,5 @@
-import { Button as MButton } from '@material-tailwind/react';
-import { CircularProgress, SxProps, Theme } from '@mui/material';
+import { Button as MButton, Spinner } from '@material-tailwind/react';
+import { SxProps, Theme } from '@mui/material';
 import clsx from 'clsx';
 import React, { MouseEventHandler, Ref } from 'react';
 
@@ -33,7 +33,9 @@ const Button = React.forwardRef(
                 variant={props.variant ?? 'filled'}
                 {...props}
             >
-                {isLoading && <CircularProgress color="inherit" size="20px" />}
+                {isLoading && (
+                    <Spinner color="gray" className="text-ctp-text" />
+                )}
                 {children}
             </MButton>
         );
