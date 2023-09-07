@@ -11,7 +11,7 @@ import { useSideBarNavigation } from '../providers/SideBarNavigationProvider';
 import ThemeButtonNavBar from './ThemeButtonNavBar';
 import Card from './core/card/Card';
 
-export interface ISideNavButtonProps extends ISideButtonProps {
+export interface ISideNavButtonProps {
     to: string;
     prefix_icon?: React.ReactNode;
     suffix_icon?: React.ReactNode;
