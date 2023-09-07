@@ -1,5 +1,4 @@
 import { Button as MButton, Spinner } from '@material-tailwind/react';
-import { SxProps, Theme } from '@mui/material';
 import clsx from 'clsx';
 import React, { MouseEventHandler, Ref } from 'react';
 
@@ -14,7 +13,6 @@ export interface IButtonProps {
     isInvisible?: boolean;
     color?: 'blue';
     size?: 'sm' | 'md' | 'lg';
-    sx?: SxProps<Theme>;
 }
 
 const Button = React.forwardRef(
