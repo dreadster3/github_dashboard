@@ -5,6 +5,7 @@ import useGetWorkflows from '../../hooks/useGetWorkflows';
 import { useSideBarNavigation } from '../../providers/SideBarNavigationProvider';
 import WorkflowTable from './data_table/WorkflowTable';
 
+// This is a comment
 function Home() {
     const { set_menu_items } = useSideBarNavigation();
     const [current_page, set_current_page] = useState(1);
@@ -27,7 +28,7 @@ function Home() {
     }
 
     return (
-        <div className="flex flex-row justify-center w-full">
+        <div className="flex w-full flex-row justify-center">
             <WorkflowTable
                 data={data}
                 setPerPage={set_per_page}

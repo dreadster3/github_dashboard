@@ -3,10 +3,10 @@ import SideNav from './SideNav';
 
 function Layout() {
     return (
-        <div className="flex min-h-screen bg-gray-200">
-            <div className="flex flex-row w-full">
+        <div className="flex min-h-screen bg-ctp-base ">
+            <div className="flex w-full flex-row">
                 <SideNav />
-                <div className="pt-10 w-full h-full">
+                <div className="h-full w-full pt-10">
                     <Outlet />
                 </div>
             </div>

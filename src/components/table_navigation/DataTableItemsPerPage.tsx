@@ -1,10 +1,11 @@
-import SelectMenu, { SelectItem } from './Select.tsx';
+import SelectMenu, { SelectItem } from '../Select.tsx';
 
 interface IDataTableItemsPerPageProps {
     perPage: number;
     setPerPage: (perPage: number) => void;
     className?: string;
     disabled?: boolean;
+    options?: number[];
 }
 
 function DataTableItemsPerPage({
@@ -12,19 +13,23 @@ function DataTableItemsPerPage({
     setPerPage,
     className,
     disabled,
+    options = [10, 25, 50, 100],
 }: IDataTableItemsPerPageProps) {
     return (
         <div className={className}>
-            <div className="flex flex-row-reverse w-full">
+            <div className="flex w-full flex-row-reverse">
                 <SelectMenu
                     disabled={disabled}
-                    className="bg-white"
                     defaultValue={perPage.toString()}
-                    onValueChange={(value) => setPerPage(parseInt(value))}
+                    onValueChange={(value: string) =>
+                        setPerPage(parseInt(value))
+                    }
                 >
-                    <SelectItem value="10">10</SelectItem>
-                    <SelectItem value="20">20</SelectItem>
-                    <SelectItem value="50">50</SelectItem>
+                    {options.map((option) => (
+                        <SelectItem key={option} value={option.toString()}>
+                            {option}
+                        </SelectItem>
+                    ))}
                 </SelectMenu>
             </div>
         </div>

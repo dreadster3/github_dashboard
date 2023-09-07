@@ -1,10 +1,11 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import clsx from 'clsx';
 import DataTable from '../../../components/DataTable';
-import DataTableItemsPerPage from '../../../components/DataTableItemsPerPage';
-import DataTableNavigation from '../../../components/DataTableNavigation';
-import icons from '../../../constants/icons';
+import TablePagination from '../../../components/TablePagination';
+import Button from '../../../components/core/Button';
+import Card from '../../../components/core/card/Card';
+import CardBody from '../../../components/core/card/CardBody';
+import CardFooter from '../../../components/core/card/CardFooter';
+import CardHeader from '../../../components/core/card/CardHeader';
 import useDispatchWorkflow from '../../../hooks/useDispatchWorkflow';
 import { IRuns } from '../../../models/Runs';
 import { columns } from './columns';
@@ -26,7 +27,6 @@ function WorkflowRunsTable({
     setPerPage,
     currentPage,
     setCurrentPage,
-    totalPages,
     workflow_id,
     isDataLoading,
 }: IWorkflowRunsTableProps) {
@@ -46,53 +46,29 @@ function WorkflowRunsTable({
     };
 
     return (
-        <div className="overflow-hidden w-2/3">
-            <div className="flex flex-row-reverse pb-2 w-full border-2">
-                <button
-                    type="button"
-                    className={clsx(
-                        'bg-blue-400 p-2 rounded-lg shadow-sm text-white text-sm shadow-blue-500 w-20 pointer-events-auto',
-                        'disabled:bg-gray-400 disabled:pointer-events-none',
-                        'hover:shadow-blue-100 hover:shadow-md',
-                    )}
+        <Card className="h-full w-2/3 overflow-hidden">
+            <CardHeader className="flex flex-row-reverse items-center justify-between p-3">
+                <Button
+                    isLoading={isLoading}
                     onClick={handle_dispatch_button_click}
                 >
-                    {isLoading ? (
-                        <FontAwesomeIcon
-                            icon={icons.s_spinner}
-                            className={'animate-spin'}
-                        />
-                    ) : (
-                        <>Dispatch</>
-                    )}
-                </button>
-            </div>
-            <div className="overflow-auto bg-white rounded-lg border-2 max-h-[600px]">
+                    Dispatch
+                </Button>
+            </CardHeader>
+            <CardBody className="max-h-[600px] overflow-scroll p-0">
                 <DataTable table={table} />
-            </div>
-            <div className="flex items-center pt-2">
-                <div className="self-start text-xs basis-1/3">
-                    Showing {(currentPage - 1) * perPage + 1}-
-                    {Math.min(
-                        currentPage * perPage,
-                        data?.total_count ?? Infinity,
-                    )}{' '}
-                    of {data?.total_count} results
-                </div>
-                <DataTableNavigation
-                    className="basis-1/3"
-                    totalPages={totalPages}
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
+            </CardBody>
+            <CardFooter className="p-3 shadow-2xl shadow-black">
+                <TablePagination
+                    rowsPerPage={perPage}
+                    count={data?.total_count ?? workflow_runs.length}
+                    page={currentPage}
+                    onPageChange={setCurrentPage}
+                    onRowsPerPageChange={setPerPage}
+                    isLoading={isDataLoading}
                 />
-                <DataTableItemsPerPage
-                    disabled={isDataLoading}
-                    className="basis-1/3"
-                    perPage={perPage}
-                    setPerPage={setPerPage}
-                />
-            </div>
-        </div>
+            </CardFooter>
+        </Card>
     );
 }
 

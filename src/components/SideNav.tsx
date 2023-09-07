@@ -1,81 +1,90 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import * as Separator from '@radix-ui/react-separator';
+import { HomeIcon } from '@heroicons/react/24/solid';
+import {
+    ListItem,
+    ListItemPrefix,
+    ListItemSuffix,
+} from '@material-tailwind/react';
 import clsx from 'clsx';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import icons from '../constants/icons';
 import { useSideBarNavigation } from '../providers/SideBarNavigationProvider';
+import ThemeButtonNavBar from './ThemeButtonNavBar';
+import Card from './core/card/Card';
 
 export interface ISideNavButtonProps {
-    key: string;
-    icon?: React.ReactNode;
-    text: string;
     to: string;
+    prefix_icon?: React.ReactNode;
+    suffix_icon?: React.ReactNode;
+    text: string;
     className?: string;
     onClick?: () => void;
 }
 
 export function SideNavButton({
-    icon,
-    text,
     to,
+    prefix_icon,
+    suffix_icon,
+    text,
     className,
     onClick,
 }: ISideNavButtonProps) {
     return (
-        <Link
-            to={to}
-            className={clsx(
-                'flex flex-row items-center h-12 text-gray-500 transition-transform duration-200 ease-in transform hover:text-gray-800 hover:translate-x-2',
-                className,
-            )}
-            onClick={onClick}
-        >
-            <span className="inline-flex justify-center items-center w-12 h-12 text-lg text-gray-400">
-                {icon}
-            </span>
-            <span className="text-sm font-medium">{text}</span>
+        <Link to={to}>
+            <ListItem
+                className={clsx(
+                    'flex h-12 transform flex-row items-center text-ctp-text transition-transform duration-200 ease-in',
+                    'hover:translate-x-2 hover:bg-ctp-subtext1 hover:text-ctp-base',
+                    className,
+                )}
+                onClick={onClick}
+            >
+                {prefix_icon && <ListItemPrefix>{prefix_icon}</ListItemPrefix>}
+                {text}
+                {suffix_icon && <ListItemSuffix>{prefix_icon}</ListItemSuffix>}
+            </ListItem>
         </Link>
     );
 }
 
 export function SideNavSeparator() {
-    return (
-        <Separator.Root
-            className="bg-gray-400 data-[orientation=horizontal]:w-full h-px"
-            orientation="horizontal"
-        />
-    );
+    return <hr className="my-2 border-ctp-text" />;
 }
 
 function SideNav() {
     const constant_buttons: ISideNavButtonProps[] = [
         {
-            key: 'home',
-            icon: <FontAwesomeIcon icon={icons.s_home} />,
+            prefix_icon: <HomeIcon className="h-6 w-6 text-ctp-text" />,
             text: 'Home',
             to: '/',
         },
     ];
 
     const { menu_items } = useSideBarNavigation();
+    const [open, set_open] = React.useState(false);
 
     return (
-        <div className="flex overflow-hidden flex-col w-52 h-full min-h-screen bg-white rounded-xl shadow-lg">
+        <Card className="h-full w-full max-w-[15rem] rounded-l-none bg-ctp-surface0 p-4 shadow-xl shadow-ctp-surface0">
             <Link to="/">
-                <div className="flex justify-center items-center h-20 shadow-md">
-                    <h1 className="text-3xl text-blue-500 uppercase">
+                <div className="flex h-20 items-center justify-center">
+                    <h1 className="text-3xl uppercase text-blue-500">
                         GitDash
                     </h1>
                 </div>
             </Link>
-            <div className="flex flex-col w-full">
+            <div className="flex h-full w-full flex-col">
                 {constant_buttons.map((button) => (
-                    <SideNavButton {...button} />
+                    <SideNavButton key={button.text} {...button} />
                 ))}
                 <SideNavSeparator />
                 {menu_items}
+                <div className="mt-auto">
+                    <ThemeButtonNavBar
+                        open={open}
+                        onClick={() => set_open(!open)}
+                    />
+                </div>
             </div>
-        </div>
+        </Card>
     );
 }
 

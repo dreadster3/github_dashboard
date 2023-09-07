@@ -35,7 +35,7 @@ function SelectMenu({
             <Select.Trigger
                 disabled={disabled}
                 className={clsx(
-                    'inline-flex justify-center items-center leading-none rounded outline-none px-[10px] text-[13px] h-[35px] gap-[5px] shadow-[0_2px_10px] shadow-black/10',
+                    'inline-flex h-9 items-center justify-center gap-2 rounded bg-ctp-surface0 px-3 text-xs leading-none text-ctp-text shadow-[0_2px_10px] shadow-black/10 outline-none',
                     className,
                 )}
             >
@@ -47,13 +47,13 @@ function SelectMenu({
             <Select.Portal>
                 <Select.Content
                     position={view}
-                    className="overflow-hidden bg-white rounded-md shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]"
+                    className="overflow-hidden rounded-md bg-ctp-overlay0 text-ctp-base shadow-[0px_10px_38px_-10px_rgba(22,_23,_24,_0.35),0px_10px_20px_-15px_rgba(22,_23,_24,_0.2)]"
                 >
-                    <Select.ScrollUpButton className="flex justify-center items-center bg-white cursor-default h-[25px]"></Select.ScrollUpButton>
-                    <Select.Viewport className="p-[5px]">
+                    <Select.ScrollUpButton className="flex h-[25px] cursor-default items-center justify-center"></Select.ScrollUpButton>
+                    <Select.Viewport className="p-1.5">
                         {children}
                     </Select.Viewport>
-                    <Select.ScrollDownButton className="flex justify-center items-center bg-white cursor-default h-[25px]"></Select.ScrollDownButton>
+                    <Select.ScrollDownButton className="flex h-[25px] cursor-default items-center justify-center"></Select.ScrollDownButton>
                 </Select.Content>
             </Select.Portal>
         </Select.Root>
@@ -67,14 +67,14 @@ export const SelectItem = React.forwardRef<
     return (
         <Select.Item
             className={clsx(
-                'text-[13px] leading-none rounded-[3px] flex items-center h-[25px] pr-[35px] pl-[25px] relative select-none data-[disabled]:pointer-events-none data-[highlighted]:outline-none data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1',
+                'data-[highlighted]:bg-violet9 data-[highlighted]:text-violet1 relative flex h-[25px] select-none items-center rounded-[3px] pl-[25px] pr-[35px] text-[13px] leading-none data-[disabled]:pointer-events-none data-[highlighted]:outline-none',
                 className,
             )}
             {...props}
             ref={forwardedRef}
         >
             <Select.ItemText>{children ?? props.value}</Select.ItemText>
-            <Select.ItemIndicator className="inline-flex absolute left-0 justify-center items-center text-blue-400 w-[25px]">
+            <Select.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center text-blue-400">
                 <FontAwesomeIcon icon={icons.s_check} />
             </Select.ItemIndicator>
         </Select.Item>
@@ -88,7 +88,7 @@ export const SelectGroup = React.forwardRef<
     return (
         <Select.Group
             className={clsx(
-                'text-xs px-[25px] leading-[25px] text-mauve11',
+                'text-mauve11 px-[25px] text-xs leading-[25px]',
                 className,
             )}
             {...props}

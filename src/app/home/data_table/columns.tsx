@@ -1,7 +1,7 @@
 import { QueryClient } from '@tanstack/react-query';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
 import { Link } from 'react-router-dom';
-import IndeterminateCheckbox from '../../../components/IndeterminateCheckbox';
+import Checkbox from '../../../components/core/Checkbox';
 import { IRuns } from '../../../models/Runs';
 import { IWorkflow } from '../../../models/Workflow';
 import WorkflowStatusLabel from './WorkflowStatusLabel';
@@ -14,14 +14,14 @@ export const get_columns = (query_client: QueryClient) => {
         {
             id: 'select',
             header: (context) => (
-                <IndeterminateCheckbox
+                <Checkbox
                     checked={context.table.getIsAllRowsSelected()}
                     indeterminate={context.table.getIsSomeRowsSelected()}
                     onChange={context.table.getToggleAllRowsSelectedHandler()}
                 />
             ),
             cell: (cell) => (
-                <IndeterminateCheckbox
+                <Checkbox
                     checked={cell.row.getIsSelected()}
                     disabled={!cell.row.getCanSelect()}
                     indeterminate={cell.row.getIsSomeSelected()}
@@ -64,11 +64,7 @@ export const get_columns = (query_client: QueryClient) => {
             },
             cell: (cell) => {
                 return (
-                    <div className="text-center">
-                        <WorkflowStatusLabel
-                            workflow_id={cell.row.original.id}
-                        />
-                    </div>
+                    <WorkflowStatusLabel workflow_id={cell.row.original.id} />
                 );
             },
         },

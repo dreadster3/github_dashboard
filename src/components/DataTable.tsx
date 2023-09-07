@@ -1,44 +1,60 @@
-import { Table, flexRender } from '@tanstack/react-table';
+import { Table as ReactTable, flexRender } from '@tanstack/react-table';
+import Table from './core/table/Table';
+import TableBody from './core/table/TableBody';
+import TableCell from './core/table/TableCell';
+import TableHeader from './core/table/TableHeader';
+import TableRow from './core/table/TableRow';
 
 interface IDataTableProps {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    table: Table<any>;
+    table: ReactTable<any>;
 }
 
 function DataTable({ table }: IDataTableProps) {
     return (
-        <table className="w-full min-w-max text-sm text-left">
-            <thead className="sticky top-0 text-center text-white bg-black">
+        <Table>
+            <TableHeader className="sticky left-0 top-0 shadow-lg">
                 {table.getHeaderGroups().map((headerGroup) => (
-                    <tr key={headerGroup.id}>
+                    <TableRow key={headerGroup.id}>
                         {headerGroup.headers.map((header) => (
-                            <th className={'px-6 py-4'} key={header.id}>
+                            <TableCell
+                                align="center"
+                                className="bg-ctp-surface0 text-ctp-text"
+                                key={header.id}
+                            >
                                 {header.isPlaceholder
                                     ? null
                                     : flexRender(
                                           header.column.columnDef.header,
                                           header.getContext(),
                                       )}
-                            </th>
+                            </TableCell>
                         ))}
-                    </tr>
+                    </TableRow>
                 ))}
-            </thead>
-            <tbody>
+            </TableHeader>
+            <TableBody>
                 {table.getRowModel().rows.map((row) => (
-                    <tr key={row.id}>
+                    <TableRow
+                        className="bg-ctp-surface1 text-ctp-text odd:bg-ctp-surface2"
+                        key={row.id}
+                    >
                         {row.getVisibleCells().map((cell) => (
-                            <td className="py-4 px-6 text-center" key={cell.id}>
+                            <TableCell
+                                align="center"
+                                className=""
+                                key={cell.id}
+                            >
                                 {flexRender(
                                     cell.column.columnDef.cell,
                                     cell.getContext(),
                                 )}
-                            </td>
+                            </TableCell>
                         ))}
-                    </tr>
+                    </TableRow>
                 ))}
-            </tbody>
-        </table>
+            </TableBody>
+        </Table>
     );
 }
 

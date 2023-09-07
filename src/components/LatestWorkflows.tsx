@@ -36,7 +36,7 @@ function LatestWorkflows() {
                             key={workflow_run.id.toString()}
                             text={workflow_run.name}
                             to={`/workflows/${workflow_run.workflow_id}/runs`}
-                            icon={
+                            prefix_icon={
                                 <WorkflowStatusLabel
                                     workflow_id={workflow_run.workflow_id}
                                 />

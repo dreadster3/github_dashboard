@@ -1,5 +1,8 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { IWorkflowRunQueryParameters } from '../clients/github_client';
+import {
+    IPageQueryParameters,
+    IWorkflowRunQueryParameters,
+} from '../clients/github_client';
 import { DATA_STALE_TIME, OWNER, REPOSITORY_NAME } from '../constants';
 import { IRun } from '../models/Run';
 import { IRuns } from '../models/Runs';
@@ -38,6 +41,21 @@ function useGetWorkflowRuns(
                 const cached_data: IRuns | undefined = queryClient.getQueryData(
                     ['workflow_runs', workflow_id],
                     {
+                        predicate: (query) => {
+                            const query_options = query
+                                .queryKey[2] as IPageQueryParameters;
+
+                            if (query_options !== null) {
+                                return (
+                                    query_options.page ==
+                                        (options?.page ?? 1) &&
+                                    (query_options.per_page ?? 30) >
+                                        (options?.per_page ?? Infinity)
+                                );
+                            }
+
+                            return true;
+                        },
                         exact: false,
                     },
                 );

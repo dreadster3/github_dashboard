@@ -1,21 +1,24 @@
 import clsx from 'clsx';
+import Button, { IButtonProps } from './core/Button';
 
-interface INavigationButtonProps extends React.HTMLProps<HTMLButtonElement> {}
+interface INavigationButtonProps extends IButtonProps {}
 
-function NavigationButton(props: INavigationButtonProps) {
+function NavigationButton({
+    children,
+    className,
+    ...props
+}: INavigationButtonProps) {
     return (
-        <button
+        <Button
             type="button"
-            disabled={props.disabled}
-            hidden={props.hidden}
             className={clsx(
                 'w-6 h-6 rounded-md flex items-center justify-center py-1.5',
-                props.className,
+                className,
             )}
-            onClick={props.onClick}
+            {...props}
         >
-            {props.children}
-        </button>
+            {children}
+        </Button>
     );
 }
 

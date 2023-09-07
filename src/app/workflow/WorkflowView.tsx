@@ -34,7 +34,7 @@ function WorkflowView() {
     }
 
     return (
-        <div className="flex flex-row justify-center w-full">
+        <div className="flex w-full flex-row justify-center">
             <WorkflowRunsTable
                 isDataLoading={isLoading || isFetching}
                 workflow_id={workflow_id}
