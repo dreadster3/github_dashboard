@@ -11,7 +11,8 @@ import { useSideBarNavigation } from '../providers/SideBarNavigationProvider';
 import ThemeButtonNavBar from './ThemeButtonNavBar';
 import Card from './core/card/Card';
 
-export interface ISideButtonProps {
+export interface ISideNavButtonProps extends ISideButtonProps {
+    to: string;
     prefix_icon?: React.ReactNode;
     suffix_icon?: React.ReactNode;
     text: string;
@@ -19,45 +20,29 @@ export interface ISideButtonProps {
     onClick?: () => void;
 }
 
-export interface ISideNavButtonProps extends ISideButtonProps {
-    to: string;
-}
-
 export function SideNavButton({
-    className,
     to,
-    ...props
-}: ISideNavButtonProps) {
-    return (
-        <Link
-            to={to}
-            className={clsx(
-                'flex h-12 transform flex-row items-center text-ctp-text transition-transform duration-200 ease-in hover:translate-x-2 hover:text-ctp-blue',
-                className,
-            )}
-        >
-            <SideButton {...props} />
-        </Link>
-    );
-}
-
-export function SideButton({
     prefix_icon,
     suffix_icon,
     text,
     className,
-}: ISideButtonProps) {
+    onClick,
+}: ISideNavButtonProps) {
     return (
-        <ListItem
-            className={clsx(
-                'hover:bg-ctp-subtext1 hover:text-ctp-base',
-                className,
-            )}
-        >
-            {prefix_icon && <ListItemPrefix>{prefix_icon}</ListItemPrefix>}
-            {text}
-            {suffix_icon && <ListItemSuffix>{prefix_icon}</ListItemSuffix>}
-        </ListItem>
+        <Link to={to}>
+            <ListItem
+                className={clsx(
+                    'flex h-12 transform flex-row items-center text-ctp-text transition-transform duration-200 ease-in',
+                    'hover:translate-x-2 hover:bg-ctp-subtext1 hover:text-ctp-base',
+                    className,
+                )}
+                onClick={onClick}
+            >
+                {prefix_icon && <ListItemPrefix>{prefix_icon}</ListItemPrefix>}
+                {text}
+                {suffix_icon && <ListItemSuffix>{prefix_icon}</ListItemSuffix>}
+            </ListItem>
+        </Link>
     );
 }
 
@@ -78,7 +63,6 @@ function SideNav() {
     const [open, set_open] = React.useState(false);
 
     return (
-        // <Card className="flex h-full min-h-screen w-52 flex-col overflow-hidden rounded-l-none rounded-r-xl bg-ctp-surface0 shadow-lg">
         <Card className="h-full w-full max-w-[15rem] rounded-l-none bg-ctp-surface0 p-4 shadow-xl shadow-ctp-surface0">
             <Link to="/">
                 <div className="flex h-20 items-center justify-center">
