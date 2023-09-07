@@ -36,7 +36,7 @@ function DataTable({ table }: IDataTableProps) {
             <TableBody>
                 {table.getRowModel().rows.map((row) => (
                     <TableRow
-                        className="bg-ctp-surface1 text-ctp-text"
+                        className="bg-ctp-surface1 text-ctp-text odd:bg-ctp-surface2"
                         key={row.id}
                     >
                         {row.getVisibleCells().map((cell) => (

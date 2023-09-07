@@ -7,6 +7,27 @@
         <title>Github Dashboard</title>
     </head>
     <body>
+        <script>
+            if (document.documentElement) {
+                var defaultThemeMode = 'system';
+
+                var themeKey = 'theme';
+                var themeMode = localStorage.getItem(themeKey);
+                if (!themeMode) {
+                    if (defaultThemeMode === 'system') {
+                        themeMode = window.matchMedia(
+                            '(prefers-color-scheme: dark)',
+                        ).matches
+                            ? 'ctp-mocha'
+                            : 'ctp-latte';
+                    } else {
+                        themeMode = defaultThemeMode;
+                    }
+                }
+
+                document.documentElement.classList.add(themeMode);
+            }
+        </script>
         <div id="root"></div>
         <script type="module" src="/src/main.tsx"></script>
     </body>

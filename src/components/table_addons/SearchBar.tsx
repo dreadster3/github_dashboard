@@ -1,5 +1,4 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import icons from '../../constants/icons';
+import { MagnifyingGlassIcon } from '@heroicons/react/24/outline';
 
 interface ISearchBarProps {
     value: string;
@@ -9,15 +8,12 @@ interface ISearchBarProps {
 function SearchBar({ value, onChange }: ISearchBarProps) {
     return (
         <div className="relative">
-            <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
-                <FontAwesomeIcon
-                    className="text-gray-400 dark:text-neutral-200"
-                    icon={icons.s_search}
-                />
+            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2">
+                <MagnifyingGlassIcon className="h-5 w-5 text-ctp-text" />
             </div>
             <input
                 type="text"
-                className="block p-1 pl-9 text-sm bg-white rounded-full dark:ring-inset focus:ring-2 focus:ring-inset focus:ring-blue-500 focus:outline-none border-neutral-700 dark:text-neutral-200 dark:ring-neutral-400 dark:ring-[0.5px] dark:bg-neutral-900"
+                className="block rounded-full bg-ctp-surface0 p-1 pl-9 text-sm text-ctp-text placeholder:text-ctp-text focus:outline-none focus:ring-2 focus:ring-inset focus:ring-ctp-blue"
                 value={value}
                 onChange={(e) => onChange(e.target.value)}
                 placeholder="Search..."

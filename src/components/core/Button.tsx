@@ -26,7 +26,7 @@ const Button = React.forwardRef(
             <MButton
                 ref={ref}
                 className={clsx(
-                    'text-sm gap-2',
+                    'flex items-center gap-2 text-sm',
                     isInvisible && 'invisible',
                     props.className,
                 )}

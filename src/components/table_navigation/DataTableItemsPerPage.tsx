@@ -17,10 +17,9 @@ function DataTableItemsPerPage({
 }: IDataTableItemsPerPageProps) {
     return (
         <div className={className}>
-            <div className="flex flex-row-reverse w-full">
+            <div className="flex w-full flex-row-reverse">
                 <SelectMenu
                     disabled={disabled}
-                    className="text-gray-200 bg-white dark:shadow-inner dark:border-neutral-600 dark:border-[0.5px] dark:bg-neutral-900 dark:shadow-neutral-700"
                     defaultValue={perPage.toString()}
                     onValueChange={(value: string) =>
                         setPerPage(parseInt(value))

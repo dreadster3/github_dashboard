@@ -88,7 +88,10 @@ function App() {
                     <AuthenticationProvider>
                         <AppRoutes />
                     </AuthenticationProvider>
-                    <ReactQueryDevtools initialIsOpen={false} />
+                    <ReactQueryDevtools
+                        initialIsOpen={false}
+                        position="bottom-right"
+                    />
                 </SideBarNavigationProvider>
             </ThemeProvider>
         </QueryClientProvider>
