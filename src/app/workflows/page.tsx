@@ -1,25 +1,14 @@
-'use client';
-import { signOut, useSession } from 'next-auth/react';
+import { prefetchWorkflows } from '@/hooks/useGetWorkflows';
+import { Hydrate, dehydrate } from '@tanstack/react-query';
+import WorkflowList from './workflow_list';
 
-function Workflows() {
-    const { data: session } = useSession();
-
-    const workflows = fetch(
-        'https://api.github.com/repos/dreadster3/test-markdown/actions/workflows',
-        {
-            headers: {
-                Authorization: `Bearer ${session?.access_token}`,
-            },
-        },
-    ).then((response) => response.json());
-
-    console.log(workflows);
+export default async function Page() {
+    const query_client = await prefetchWorkflows({ page: 1, per_page: 10 });
+    const dehydrated_state = dehydrate(query_client);
 
     return (
-        <div>
-            <button onClick={() => signOut()}>SignOut</button>Workflows
-        </div>
+        <Hydrate state={dehydrated_state}>
+            <WorkflowList />
+        </Hydrate>
     );
 }
-
-export default Workflows;
