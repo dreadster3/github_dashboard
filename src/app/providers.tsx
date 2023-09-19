@@ -1,6 +1,7 @@
 'use client';
 
 import { query_client_options } from '@/constants';
+import ThemeProvider from '@/providers/ThemeProvider';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { SessionProvider } from 'next-auth/react';
@@ -17,8 +18,10 @@ function Providers({ children }: IProvidersProps) {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <SessionProvider>{children}</SessionProvider>
-            <ReactQueryDevtools initialIsOpen={false} />
+            <ThemeProvider>
+                <SessionProvider>{children}</SessionProvider>
+                <ReactQueryDevtools initialIsOpen={false} />
+            </ThemeProvider>
         </QueryClientProvider>
     );
 }

@@ -3,9 +3,13 @@
 import useGetWorkflows from '@/hooks/useGetWorkflows';
 import { useMemo, useState } from 'react';
 
-function Workflows() {
+interface IWorkflowTableProps {
+    default_per_page?: number;
+}
+
+function Workflows({ default_per_page }: IWorkflowTableProps) {
     const [current_page, set_current_page] = useState(1);
-    const [per_page, set_per_page] = useState(10);
+    const [per_page, set_per_page] = useState(default_per_page ?? 10);
     const { data, isLoading } = useGetWorkflows({
         page: current_page,
         per_page: per_page,
