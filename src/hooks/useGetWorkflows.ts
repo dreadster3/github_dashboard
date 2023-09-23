@@ -21,7 +21,7 @@ function useGetWorkflows(options?: IPageQueryParameters) {
     return { data, isLoading };
 }
 
-export const prefetchWorkflows = async (
+export const server_prefetch_workflows_async = async (
     options?: IPageQueryParameters,
 ): Promise<QueryClient> => {
     const github_client = await get_server_github_client();

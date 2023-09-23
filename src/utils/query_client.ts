@@ -1,6 +1,7 @@
 import { query_client_options } from '@/constants';
 import { QueryClient } from '@tanstack/react-query';
+import { cache } from 'react';
 
-export default function get_query_client() {
-    return new QueryClient(query_client_options);
-}
+const get_query_client = cache(() => new QueryClient(query_client_options));
+
+export default get_query_client;

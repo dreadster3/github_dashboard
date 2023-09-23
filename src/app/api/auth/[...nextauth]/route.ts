@@ -3,6 +3,7 @@ import NextAuth from 'next-auth/next';
 import GithubProvider from 'next-auth/providers/github';
 
 export const auth_options: NextAuthOptions = {
+    secret: process.env.NEXTAUTH_SECRET ?? '',
     callbacks: {
         async jwt({ token, account }) {
             if (account) {

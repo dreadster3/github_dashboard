@@ -1,10 +1,10 @@
 import { QueryClient } from '@tanstack/react-query';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
+import WorkflowStatusLabel from '../../../components/WorkflowStatusLabel';
 import Checkbox from '../../../components/core/Checkbox';
 import { IRuns } from '../../../models/Runs';
 import { IWorkflow } from '../../../models/Workflow';
-import WorkflowStatusLabel from './WorkflowStatusLabel';
 
 const columnHelper = createColumnHelper<IWorkflow>();
 
@@ -33,7 +33,7 @@ export const get_columns = (query_client: QueryClient) => {
             cell: (cell) => (
                 <Link
                     className="hover:text-blue-500 hover:underline"
-                    to={`/workflows/${cell.getValue()}/runs`}
+                    href={`/workflows/${cell.getValue()}`}
                 >
                     {cell.renderValue()}
                 </Link>

@@ -6,7 +6,7 @@ const instance = axios.create({
     baseURL: 'https://api.github.com',
 });
 
-function useGithubClient() {
+function useGithubClient(): GithubClient {
     const { data: session } = useSession();
 
     if (session?.access_token) {

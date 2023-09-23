@@ -2,12 +2,13 @@
 
 import useGetWorkflows from '@/hooks/useGetWorkflows';
 import { useMemo, useState } from 'react';
+import WorkflowTable from './data_table/WorkflowTable';
 
 interface IWorkflowTableProps {
     default_per_page?: number;
 }
 
-function Workflows({ default_per_page }: IWorkflowTableProps) {
+function WorkflowsView({ default_per_page }: IWorkflowTableProps) {
     const [current_page, set_current_page] = useState(1);
     const [per_page, set_per_page] = useState(default_per_page ?? 10);
     const { data, isLoading } = useGetWorkflows({
@@ -25,19 +26,16 @@ function Workflows({ default_per_page }: IWorkflowTableProps) {
 
     return (
         <div className="flex w-full flex-row justify-center">
-            {data?.workflows.map((workflow) => (
-                <div key={workflow.id}>{workflow.name}</div>
-            ))}
-            {/* <WorkflowTable */}
-            {/*     data={data} */}
-            {/*     setPerPage={set_per_page} */}
-            {/*     perPage={per_page} */}
-            {/*     totalPages={total_pages} */}
-            {/*     currentPage={current_page} */}
-            {/*     setCurrentPage={set_current_page} */}
-            {/* /> */}
+            <WorkflowTable
+                data={data}
+                setPerPage={set_per_page}
+                perPage={per_page}
+                totalPages={total_pages}
+                currentPage={current_page}
+                setCurrentPage={set_current_page}
+            />
         </div>
     );
 }
 
-export default Workflows;
+export default WorkflowsView;

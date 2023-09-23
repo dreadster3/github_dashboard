@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
-import StatusLabel from '../../../components/StatusLabel';
-import useGetWorkflowRuns from '../../../hooks/useGetWorkflowRuns';
+import StatusLabel from '../components/StatusLabel';
+import useGetWorkflowRuns from '../hooks/useGetWorkflowRuns';
 
 interface IWorkflowStatusLabelProps {
     workflow_id: number;
