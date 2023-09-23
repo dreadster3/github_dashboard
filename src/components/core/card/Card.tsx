@@ -23,4 +23,6 @@ const Card = React.forwardRef(
     },
 );
 
+Card.displayName = 'CoreCard';
+
 export default Card;

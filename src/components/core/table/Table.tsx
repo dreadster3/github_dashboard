@@ -19,4 +19,6 @@ const Table = React.forwardRef(
     },
 );
 
+Table.displayName = 'CoreTable';
+
 export default Table;

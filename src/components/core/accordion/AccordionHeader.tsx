@@ -21,4 +21,6 @@ const AccordionHeader = React.forwardRef(
     },
 );
 
+AccordionHeader.displayName = 'CoreAccordionHeader';
+
 export default AccordionHeader;

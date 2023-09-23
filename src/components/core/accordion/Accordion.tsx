@@ -22,4 +22,6 @@ const Accordion = React.forwardRef(
     },
 );
 
+Accordion.displayName = 'CoreAccordion';
+
 export default Accordion;

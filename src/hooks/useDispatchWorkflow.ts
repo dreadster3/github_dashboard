@@ -1,5 +1,5 @@
+import { REPOSITORY_NAME, REPOSITORY_OWNER } from '@/constants';
 import { QueryKey, useMutation, useQueryClient } from '@tanstack/react-query';
-import { OWNER, REPOSITORY_NAME } from '../constants';
 import { IRuns } from '../models/Runs';
 import { EStatus } from '../models/Status';
 import useGithubClient from './useGithubClient';
@@ -14,7 +14,7 @@ function useDispatchWorkflow() {
     const github_client = useGithubClient();
     const queryClient = useQueryClient();
 
-    const owner = OWNER;
+    const owner = REPOSITORY_OWNER;
     const repo = REPOSITORY_NAME;
 
     const { mutate, isLoading } = useMutation(

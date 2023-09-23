@@ -21,6 +21,8 @@ const Checkbox = React.forwardRef(
 
         return (
             <MCheckbox
+                // TODO: Have a look at the impacts of cross origin
+                crossOrigin={undefined}
                 icon={React.cloneElement(icon, {
                     className: 'h-5 w-5 text-ctp-base',
                 })}
@@ -32,5 +34,7 @@ const Checkbox = React.forwardRef(
         );
     },
 );
+
+Checkbox.displayName = 'CoreCheckbox';
 
 export default Checkbox;

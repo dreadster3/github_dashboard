@@ -22,4 +22,6 @@ const TableAddon = React.forwardRef(
     },
 );
 
+TableAddon.displayName = 'CoreTableAddon';
+
 export default TableAddon;

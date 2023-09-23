@@ -1,7 +1,7 @@
+import icons from '@/constants/icons';
 import { IconDefinition } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import clsx from 'clsx';
-import icons from '../constants/icons';
 
 enum EStatus {
     QUEUED = 'queued',

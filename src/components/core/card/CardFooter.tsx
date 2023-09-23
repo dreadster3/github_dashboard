@@ -18,4 +18,6 @@ const CardFooter = React.forwardRef(
     ),
 );
 
+CardFooter.displayName = 'CoreCardFooter';
+
 export default CardFooter;

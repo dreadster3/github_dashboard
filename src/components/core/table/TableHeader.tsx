@@ -19,4 +19,6 @@ const TableHeader = React.forwardRef(
     },
 );
 
+TableHeader.displayName = 'CoreTableHeader';
+
 export default TableHeader;

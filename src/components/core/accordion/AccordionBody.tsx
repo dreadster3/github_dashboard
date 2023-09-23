@@ -20,4 +20,6 @@ const AccordionBody = React.forwardRef(
     },
 );
 
+AccordionBody.displayName = 'CoreAccordionBody';
+
 export default AccordionBody;

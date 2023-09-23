@@ -6,7 +6,6 @@ import TableHeader from './core/table/TableHeader';
 import TableRow from './core/table/TableRow';
 
 interface IDataTableProps {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     table: ReactTable<any>;
 }
 

@@ -1,8 +1,10 @@
+'use client';
+
+import useGetAllWorkflowRuns from '@/hooks/useGetAllWorkflowRuns';
 import { useMemo } from 'react';
-import WorkflowStatusLabel from '../app/home/data_table/WorkflowStatusLabel';
-import useGetAllWorkflowRuns from '../hooks/useGetAllWorkflowRuns';
 import { IRun } from '../models/Run';
 import { SideNavButton } from './SideNav';
+import WorkflowStatusLabel from './WorkflowStatusLabel';
 
 function LatestWorkflows() {
     const { data } = useGetAllWorkflowRuns({
@@ -35,7 +37,7 @@ function LatestWorkflows() {
                         <SideNavButton
                             key={workflow_run.id.toString()}
                             text={workflow_run.name}
-                            to={`/workflows/${workflow_run.workflow_id}/runs`}
+                            to={`/workflows/${workflow_run.workflow_id}`}
                             prefix_icon={
                                 <WorkflowStatusLabel
                                     workflow_id={workflow_run.workflow_id}

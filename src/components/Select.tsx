@@ -1,8 +1,7 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import * as Select from '@radix-ui/react-select';
 import clsx from 'clsx';
 import React from 'react';
-import icons from '../constants/icons';
 
 interface ISelectMenuProps {
     defaultValue?: string;
@@ -41,7 +40,7 @@ function SelectMenu({
             >
                 <Select.Value />
                 <Select.Icon className="text-xs text-blue-400">
-                    <FontAwesomeIcon icon={icons.s_chevron_down} />
+                    <ChevronDownIcon />
                 </Select.Icon>
             </Select.Trigger>
             <Select.Portal>
@@ -75,11 +74,13 @@ export const SelectItem = React.forwardRef<
         >
             <Select.ItemText>{children ?? props.value}</Select.ItemText>
             <Select.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center text-blue-400">
-                <FontAwesomeIcon icon={icons.s_check} />
+                <CheckIcon />
             </Select.ItemIndicator>
         </Select.Item>
     );
 });
+
+SelectItem.displayName = 'CooreSelectItem';
 
 export const SelectGroup = React.forwardRef<
     Select.SelectGroupProps & HTMLDivElement,
@@ -98,5 +99,7 @@ export const SelectGroup = React.forwardRef<
         </Select.Group>
     );
 });
+
+SelectGroup.displayName = 'CooreSelectGroup';
 
 export default SelectMenu;

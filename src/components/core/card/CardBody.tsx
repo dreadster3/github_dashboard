@@ -17,4 +17,6 @@ const CardBody = React.forwardRef(
     ),
 );
 
+CardBody.displayName = 'CoreCardBody';
+
 export default CardBody;

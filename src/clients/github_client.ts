@@ -1,8 +1,8 @@
+import Jobs, { IJobs } from '@/models/Jobs';
+import Runs, { IRuns } from '@/models/Runs';
+import { EConclusion, EStatus } from '@/models/Status';
+import { IWorkflows, Workflows } from '@/models/Workflows';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import Jobs, { IJobs } from '../models/Jobs';
-import Runs, { IRuns } from '../models/Runs';
-import { EConclusion, EStatus } from '../models/Status';
-import { IWorkflows, Workflows } from '../models/Workflows';
 
 export interface IPageQueryParameters {
     per_page?: number;

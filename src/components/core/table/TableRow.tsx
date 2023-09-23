@@ -18,4 +18,6 @@ const TableRow = React.forwardRef(
     },
 );
 
+TableRow.displayName = 'CoreTableRow';
+
 export default TableRow;

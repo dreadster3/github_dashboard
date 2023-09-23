@@ -18,4 +18,6 @@ const TableBody = React.forwardRef(
     },
 );
 
+TableBody.displayName = 'CoreTableBody';
+
 export default TableBody;

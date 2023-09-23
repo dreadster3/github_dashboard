@@ -40,4 +40,6 @@ const Button = React.forwardRef(
     },
 );
 
+Button.displayName = 'CoreButton';
+
 export default Button;

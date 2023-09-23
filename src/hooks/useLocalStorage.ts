@@ -1,17 +1,25 @@
+'use client';
+
 function useLocalStorage(
     key: string,
 ): [() => string | null, (value: string | undefined) => void] {
     const setValue = (value: string | undefined) => {
-        if (!value) {
-            localStorage.removeItem(key);
-            return;
-        }
+        if (typeof window !== 'undefined' && window.localStorage) {
+            if (!value) {
+                localStorage.removeItem(key);
+                return;
+            }
 
-        localStorage.setItem(key, value);
+            localStorage.setItem(key, value);
+        }
     };
 
     const getValue = (): string | null => {
-        return localStorage.getItem(key);
+        if (typeof window !== 'undefined' && window.localStorage) {
+            return localStorage.getItem(key);
+        }
+
+        return null;
     };
 
     return [getValue, setValue];

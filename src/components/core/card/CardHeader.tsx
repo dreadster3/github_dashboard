@@ -26,4 +26,6 @@ const CardHeader = React.forwardRef(
     ),
 );
 
+CardHeader.displayName = 'CoreCardHeader';
+
 export default CardHeader;

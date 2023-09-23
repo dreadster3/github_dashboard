@@ -1,6 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { IWorkflowRunQueryParameters } from '../clients/github_client';
-import { OWNER, REPOSITORY_NAME } from '../constants';
+import { REPOSITORY_NAME, REPOSITORY_OWNER } from '../constants';
 import { IRun } from '../models/Run';
 import { IRuns } from '../models/Runs';
 import useGithubClient from './useGithubClient';
@@ -9,7 +9,7 @@ function useGetAllWorkflowRuns(options?: IWorkflowRunQueryParameters) {
     const github_client = useGithubClient();
     const query_client = useQueryClient();
 
-    const owner = OWNER;
+    const owner = REPOSITORY_OWNER;
     const repo = REPOSITORY_NAME;
 
     const { data, isLoading, error } = useQuery(

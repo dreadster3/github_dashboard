@@ -24,4 +24,6 @@ const TableCell = React.forwardRef(
     },
 );
 
+TableCell.displayName = 'CoreTableCell';
+
 export default TableCell;

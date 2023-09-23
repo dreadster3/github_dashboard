@@ -1,9 +1,15 @@
+import get_query_client from '@/utils/query_client';
+import get_server_github_client from '@/utils/server_github_client';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import {
     IPageQueryParameters,
     IWorkflowRunQueryParameters,
 } from '../clients/github_client';
-import { DATA_STALE_TIME, OWNER, REPOSITORY_NAME } from '../constants';
+import {
+    REPOSITORY_NAME,
+    REPOSITORY_OWNER,
+    query_client_options,
+} from '../constants';
 import { IRun } from '../models/Run';
 import { IRuns } from '../models/Runs';
 import useGithubClient from './useGithubClient';
@@ -15,7 +21,7 @@ function useGetWorkflowRuns(
     const githubClient = useGithubClient();
     const queryClient = useQueryClient();
 
-    const owner = OWNER;
+    const owner = REPOSITORY_OWNER;
     const repo = REPOSITORY_NAME;
 
     const { data, isLoading, isFetching } = useQuery(
@@ -36,7 +42,8 @@ function useGetWorkflowRuns(
             ),
         {
             refetchOnWindowFocus: true,
-            refetchInterval: DATA_STALE_TIME,
+            refetchInterval:
+                query_client_options.defaultOptions?.queries?.staleTime,
             initialData: () => {
                 const cached_data: IRuns | undefined = queryClient.getQueryData(
                     ['workflow_runs', workflow_id],
@@ -117,7 +124,7 @@ function useGetWorkflowRuns(
         },
     );
 
-    const prefetchNextPage = () => {
+    const prefetch_next_page = () => {
         if (options?.per_page) {
             queryClient.prefetchQuery(
                 [
@@ -142,7 +149,39 @@ function useGetWorkflowRuns(
         }
     };
 
-    return { data, isLoading, isFetching, prefetchNextPage };
+    return {
+        data,
+        isLoading,
+        isFetching,
+        prefetch_next_page,
+    };
 }
+
+export const server_prefetch_workflow_runs_async = async (
+    workflow_id: number,
+    options?: IWorkflowRunQueryParameters,
+) => {
+    const github_client = await get_server_github_client();
+    const query_client = get_query_client();
+    const owner = REPOSITORY_OWNER;
+    const repo = REPOSITORY_NAME;
+
+    await query_client.prefetchQuery(
+        [
+            'workflow_runs',
+            workflow_id,
+            { page: options?.page ?? 1, per_page: options?.per_page },
+        ],
+        () =>
+            github_client.get_workflow_runs_async(
+                owner,
+                repo,
+                workflow_id,
+                options,
+            ),
+    );
+
+    return query_client;
+};
 
 export default useGetWorkflowRuns;
