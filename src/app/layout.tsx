@@ -1,3 +1,4 @@
+import SideNav from '@/components/SideNav';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
@@ -18,7 +19,16 @@ export default function RootLayout({
     return (
         <html lang="en">
             <body className="bg-ctp-base">
-                <Providers>{children}</Providers>
+                <Providers>
+                    <div className="flex min-h-screen bg-ctp-base ">
+                        <div className="flex w-full flex-row">
+                            <SideNav />
+                            <div className="h-full w-full pt-10">
+                                {children}
+                            </div>
+                        </div>
+                    </div>
+                </Providers>
             </body>
         </html>
     );

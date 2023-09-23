@@ -1,6 +1,7 @@
 import StatusLabel from '@/components/StatusLabel';
 import { IRun } from '@/models/Run';
 import { ColumnDef, createColumnHelper } from '@tanstack/react-table';
+import Link from 'next/link';
 
 const columnHelper = createColumnHelper<IRun>();
 
@@ -9,12 +10,12 @@ export const columns: ColumnDef<IRun, any>[] = [
         id: 'run_number',
         header: '#',
         cell: (cell) => (
-            <a
+            <Link
                 className="hover:text-blue-500 hover:underline"
                 href={`/workflows/${cell.row.original.workflow_id}/runs/${cell.row.original.id}`}
             >
                 {cell.renderValue()}
-            </a>
+            </Link>
         ),
     }),
     columnHelper.accessor('name', {

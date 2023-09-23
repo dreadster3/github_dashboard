@@ -1,3 +1,4 @@
+import Jobs, { IJobs } from '@/models/Jobs';
 import Runs, { IRuns } from '@/models/Runs';
 import { EConclusion, EStatus } from '@/models/Status';
 import { IWorkflows, Workflows } from '@/models/Workflows';
@@ -89,23 +90,23 @@ class GithubClient {
 
         await this.axiosInstance.request(config);
     }
-    //
-    // async get_workflow_run_jobs_async(
-    //     owner: string,
-    //     repository_name: string,
-    //     run_id: number,
-    //     options?: IPageQueryParameters,
-    // ): Promise<IJobs> {
-    //     const config: AxiosRequestConfig = {
-    //         method: 'GET',
-    //         url: `/repos/${owner}/${repository_name}/actions/runs/${run_id}/jobs`,
-    //         params: options,
-    //     };
-    //
-    //     const response = await this.axiosInstance.request(config);
-    //
-    //     return new Jobs(response.data);
-    // }
+
+    async get_workflow_run_jobs_async(
+        owner: string,
+        repository_name: string,
+        run_id: number,
+        options?: IPageQueryParameters,
+    ): Promise<IJobs> {
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/repos/${owner}/${repository_name}/actions/runs/${run_id}/jobs`,
+            params: options,
+        };
+
+        const response = await this.axiosInstance.request(config);
+
+        return new Jobs(response.data);
+    }
 }
 
 export default GithubClient;

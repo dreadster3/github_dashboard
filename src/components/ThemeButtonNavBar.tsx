@@ -1,9 +1,11 @@
 'use client';
 
+import { SYSTEM_DEFAULT_DARK } from '@/constants';
+import { useTheme } from '@/providers/ThemeProvider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { List, ListItem, ListItemSuffix } from '@material-tailwind/react';
+import clsx from 'clsx';
 import icons from '../constants/icons';
-import useLocalStorage from '../hooks/useLocalStorage';
 import Accordion from './core/accordion/Accordion';
 import AccordionBody from './core/accordion/AccordionBody';
 import AccordionHeader from './core/accordion/AccordionHeader';
@@ -14,11 +16,10 @@ interface IThemeButtonNavBarProps {
 }
 
 function ThemeButtonNavBar({ onClick, open }: IThemeButtonNavBarProps) {
-    const [, set_theme] = useLocalStorage('theme');
+    const { set_theme } = useTheme();
 
     const handle_set_theme = (theme: string) => {
         set_theme(theme);
-        document.documentElement.className = theme;
         onClick?.();
     };
 
@@ -84,6 +85,25 @@ function ThemeButtonNavBar({ onClick, open }: IThemeButtonNavBarProps) {
                     >
                         Latte
                         <ListItemSuffix className="ctp-latte m-0">
+                            <FontAwesomeIcon
+                                icon={icons.s_circle}
+                                className="rounded-full border border-black text-ctp-base"
+                            />
+                        </ListItemSuffix>
+                    </ListItem>
+                    <ListItem
+                        onClick={() => handle_set_theme('default')}
+                        className="flex justify-between"
+                    >
+                        System Default
+                        <ListItemSuffix
+                            className={clsx(
+                                'm-0',
+                                window.matchMedia(SYSTEM_DEFAULT_DARK).matches
+                                    ? 'ctp-mocha'
+                                    : 'ctp-latte',
+                            )}
+                        >
                             <FontAwesomeIcon
                                 icon={icons.s_circle}
                                 className="rounded-full border border-black text-ctp-base"

@@ -1,25 +1,36 @@
 'use client';
 
+import { SYSTEM_DEFAULT_DARK } from '@/constants';
 import useLocalStorage from '@/hooks/useLocalStorage';
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 
 const theme_context = createContext({
     theme: 'ctp-mocha',
     set_theme: (theme: string) => {},
 });
 
+export const useTheme = () => {
+    return useContext(theme_context);
+};
+
 function ThemeProvider({ children }: { children: React.ReactNode }) {
     const [get_storage_theme, set_storage_theme] = useLocalStorage('theme');
-    const [theme, set_theme] = useState(get_storage_theme() ?? 'ctp-mocha');
+    const [theme, set_theme] = useState(get_storage_theme() ?? 'default');
 
     const handle_set_theme = (theme: string) => {
+        if (theme === 'default') {
+            set_storage_theme(undefined);
+            set_theme('default');
+            return;
+        }
+
         set_theme(theme);
         set_storage_theme(theme);
     };
 
     useEffect(() => {
         window
-            .matchMedia('(prefers-color-scheme: dark)')
+            .matchMedia(SYSTEM_DEFAULT_DARK)
             .addEventListener('change', (event) => {
                 const colorScheme = event.matches ? 'dark' : 'light';
 
@@ -36,6 +47,16 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
     }, [set_theme, get_storage_theme]);
 
     useEffect(() => {
+        if (theme === 'default') {
+            if (window.matchMedia(SYSTEM_DEFAULT_DARK).matches) {
+                set_theme('ctp-mocha');
+            } else {
+                set_theme('ctp-latte');
+            }
+
+            return;
+        }
+
         document.documentElement.className = theme;
     }, [theme]);
 

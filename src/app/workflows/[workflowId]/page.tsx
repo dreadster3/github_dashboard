@@ -13,10 +13,13 @@ interface IPageProps {
 
 export default async function Page({ params }: IPageProps) {
     const per_page = 10;
-    const query_client = await server_prefetch_workflow_runs_async(params.id, {
-        page: 1,
-        per_page,
-    });
+    const query_client = await server_prefetch_workflow_runs_async(
+        params.workflowId,
+        {
+            page: 1,
+            per_page,
+        },
+    );
     const dehydrated_state = dehydrate(query_client);
 
     return (
