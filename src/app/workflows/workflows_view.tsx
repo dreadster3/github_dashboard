@@ -1,6 +1,7 @@
 'use client';
 
 import LatestWorkflows from '@/components/LatestWorkflows';
+import Title from '@/components/Title';
 import useGetWorkflows from '@/hooks/useGetWorkflows';
 import { useSideNavigation } from '@/providers/SideNavProvider';
 import { useEffect, useMemo, useState } from 'react';
@@ -32,15 +33,18 @@ function WorkflowsView({ default_per_page }: IWorkflowTableProps) {
     }
 
     return (
-        <div className="flex w-full flex-row justify-center">
-            <WorkflowTable
-                data={data}
-                setPerPage={set_per_page}
-                perPage={per_page}
-                totalPages={total_pages}
-                currentPage={current_page}
-                setCurrentPage={set_current_page}
-            />
+        <div className="w-full">
+            <Title>Workflows</Title>
+            <div className="flex w-full flex-row justify-center">
+                <WorkflowTable
+                    data={data}
+                    setPerPage={set_per_page}
+                    perPage={per_page}
+                    totalPages={total_pages}
+                    currentPage={current_page}
+                    setCurrentPage={set_current_page}
+                />
+            </div>
         </div>
     );
 }

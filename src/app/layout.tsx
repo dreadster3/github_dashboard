@@ -20,11 +20,13 @@ export default function RootLayout({
         <html lang="en">
             <body className="bg-ctp-base">
                 <Providers>
-                    <div className="flex min-h-screen bg-ctp-base ">
+                    <div className="flex min-h-screen bg-ctp-base">
                         <div className="flex w-full flex-row">
                             <SideNav />
-                            <div className="h-full w-full pt-10">
-                                {children}
+                            <div className="flex h-full w-full p-8 justify-center">
+                                <div className="flex xl:w-2/3 sm:w-full">
+                                    {children}
+                                </div>
                             </div>
                         </div>
                     </div>

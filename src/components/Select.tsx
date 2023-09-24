@@ -40,7 +40,7 @@ function SelectMenu({
             >
                 <Select.Value />
                 <Select.Icon className="text-xs text-blue-400">
-                    <ChevronDownIcon />
+                    <ChevronDownIcon className="w-3 h-3" />
                 </Select.Icon>
             </Select.Trigger>
             <Select.Portal>
@@ -74,7 +74,7 @@ export const SelectItem = React.forwardRef<
         >
             <Select.ItemText>{children ?? props.value}</Select.ItemText>
             <Select.ItemIndicator className="absolute left-0 inline-flex w-[25px] items-center justify-center text-blue-400">
-                <CheckIcon />
+                <CheckIcon className="w-4 h-4" />
             </Select.ItemIndicator>
         </Select.Item>
     );

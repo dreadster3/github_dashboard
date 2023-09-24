@@ -1,5 +1,6 @@
 'use client';
 
+import Title from '@/components/Title';
 import useGetWorkflowRuns from '@/hooks/useGetWorkflowRuns';
 import { useEffect, useMemo, useState } from 'react';
 import WorkflowRunsTable from './data_table/WorkflowRunsTable';
@@ -35,17 +36,21 @@ function WorkflowRunsView({ params, default_per_page }: IWorkflowViewProps) {
     }
 
     return (
-        <div className="flex w-full flex-row justify-center">
-            <WorkflowRunsTable
-                isDataLoading={isLoading || isFetching}
-                workflow_id={params.workflowId}
-                data={data}
-                perPage={per_page}
-                setPerPage={set_per_page}
-                currentPage={current_page}
-                setCurrentPage={set_current_page}
-                totalPages={total_pages}
-            />
+        <div className="w-full">
+            <Title>Workflow Runs</Title>
+
+            <div className="flex w-full flex-row justify-center">
+                <WorkflowRunsTable
+                    isDataLoading={isLoading || isFetching}
+                    workflow_id={params.workflowId}
+                    data={data}
+                    perPage={per_page}
+                    setPerPage={set_per_page}
+                    currentPage={current_page}
+                    setCurrentPage={set_current_page}
+                    totalPages={total_pages}
+                />
+            </div>
         </div>
     );
 }

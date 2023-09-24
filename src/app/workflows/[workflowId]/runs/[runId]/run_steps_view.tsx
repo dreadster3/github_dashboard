@@ -2,6 +2,7 @@
 
 import { SideNavButton } from '@/components/SideNav';
 import StatusLabel from '@/components/StatusLabel';
+import Title from '@/components/Title';
 import Accordion from '@/components/core/accordion/Accordion';
 import AccordionBody from '@/components/core/accordion/AccordionBody';
 import AccordionHeader from '@/components/core/accordion/AccordionHeader';
@@ -61,8 +62,9 @@ function RunStepsView({ params }: IWorkflowRunViewProps) {
     }
 
     return (
-        <div className="flex h-full w-full justify-center">
-            <div className="w-2/3">
+        <div className="w-full">
+            <Title>Run Steps</Title>
+            <div className="flex flex-col h-full w-full">
                 {jobs &&
                     jobs?.jobs?.[active_job] &&
                     jobs.jobs[active_job].steps.map((step) => (

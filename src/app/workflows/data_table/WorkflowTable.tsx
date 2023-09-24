@@ -71,7 +71,7 @@ function WorkflowTable({
     };
 
     return (
-        <Card className="h-full w-2/3 overflow-hidden">
+        <Card className="h-full w-full overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between p-3">
                 <SearchBar value={globalFilter} onChange={setGlobalFilter} />
                 <Button

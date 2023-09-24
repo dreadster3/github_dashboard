@@ -48,7 +48,7 @@ function WorkflowRunsTable({
     };
 
     return (
-        <Card className="h-full w-2/3 overflow-hidden">
+        <Card className="h-full w-full overflow-hidden">
             <CardHeader className="flex flex-row-reverse items-center justify-between p-3">
                 <Button
                     isLoading={isLoading}
