@@ -3,7 +3,7 @@ import prisma from '@/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth/next';
-import GithubProvider from 'next-auth/providers/github';
+import GithubProvider, { GithubProfile } from 'next-auth/providers/github';
 
 const prism_adapter = PrismaAdapter(prisma);
 
@@ -24,12 +24,21 @@ export const auth_options: NextAuthOptions = {
         strategy: 'jwt',
     },
     callbacks: {
-        async jwt({ token, account }) {
+        async jwt({ token, account, profile }) {
             if (account) {
                 token = Object.assign({}, token, {
                     access_token: account.access_token,
                 });
             }
+
+            if (profile) {
+                // WARN: Works since we only have one provider
+                const github_profile = profile as GithubProfile;
+                token = Object.assign({}, token, {
+                    username: github_profile.login,
+                });
+            }
+
             return token;
         },
         async session({ session, token }) {
@@ -39,6 +48,7 @@ export const auth_options: NextAuthOptions = {
                     user: {
                         ...session.user,
                         id: token.sub,
+                        username: token.username ?? '',
                     },
                 });
             }
@@ -51,7 +61,7 @@ export const auth_options: NextAuthOptions = {
             clientSecret: process.env.GITHUB_CLIENT_SECRET ?? '',
             authorization: {
                 params: {
-                    scope: 'workflow repo',
+                    scope: 'workflow repo read:org',
                 },
             },
         }),

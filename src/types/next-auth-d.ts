@@ -8,6 +8,7 @@ declare module 'next-auth' {
         access_token: string;
         user: {
             id: string;
+            username: string;
             image: string;
             name: string;
             email: string;

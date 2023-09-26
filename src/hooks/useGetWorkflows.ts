@@ -1,17 +1,20 @@
-import { REPOSITORY_NAME, REPOSITORY_OWNER } from '@/constants';
 import get_query_client from '@/utils/query_client';
 import get_server_github_client from '@/utils/server_github_client';
 import { QueryClient, useQuery } from '@tanstack/react-query';
 import { IPageQueryParameters } from '../clients/github_client';
 import useGithubClient from './useGithubClient';
 
-function useGetWorkflows(options?: IPageQueryParameters) {
+function useGetWorkflows(
+    owner: string,
+    repo: string,
+    options?: IPageQueryParameters,
+) {
     const client = useGithubClient();
-    const owner = REPOSITORY_OWNER;
-    const repo = REPOSITORY_NAME;
 
     const { data, isLoading } = useQuery(
         [
+            owner,
+            repo,
             'workflows',
             { page: options?.page ?? 1, per_page: options?.per_page },
         ],
@@ -22,15 +25,17 @@ function useGetWorkflows(options?: IPageQueryParameters) {
 }
 
 export const server_prefetch_workflows_async = async (
+    owner: string,
+    repo: string,
     options?: IPageQueryParameters,
 ): Promise<QueryClient> => {
     const github_client = await get_server_github_client();
     const query_client = get_query_client();
-    const owner = REPOSITORY_OWNER;
-    const repo = REPOSITORY_NAME;
 
     await query_client.prefetchQuery(
         [
+            owner,
+            repo,
             'workflows',
             { page: options?.page ?? 1, per_page: options?.per_page },
         ],
