@@ -18,12 +18,12 @@ function useGetOrganizations(options?: IPageQueryParameters) {
         {
             select: (data) => {
                 return [
-                    ...data,
                     {
                         name: session?.user?.username ?? '',
                         description: 'Private organization',
                         avatar_url: session?.user?.image ?? '',
                     },
+                    ...data,
                 ];
             },
         },
