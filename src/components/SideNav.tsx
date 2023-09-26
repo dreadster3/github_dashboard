@@ -15,7 +15,6 @@ import clsx from 'clsx';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import React from 'react';
-import ThemeButtonNavBar from './ThemeButtonNavBar';
 import Card from './core/card/Card';
 
 export interface ISideNavButtonProps {
@@ -99,10 +98,6 @@ function SideNav() {
                         suffix_icon={
                             <ArrowRightOnRectangleIcon className="w-6 h-6 text-ctp-text" />
                         }
-                    />
-                    <ThemeButtonNavBar
-                        open={open}
-                        onClick={() => set_open(!open)}
                     />
                 </div>
             </div>

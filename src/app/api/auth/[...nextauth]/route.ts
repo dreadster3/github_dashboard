@@ -1,11 +1,24 @@
+import { create_settings_async } from '@/db/settings';
 import prisma from '@/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
 import { NextAuthOptions } from 'next-auth';
 import NextAuth from 'next-auth/next';
 import GithubProvider from 'next-auth/providers/github';
 
+const prism_adapter = PrismaAdapter(prisma);
+
 export const auth_options: NextAuthOptions = {
-    adapter: PrismaAdapter(prisma),
+    adapter: {
+        ...prism_adapter,
+        createUser: async (user) => {
+            const created_user = await prism_adapter.createUser!(user);
+
+            // Create default settings for the user
+            await create_settings_async(created_user.id);
+
+            return created_user;
+        },
+    },
     secret: process.env.NEXTAUTH_SECRET ?? '',
     session: {
         strategy: 'jwt',
@@ -23,6 +36,10 @@ export const auth_options: NextAuthOptions = {
             if (session) {
                 session = Object.assign({}, session, {
                     access_token: token.access_token,
+                    user: {
+                        ...session.user,
+                        id: token.sub,
+                    },
                 });
             }
             return session;

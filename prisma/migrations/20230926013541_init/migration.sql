@@ -6,6 +6,7 @@ CREATE TABLE "tb_accounts" (
     "provider" TEXT NOT NULL,
     "providerAccountId" TEXT NOT NULL,
     "refresh_token" TEXT,
+    "refresh_token_expires_in" INTEGER,
     "access_token" TEXT,
     "expires_at" INTEGER,
     "token_type" TEXT,
@@ -44,6 +45,18 @@ CREATE TABLE "tb_verification_tokens" (
     "expires" TIMESTAMP(3) NOT NULL
 );
 
+-- CreateTable
+CREATE TABLE "tb_settings" (
+    "id" SERIAL NOT NULL,
+    "theme" TEXT NOT NULL,
+    "language" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "createAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updateAt" TIMESTAMP(3) NOT NULL,
+
+    CONSTRAINT "tb_settings_pkey" PRIMARY KEY ("id")
+);
+
 -- CreateIndex
 CREATE UNIQUE INDEX "tb_accounts_provider_providerAccountId_key" ON "tb_accounts"("provider", "providerAccountId");
 
@@ -59,8 +72,14 @@ CREATE UNIQUE INDEX "tb_verification_tokens_token_key" ON "tb_verification_token
 -- CreateIndex
 CREATE UNIQUE INDEX "tb_verification_tokens_identifier_token_key" ON "tb_verification_tokens"("identifier", "token");
 
+-- CreateIndex
+CREATE UNIQUE INDEX "tb_settings_userId_key" ON "tb_settings"("userId");
+
 -- AddForeignKey
 ALTER TABLE "tb_accounts" ADD CONSTRAINT "tb_accounts_userId_fkey" FOREIGN KEY ("userId") REFERENCES "tb_users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "tb_sessions" ADD CONSTRAINT "tb_sessions_userId_fkey" FOREIGN KEY ("userId") REFERENCES "tb_users"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "tb_settings" ADD CONSTRAINT "tb_settings_userId_fkey" FOREIGN KEY ("userId") REFERENCES "tb_users"("id") ON DELETE CASCADE ON UPDATE CASCADE;

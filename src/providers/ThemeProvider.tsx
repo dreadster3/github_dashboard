@@ -1,8 +1,8 @@
 'use client';
 
 import { SYSTEM_DEFAULT_DARK } from '@/constants';
-import useLocalStorage from '@/hooks/useLocalStorage';
 import { createContext, useContext, useEffect, useState } from 'react';
+import { useSettings } from './SettingsProvider';
 
 const theme_context = createContext({
     theme: 'ctp-mocha',
@@ -14,19 +14,21 @@ export const useTheme = () => {
 };
 
 function ThemeProvider({ children }: { children: React.ReactNode }) {
-    const [get_storage_theme, set_storage_theme] = useLocalStorage('theme');
-    const [theme, set_theme] = useState(get_storage_theme() ?? 'default');
+    const { settings, set_settings } = useSettings();
+    const [theme, set_theme] = useState(settings?.theme ?? 'default');
 
     const handle_set_theme = (theme: string) => {
-        if (theme === 'default') {
-            set_storage_theme(undefined);
-            set_theme('default');
-            return;
-        }
+        set_settings({
+            theme,
+            language: settings?.language ?? 'en',
+        });
 
         set_theme(theme);
-        set_storage_theme(theme);
     };
+
+    useEffect(() => {
+        set_theme(settings?.theme ?? 'default');
+    }, [settings?.theme]);
 
     useEffect(() => {
         window
@@ -34,30 +36,30 @@ function ThemeProvider({ children }: { children: React.ReactNode }) {
             .addEventListener('change', (event) => {
                 const colorScheme = event.matches ? 'dark' : 'light';
 
-                if (get_storage_theme() !== null) {
+                if (theme !== 'default') {
                     return;
                 }
 
                 if (colorScheme === 'dark') {
-                    set_theme('ctp-mocha');
+                    document.documentElement.className = 'ctp-mocha';
                 } else {
-                    set_theme('ctp-latte');
+                    document.documentElement.className = 'ctp-latte';
                 }
             });
-    }, [set_theme, get_storage_theme]);
+    }, [theme]);
 
     useEffect(() => {
+        let local_theme = theme;
+
         if (theme === 'default') {
             if (window.matchMedia(SYSTEM_DEFAULT_DARK).matches) {
-                set_theme('ctp-mocha');
+                local_theme = 'mocha';
             } else {
-                set_theme('ctp-latte');
+                local_theme = 'latte';
             }
-
-            return;
         }
 
-        document.documentElement.className = theme;
+        document.documentElement.className = `ctp-${local_theme}`;
     }, [theme]);
 
     return (
