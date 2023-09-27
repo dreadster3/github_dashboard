@@ -36,7 +36,7 @@ function WorkflowsView({ default_per_page, owner, repo }: IWorkflowTableProps) {
 
     return (
         <div className="w-full">
-            <Title>Workflows</Title>
+            <Title subtitle={`Repository: ${repo}`}>Workflows</Title>
             <div className="flex w-full flex-row justify-center">
                 <WorkflowTable
                     data={data}

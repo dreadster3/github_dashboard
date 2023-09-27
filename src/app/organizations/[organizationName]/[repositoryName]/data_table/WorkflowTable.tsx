@@ -17,6 +17,7 @@ import {
     getFilteredRowModel,
     useReactTable,
 } from '@tanstack/react-table';
+import { useParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
 import { get_columns } from './columns';
 
@@ -38,13 +39,21 @@ function WorkflowTable({
 }: IWorkflowTableProps) {
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-    const { dispatch_workflow, isLoading } = useDispatchWorkflow();
     const queryClient = useQueryClient();
     const table_data = useMemo(() => data?.workflows ?? [], [data]);
+    const { organizationName, repositoryName } = useParams();
+    const { dispatch_workflow, isLoading } = useDispatchWorkflow(
+        organizationName as string,
+        repositoryName as string,
+    );
 
     const options: TableOptions<IWorkflow> = {
         data: table_data,
-        columns: get_columns(queryClient),
+        columns: get_columns(
+            organizationName as string,
+            repositoryName as string,
+            queryClient,
+        ),
         state: {
             globalFilter,
             rowSelection,

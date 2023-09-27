@@ -13,6 +13,8 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
 interface IWorkflowRunViewParams {
+    organizationName: string;
+    repositoryName: string;
     workflowId: number;
     runId: number;
 }
@@ -23,7 +25,11 @@ interface IWorkflowRunViewProps {
 
 function RunStepsView({ params }: IWorkflowRunViewProps) {
     const { set_menu_items } = useSideNavigation();
-    const { data: jobs, isLoading } = useGetJobs(params.runId);
+    const { data: jobs, isLoading } = useGetJobs(
+        params.organizationName,
+        params.repositoryName,
+        params.runId,
+    );
     const [active_job, set_active_job] = useState<number>(0);
     const [open, set_open] = useState(0);
 
@@ -40,7 +46,6 @@ function RunStepsView({ params }: IWorkflowRunViewProps) {
                         onClick={() => set_active_job(index)}
                         key={job.id.toString()}
                         text={job.name}
-                        to={`/workflows/${params.workflowId}/runs/${job.run_id}`}
                         prefix_icon={
                             <StatusLabel
                                 className={

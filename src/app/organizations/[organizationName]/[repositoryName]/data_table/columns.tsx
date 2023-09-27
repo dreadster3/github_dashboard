@@ -8,7 +8,11 @@ import Link from 'next/link';
 
 const columnHelper = createColumnHelper<IWorkflow>();
 
-export const get_columns = (query_client: QueryClient) => {
+export const get_columns = (
+    owner: string,
+    repo: string,
+    query_client: QueryClient,
+) => {
     const columns: ColumnDef<IWorkflow, any>[] = [
         {
             id: 'select',
@@ -33,7 +37,7 @@ export const get_columns = (query_client: QueryClient) => {
             cell: (cell) => (
                 <Link
                     className="hover:text-blue-500 hover:underline"
-                    href={`/workflows/${cell.getValue()}`}
+                    href={`${repo}/${cell.getValue()}`}
                 >
                     {cell.renderValue()}
                 </Link>
@@ -63,7 +67,11 @@ export const get_columns = (query_client: QueryClient) => {
             },
             cell: (cell) => {
                 return (
-                    <WorkflowStatusLabel workflow_id={cell.row.original.id} />
+                    <WorkflowStatusLabel
+                        owner={owner}
+                        repo={repo}
+                        workflow_id={cell.row.original.id}
+                    />
                 );
             },
         },

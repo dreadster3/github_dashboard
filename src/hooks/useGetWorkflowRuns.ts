@@ -5,27 +5,24 @@ import {
     IPageQueryParameters,
     IWorkflowRunQueryParameters,
 } from '../clients/github_client';
-import {
-    REPOSITORY_NAME,
-    REPOSITORY_OWNER,
-    query_client_options,
-} from '../constants';
+import { query_client_options } from '../constants';
 import { IRun } from '../models/Run';
 import { IRuns } from '../models/Runs';
 import useGithubClient from './useGithubClient';
 
 function useGetWorkflowRuns(
+    owner: string,
+    repo: string,
     workflow_id: number,
     options?: IWorkflowRunQueryParameters,
 ) {
     const githubClient = useGithubClient();
     const queryClient = useQueryClient();
 
-    const owner = REPOSITORY_OWNER;
-    const repo = REPOSITORY_NAME;
-
     const { data, isLoading, isFetching } = useQuery(
         [
+            owner,
+            repo,
             'workflow_runs',
             workflow_id,
             {
@@ -46,7 +43,7 @@ function useGetWorkflowRuns(
                 query_client_options.defaultOptions?.queries?.staleTime,
             initialData: () => {
                 const cached_data: IRuns | undefined = queryClient.getQueryData(
-                    ['workflow_runs', workflow_id],
+                    [owner, repo, 'workflow_runs', workflow_id],
                     {
                         predicate: (query) => {
                             const query_options = query
@@ -89,10 +86,13 @@ function useGetWorkflowRuns(
                 };
             },
             initialDataUpdatedAt: () =>
-                queryClient.getQueryState(['workflow_runs'])?.dataUpdatedAt,
+                queryClient.getQueryState([owner, repo, 'workflow_runs'])
+                    ?.dataUpdatedAt,
             placeholderData: () => {
                 const cached_data: IRuns | undefined = queryClient.getQueryData(
                     [
+                        owner,
+                        repo,
                         'workflow_runs',
                         {
                             page: options?.page ?? 1,
@@ -128,6 +128,8 @@ function useGetWorkflowRuns(
         if (options?.per_page) {
             queryClient.prefetchQuery(
                 [
+                    owner,
+                    repo,
                     'workflow_runs',
                     workflow_id,
                     {
@@ -158,16 +160,18 @@ function useGetWorkflowRuns(
 }
 
 export const server_prefetch_workflow_runs_async = async (
+    owner: string,
+    repo: string,
     workflow_id: number,
     options?: IWorkflowRunQueryParameters,
 ) => {
     const github_client = await get_server_github_client();
     const query_client = get_query_client();
-    const owner = REPOSITORY_OWNER;
-    const repo = REPOSITORY_NAME;
 
     await query_client.prefetchQuery(
         [
+            owner,
+            repo,
             'workflow_runs',
             workflow_id,
             { page: options?.page ?? 1, per_page: options?.per_page },

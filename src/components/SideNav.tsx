@@ -18,7 +18,7 @@ import React from 'react';
 import Card from './core/card/Card';
 
 export interface ISideNavButtonProps {
-    to: string;
+    to?: string | undefined;
     prefix_icon?: React.ReactNode;
     suffix_icon?: React.ReactNode;
     text: string;
@@ -34,22 +34,22 @@ export function SideNavButton({
     className,
     onClick,
 }: ISideNavButtonProps) {
-    return (
-        <Link href={to}>
-            <ListItem
-                className={clsx(
-                    'flex h-12 transform flex-row items-center text-ctp-text transition-transform duration-200 ease-in',
-                    'hover:translate-x-2 hover:bg-ctp-subtext1 hover:text-ctp-base',
-                    className,
-                )}
-                onClick={onClick}
-            >
-                {prefix_icon && <ListItemPrefix>{prefix_icon}</ListItemPrefix>}
-                {text}
-                {suffix_icon && <ListItemSuffix>{suffix_icon}</ListItemSuffix>}
-            </ListItem>
-        </Link>
+    const component = (
+        <ListItem
+            className={clsx(
+                'flex h-12 transform flex-row items-center text-ctp-text transition-transform duration-200 ease-in',
+                'hover:translate-x-2 hover:bg-ctp-subtext1 hover:text-ctp-base',
+                className,
+            )}
+            onClick={onClick}
+        >
+            {prefix_icon && <ListItemPrefix>{prefix_icon}</ListItemPrefix>}
+            {text}
+            {suffix_icon && <ListItemSuffix>{suffix_icon}</ListItemSuffix>}
+        </ListItem>
     );
+
+    return to ? <Link href={to}>{component}</Link> : component;
 }
 
 export function SideNavSeparator() {
@@ -78,12 +78,14 @@ function SideNav() {
                 </div>
             </Link>
             <div className="flex h-full w-full flex-col">
-                {constant_buttons.map((button) => (
-                    <SideNavButton key={button.text} {...button} />
-                ))}
-                <SideNavSeparator />
-                {menu_items}
-                <div className="mt-auto">
+                <div className="h-full">
+                    {constant_buttons.map((button) => (
+                        <SideNavButton key={button.text} {...button} />
+                    ))}
+                    <SideNavSeparator />
+                    {menu_items}
+                </div>
+                <div className="sticky bottom-0 left-0 right-0">
                     <SideNavButton
                         to="/settings"
                         text="Settings"

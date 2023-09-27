@@ -10,6 +10,7 @@ import CardHeader from '@/components/core/card/CardHeader';
 import useDispatchWorkflow from '@/hooks/useDispatchWorkflow';
 import { IRuns } from '@/models/Runs';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useParams } from 'next/navigation';
 import { columns } from './columns';
 
 interface IWorkflowRunsTableProps {
@@ -33,7 +34,11 @@ function WorkflowRunsTable({
     isDataLoading,
 }: IWorkflowRunsTableProps) {
     const workflow_runs = data?.workflow_runs ?? [];
-    const { isLoading, dispatch_workflow } = useDispatchWorkflow();
+    const { organizationName, repositoryName } = useParams();
+    const { isLoading, dispatch_workflow } = useDispatchWorkflow(
+        organizationName as string,
+        repositoryName as string,
+    );
 
     const table = useReactTable({
         data: workflow_runs,
