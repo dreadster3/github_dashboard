@@ -33,6 +33,7 @@ export default function Home() {
                                 <CardHeader className="flex w-full items-center">
                                     <Image
                                         src={organization.avatar_url}
+                                        className="w-full"
                                         width={460}
                                         height={460}
                                         alt={organization.name}

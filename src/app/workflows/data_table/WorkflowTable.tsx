@@ -87,7 +87,7 @@ function WorkflowTable({
                     Dispatch
                 </Button>
             </CardHeader>
-            <CardBody className="max-h-[600px] overflow-scroll p-0">
+            <CardBody className="max-h-[600px] overflow-auto p-0">
                 <DataTable table={table} />
             </CardBody>
             <CardFooter className="p-3 shadow-2xl shadow-black">
