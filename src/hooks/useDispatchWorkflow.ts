@@ -1,4 +1,3 @@
-import { REPOSITORY_NAME, REPOSITORY_OWNER } from '@/constants';
 import { QueryKey, useMutation, useQueryClient } from '@tanstack/react-query';
 import { IRuns } from '../models/Runs';
 import { EStatus } from '../models/Status';
@@ -10,12 +9,9 @@ interface IUseDispatchWorkflowMutationProps {
     inputs?: { [key: string]: string };
 }
 
-function useDispatchWorkflow() {
+function useDispatchWorkflow(owner: string, repo: string) {
     const github_client = useGithubClient();
     const queryClient = useQueryClient();
-
-    const owner = REPOSITORY_OWNER;
-    const repo = REPOSITORY_NAME;
 
     const { mutate, isLoading } = useMutation(
         ({
@@ -36,6 +32,8 @@ function useDispatchWorkflow() {
                 const queries: [QueryKey, IRuns | undefined][] =
                     queryClient.getQueriesData({
                         queryKey: [
+                            owner,
+                            repo,
                             'workflow_runs',
                             vars.workflow_id,
                             { page: 1 },
@@ -71,6 +69,8 @@ function useDispatchWorkflow() {
                     queryClient.setQueriesData(
                         {
                             queryKey: [
+                                owner,
+                                repo,
                                 'workflow_runs',
                                 vars.workflow_id,
                                 { page: 1 },
@@ -88,7 +88,12 @@ function useDispatchWorkflow() {
 
                     queryClient.setQueriesData(
                         {
-                            queryKey: ['workflow_runs', { page: 1 }],
+                            queryKey: [
+                                owner,
+                                repo,
+                                'workflow_runs',
+                                { page: 1 },
+                            ],
                             exact: false,
                         },
                         (old_data: IRuns | undefined) => {

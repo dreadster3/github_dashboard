@@ -2,6 +2,7 @@
 
 import { query_client_options } from '@/constants';
 import theme from '@/constants/theme';
+import SettingsProvider from '@/providers/SettingsProvider';
 import { SideNavProvider } from '@/providers/SideNavProvider';
 import ThemeProvider from '@/providers/ThemeProvider';
 import { ThemeProvider as MThemeProvider } from '@material-tailwind/react';
@@ -20,16 +21,18 @@ function Providers({ children }: IProvidersProps) {
     );
 
     return (
-        <ThemeProvider>
-            <QueryClientProvider client={queryClient}>
-                <MThemeProvider value={theme}>
-                    <SideNavProvider>
-                        <SessionProvider>{children}</SessionProvider>
-                        <ReactQueryDevtools initialIsOpen={false} />
-                    </SideNavProvider>
-                </MThemeProvider>
-            </QueryClientProvider>
-        </ThemeProvider>
+        <QueryClientProvider client={queryClient}>
+            <SettingsProvider>
+                <ThemeProvider>
+                    <MThemeProvider value={theme}>
+                        <SideNavProvider>
+                            <SessionProvider>{children}</SessionProvider>
+                            <ReactQueryDevtools initialIsOpen={false} />
+                        </SideNavProvider>
+                    </MThemeProvider>
+                </ThemeProvider>
+            </SettingsProvider>
+        </QueryClientProvider>
     );
 }
 

@@ -3,11 +3,17 @@ import StatusLabel from '../components/StatusLabel';
 import useGetWorkflowRuns from '../hooks/useGetWorkflowRuns';
 
 interface IWorkflowStatusLabelProps {
+    owner: string;
+    repo: string;
     workflow_id: number;
 }
 
-function WorkflowStatusLabel({ workflow_id }: IWorkflowStatusLabelProps) {
-    const { data, isLoading } = useGetWorkflowRuns(workflow_id, {
+function WorkflowStatusLabel({
+    owner,
+    repo,
+    workflow_id,
+}: IWorkflowStatusLabelProps) {
+    const { data, isLoading } = useGetWorkflowRuns(owner, repo, workflow_id, {
         page: 1,
         per_page: 1,
     });

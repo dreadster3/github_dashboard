@@ -17,7 +17,7 @@ const CardHeader = React.forwardRef(
             floated={false}
             shadow={false}
             className={clsx(
-                'bg-ctp-surface1 h-full w-full m-0 rounded-none',
+                'bg-ctp-surface1 h-full w-full m-0 rounded-none text-ctp-text',
                 className,
             )}
         >

@@ -15,6 +15,12 @@ interface IThemeButtonNavBarProps {
     onClick?: () => void;
 }
 
+const is_dark_theme_default = () => {
+    if (typeof window === 'undefined') return true;
+
+    return window.matchMedia(SYSTEM_DEFAULT_DARK).matches;
+};
+
 function ThemeButtonNavBar({ onClick, open }: IThemeButtonNavBarProps) {
     const { set_theme } = useTheme();
 
@@ -99,7 +105,7 @@ function ThemeButtonNavBar({ onClick, open }: IThemeButtonNavBarProps) {
                         <ListItemSuffix
                             className={clsx(
                                 'm-0',
-                                window.matchMedia(SYSTEM_DEFAULT_DARK).matches
+                                is_dark_theme_default()
                                     ? 'ctp-mocha'
                                     : 'ctp-latte',
                             )}

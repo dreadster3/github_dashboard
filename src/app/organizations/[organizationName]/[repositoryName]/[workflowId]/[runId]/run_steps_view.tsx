@@ -2,6 +2,7 @@
 
 import { SideNavButton } from '@/components/SideNav';
 import StatusLabel from '@/components/StatusLabel';
+import Title from '@/components/Title';
 import Accordion from '@/components/core/accordion/Accordion';
 import AccordionBody from '@/components/core/accordion/AccordionBody';
 import AccordionHeader from '@/components/core/accordion/AccordionHeader';
@@ -12,6 +13,8 @@ import clsx from 'clsx';
 import { useEffect, useState } from 'react';
 
 interface IWorkflowRunViewParams {
+    organizationName: string;
+    repositoryName: string;
     workflowId: number;
     runId: number;
 }
@@ -22,7 +25,11 @@ interface IWorkflowRunViewProps {
 
 function RunStepsView({ params }: IWorkflowRunViewProps) {
     const { set_menu_items } = useSideNavigation();
-    const { data: jobs, isLoading } = useGetJobs(params.runId);
+    const { data: jobs, isLoading } = useGetJobs(
+        params.organizationName,
+        params.repositoryName,
+        params.runId,
+    );
     const [active_job, set_active_job] = useState<number>(0);
     const [open, set_open] = useState(0);
 
@@ -39,7 +46,6 @@ function RunStepsView({ params }: IWorkflowRunViewProps) {
                         onClick={() => set_active_job(index)}
                         key={job.id.toString()}
                         text={job.name}
-                        to={`/workflows/${params.workflowId}/runs/${job.run_id}`}
                         prefix_icon={
                             <StatusLabel
                                 className={
@@ -61,8 +67,9 @@ function RunStepsView({ params }: IWorkflowRunViewProps) {
     }
 
     return (
-        <div className="flex h-full w-full justify-center">
-            <div className="w-2/3">
+        <div className="w-full">
+            <Title>Run Steps</Title>
+            <div className="flex flex-col h-full w-full">
                 {jobs &&
                     jobs?.jobs?.[active_job] &&
                     jobs.jobs[active_job].steps.map((step) => (

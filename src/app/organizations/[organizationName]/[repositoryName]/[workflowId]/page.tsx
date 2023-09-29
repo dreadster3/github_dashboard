@@ -4,6 +4,8 @@ import { dehydrate } from '@tanstack/react-query';
 import WorkflowRunsView from './workflow_runs_view';
 
 interface IPageParams {
+    organizationName: string;
+    repositoryName: string;
     workflowId: number;
 }
 
@@ -14,6 +16,8 @@ interface IPageProps {
 export default async function Page({ params }: IPageProps) {
     const per_page = 10;
     const query_client = await server_prefetch_workflow_runs_async(
+        params.organizationName,
+        params.repositoryName,
         params.workflowId,
         {
             page: 1,

@@ -1,4 +1,10 @@
 import Jobs, { IJobs } from '@/models/Jobs';
+import {
+    IGithubOrganization,
+    IOrganization,
+    Organization,
+} from '@/models/Organization';
+import { IRepository, Repository } from '@/models/Repository';
 import Runs, { IRuns } from '@/models/Runs';
 import { EConclusion, EStatus } from '@/models/Status';
 import { IWorkflows, Workflows } from '@/models/Workflows';
@@ -106,6 +112,73 @@ class GithubClient {
         const response = await this.axiosInstance.request(config);
 
         return new Jobs(response.data);
+    }
+
+    async get_organizations_async(
+        options?: IPageQueryParameters,
+    ): Promise<IOrganization[]> {
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/user/orgs`,
+            params: options,
+        };
+
+        const response = await this.axiosInstance.request(config);
+
+        return response.data.map(
+            (organization: IGithubOrganization) =>
+                new Organization(organization),
+        );
+    }
+
+    async get_organization_repositories_async(
+        organization: string,
+        options?: IPageQueryParameters,
+    ): Promise<IRepository[]> {
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/orgs/${organization}/repos`,
+            params: options,
+        };
+
+        const response = await this.axiosInstance.request(config);
+
+        return response.data.map(
+            (repository: IRepository) => new Repository(repository),
+        );
+    }
+
+    async get_user_repositories_async(
+        user: string,
+        options?: IPageQueryParameters,
+    ): Promise<IRepository[]> {
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/users/${user}/repos`,
+            params: options,
+        };
+
+        const response = await this.axiosInstance.request(config);
+
+        return response.data.map(
+            (repository: IRepository) => new Repository(repository),
+        );
+    }
+
+    async get_authenticated_user_repositories_async(
+        options?: IPageQueryParameters,
+    ): Promise<IRepository[]> {
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/user/repos`,
+            params: options,
+        };
+
+        const response = await this.axiosInstance.request(config);
+
+        return response.data.map(
+            (repository: IRepository) => new Repository(repository),
+        );
     }
 }
 

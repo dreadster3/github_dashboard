@@ -1,3 +1,14 @@
+import DataTable from '@/components/DataTable';
+import TablePagination from '@/components/TablePagination';
+import Button from '@/components/core/Button';
+import Card from '@/components/core/card/Card';
+import CardBody from '@/components/core/card/CardBody';
+import CardFooter from '@/components/core/card/CardFooter';
+import CardHeader from '@/components/core/card/CardHeader';
+import SearchBar from '@/components/table_addons/SearchBar';
+import useDispatchWorkflow from '@/hooks/useDispatchWorkflow';
+import { IWorkflow } from '@/models/Workflow';
+import { IWorkflows } from '@/models/Workflows';
 import { useQueryClient } from '@tanstack/react-query';
 import {
     RowSelectionState,
@@ -6,18 +17,8 @@ import {
     getFilteredRowModel,
     useReactTable,
 } from '@tanstack/react-table';
+import { useParams } from 'next/navigation';
 import { useMemo, useState } from 'react';
-import DataTable from '../../../components/DataTable';
-import TablePagination from '../../../components/TablePagination';
-import Button from '../../../components/core/Button';
-import Card from '../../../components/core/card/Card';
-import CardBody from '../../../components/core/card/CardBody';
-import CardFooter from '../../../components/core/card/CardFooter';
-import CardHeader from '../../../components/core/card/CardHeader';
-import SearchBar from '../../../components/table_addons/SearchBar';
-import useDispatchWorkflow from '../../../hooks/useDispatchWorkflow';
-import { IWorkflow } from '../../../models/Workflow';
-import { IWorkflows } from '../../../models/Workflows';
 import { get_columns } from './columns';
 
 interface IWorkflowTableProps {
@@ -38,13 +39,21 @@ function WorkflowTable({
 }: IWorkflowTableProps) {
     const [globalFilter, setGlobalFilter] = useState<string>('');
     const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
-    const { dispatch_workflow, isLoading } = useDispatchWorkflow();
     const queryClient = useQueryClient();
     const table_data = useMemo(() => data?.workflows ?? [], [data]);
+    const { organizationName, repositoryName } = useParams();
+    const { dispatch_workflow, isLoading } = useDispatchWorkflow(
+        organizationName as string,
+        repositoryName as string,
+    );
 
     const options: TableOptions<IWorkflow> = {
         data: table_data,
-        columns: get_columns(queryClient),
+        columns: get_columns(
+            organizationName as string,
+            repositoryName as string,
+            queryClient,
+        ),
         state: {
             globalFilter,
             rowSelection,
@@ -71,7 +80,7 @@ function WorkflowTable({
     };
 
     return (
-        <Card className="h-full w-2/3 overflow-hidden">
+        <Card className="h-full w-full overflow-hidden">
             <CardHeader className="flex flex-row items-center justify-between p-3">
                 <SearchBar value={globalFilter} onChange={setGlobalFilter} />
                 <Button
@@ -87,7 +96,7 @@ function WorkflowTable({
                     Dispatch
                 </Button>
             </CardHeader>
-            <CardBody className="max-h-[600px] overflow-scroll p-0">
+            <CardBody className="max-h-[600px] overflow-auto p-0">
                 <DataTable table={table} />
             </CardBody>
             <CardFooter className="p-3 shadow-2xl shadow-black">

@@ -10,6 +10,7 @@ import CardHeader from '@/components/core/card/CardHeader';
 import useDispatchWorkflow from '@/hooks/useDispatchWorkflow';
 import { IRuns } from '@/models/Runs';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
+import { useParams } from 'next/navigation';
 import { columns } from './columns';
 
 interface IWorkflowRunsTableProps {
@@ -33,7 +34,11 @@ function WorkflowRunsTable({
     isDataLoading,
 }: IWorkflowRunsTableProps) {
     const workflow_runs = data?.workflow_runs ?? [];
-    const { isLoading, dispatch_workflow } = useDispatchWorkflow();
+    const { organizationName, repositoryName } = useParams();
+    const { isLoading, dispatch_workflow } = useDispatchWorkflow(
+        organizationName as string,
+        repositoryName as string,
+    );
 
     const table = useReactTable({
         data: workflow_runs,
@@ -48,7 +53,7 @@ function WorkflowRunsTable({
     };
 
     return (
-        <Card className="h-full w-2/3 overflow-hidden">
+        <Card className="h-full w-full overflow-hidden">
             <CardHeader className="flex flex-row-reverse items-center justify-between p-3">
                 <Button
                     isLoading={isLoading}
@@ -57,7 +62,7 @@ function WorkflowRunsTable({
                     Dispatch
                 </Button>
             </CardHeader>
-            <CardBody className="max-h-[600px] overflow-scroll p-0">
+            <CardBody className="max-h-[600px] overflow-auto p-0">
                 <DataTable table={table} />
             </CardBody>
             <CardFooter className="p-3 shadow-2xl shadow-black">

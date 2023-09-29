@@ -1,10 +1,13 @@
 'use client';
 
+import useGetOrganizations from '@/hooks/useGetOrganizations';
 import { useSideNavigation } from '@/providers/SideNavProvider';
 import {
     ArrowRightOnRectangleIcon,
     CogIcon,
     HomeIcon,
+    UserIcon,
+    UsersIcon,
 } from '@heroicons/react/24/solid';
 import {
     ListItem,
@@ -12,14 +15,13 @@ import {
     ListItemSuffix,
 } from '@material-tailwind/react';
 import clsx from 'clsx';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React from 'react';
-import ThemeButtonNavBar from './ThemeButtonNavBar';
 import Card from './core/card/Card';
 
 export interface ISideNavButtonProps {
-    to: string;
+    to?: string | undefined;
     prefix_icon?: React.ReactNode;
     suffix_icon?: React.ReactNode;
     text: string;
@@ -35,22 +37,22 @@ export function SideNavButton({
     className,
     onClick,
 }: ISideNavButtonProps) {
-    return (
-        <Link href={to}>
-            <ListItem
-                className={clsx(
-                    'flex h-12 transform flex-row items-center text-ctp-text transition-transform duration-200 ease-in',
-                    'hover:translate-x-2 hover:bg-ctp-subtext1 hover:text-ctp-base',
-                    className,
-                )}
-                onClick={onClick}
-            >
-                {prefix_icon && <ListItemPrefix>{prefix_icon}</ListItemPrefix>}
-                {text}
-                {suffix_icon && <ListItemSuffix>{suffix_icon}</ListItemSuffix>}
-            </ListItem>
-        </Link>
+    const component = (
+        <ListItem
+            className={clsx(
+                'flex h-12 transform flex-row items-center text-ctp-text transition-transform duration-200 ease-in',
+                'hover:translate-x-2 hover:bg-ctp-subtext1 hover:text-ctp-base',
+                className,
+            )}
+            onClick={onClick}
+        >
+            {prefix_icon && <ListItemPrefix>{prefix_icon}</ListItemPrefix>}
+            {text}
+            {suffix_icon && <ListItemSuffix>{suffix_icon}</ListItemSuffix>}
+        </ListItem>
     );
+
+    return to ? <Link href={to}>{component}</Link> : component;
 }
 
 export function SideNavSeparator() {
@@ -67,6 +69,8 @@ function SideNav() {
     ];
 
     const { menu_items } = useSideNavigation();
+    const { data: session } = useSession();
+    const { data } = useGetOrganizations();
     const [open, set_open] = React.useState(false);
 
     return (
@@ -79,12 +83,29 @@ function SideNav() {
                 </div>
             </Link>
             <div className="flex h-full w-full flex-col">
-                {constant_buttons.map((button) => (
-                    <SideNavButton key={button.text} {...button} />
-                ))}
-                <SideNavSeparator />
-                {menu_items}
-                <div className="mt-auto">
+                <div className="h-full">
+                    {constant_buttons.map((button) => (
+                        <SideNavButton key={button.text} {...button} />
+                    ))}
+                    <SideNavSeparator />
+                    {data?.map((org) => (
+                        <SideNavButton
+                            key={org.name}
+                            text={org.name}
+                            to={`/organizations/${org.name}`}
+                            prefix_icon={
+                                session?.user.username === org.name ? (
+                                    <UserIcon className="w-6 h-6 text-ctp-text" />
+                                ) : (
+                                    <UsersIcon className="w-6 h-6 text-ctp-text" />
+                                )
+                            }
+                        />
+                    ))}
+                    <SideNavSeparator />
+                    {menu_items}
+                </div>
+                <div className="sticky bottom-0 left-0 right-0">
                     <SideNavButton
                         to="/settings"
                         text="Settings"
@@ -99,10 +120,6 @@ function SideNav() {
                         suffix_icon={
                             <ArrowRightOnRectangleIcon className="w-6 h-6 text-ctp-text" />
                         }
-                    />
-                    <ThemeButtonNavBar
-                        open={open}
-                        onClick={() => set_open(!open)}
                     />
                 </div>
             </div>

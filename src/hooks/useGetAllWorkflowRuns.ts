@@ -1,19 +1,23 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 import { IWorkflowRunQueryParameters } from '../clients/github_client';
-import { REPOSITORY_NAME, REPOSITORY_OWNER } from '../constants';
 import { IRun } from '../models/Run';
 import { IRuns } from '../models/Runs';
 import useGithubClient from './useGithubClient';
 
-function useGetAllWorkflowRuns(options?: IWorkflowRunQueryParameters) {
+function useGetAllWorkflowRuns(
+    owner: string,
+    repo: string,
+    options?: IWorkflowRunQueryParameters,
+) {
     const github_client = useGithubClient();
     const query_client = useQueryClient();
-
-    const owner = REPOSITORY_OWNER;
-    const repo = REPOSITORY_NAME;
+    const { data: session } = useSession();
 
     const { data, isLoading, error } = useQuery(
         [
+            owner,
+            repo,
             'workflow_runs',
             { page: options?.page ?? 1, per_page: options?.per_page },
         ],
@@ -25,9 +29,10 @@ function useGetAllWorkflowRuns(options?: IWorkflowRunQueryParameters) {
             );
         },
         {
+            enabled: !!session,
             placeholderData: () => {
                 const cached_data: IRuns | undefined =
-                    query_client.getQueryData(['workflow_runs'], {
+                    query_client.getQueryData([owner, repo, 'workflow_runs'], {
                         exact: false,
                     });
 

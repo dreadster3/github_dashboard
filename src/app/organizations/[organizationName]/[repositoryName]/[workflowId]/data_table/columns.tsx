@@ -12,7 +12,7 @@ export const columns: ColumnDef<IRun, any>[] = [
         cell: (cell) => (
             <Link
                 className="hover:text-blue-500 hover:underline"
-                href={`/workflows/${cell.row.original.workflow_id}/runs/${cell.row.original.id}`}
+                href={`${cell.row.original.workflow_id}/${cell.row.original.id}`}
             >
                 {cell.renderValue()}
             </Link>
