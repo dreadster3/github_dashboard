@@ -18,6 +18,18 @@ class SettingsClient {
 
         return new Settings(response.data);
     }
+
+    async update_settings_async(settings: ISettings): Promise<ISettings> {
+        const options: AxiosRequestConfig = {
+            method: 'PUT',
+            url: '/settings',
+            data: settings,
+        };
+
+        const response = await this.axiosInstance.request(options);
+
+        return new Settings(response.data);
+    }
 }
 
 export default SettingsClient;

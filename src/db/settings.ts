@@ -25,3 +25,15 @@ export const create_settings_async = (
         },
     });
 };
+
+export const update_settings_async = (user_id: string, settings: ISettings) => {
+    return prisma.settings.update({
+        where: {
+            userId: user_id,
+        },
+        data: {
+            theme: settings.theme,
+            language: settings.language,
+        },
+    });
+};

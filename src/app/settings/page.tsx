@@ -1,7 +1,10 @@
 'use client';
 
 import Title from '@/components/Title';
+import Button from '@/components/core/Button';
+import useUpdateSettings from '@/hooks/useUpdateSettings';
 import { useSideNavigation } from '@/providers/SideNavProvider';
+import { useTheme } from '@/providers/ThemeProvider';
 import { Option, Select, Typography } from '@material-tailwind/react';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
@@ -13,6 +16,12 @@ function Page() {
     const { set_menu_items } = useSideNavigation();
     const { data: session } = useSession();
     const [language, set_language] = useState('en');
+    const { mutate } = useUpdateSettings();
+    const { theme } = useTheme();
+
+    const handle_save = () => {
+        mutate({ language, theme });
+    };
 
     useEffect(() => {
         set_menu_items(<></>);
@@ -53,6 +62,9 @@ function Page() {
                 <SettingsSection title="Theme">
                     <ThemeInput />
                 </SettingsSection>
+                <div className="flex flex-row-reverse">
+                    <Button onClick={handle_save}>Save</Button>
+                </div>
             </div>
         </div>
     );
