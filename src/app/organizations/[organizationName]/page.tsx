@@ -6,11 +6,12 @@ import CardBody from '@/components/core/card/CardBody';
 import CardFooter from '@/components/core/card/CardFooter';
 import CardHeader from '@/components/core/card/CardHeader';
 import SearchBar from '@/components/table_addons/SearchBar';
+import language_icon_map from '@/constants/language_icons_map';
 import useGetOrganizationRepositories from '@/hooks/useGetRepositories';
 import GithubRepo from '@/icons/GithubRepo';
 import { escapeRegExp } from '@/utils/string_utils';
 import Link from 'next/link';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 interface IPageParams {
     organizationName: string;
@@ -66,9 +67,26 @@ function Page({ params }: IPageProps) {
                                         </span>
                                     </CardBody>
                                     <CardFooter className="flex h-10 py-0 items-center bg-ctp-base border-t border-ctp-surface1">
-                                        <span className="text-ctp-text">
-                                            {repo.language ?? 'None'}
-                                        </span>
+                                        <div className="text-ctp-text flex flex-row items-center gap-2">
+                                            <div className="flex items-center justify-center rounded overflow-hidden">
+                                                {repo.language &&
+                                                    language_icon_map.has(
+                                                        repo.language.toLowerCase(),
+                                                    ) &&
+                                                    React.cloneElement(
+                                                        language_icon_map.get(
+                                                            repo.language.toLowerCase(),
+                                                        )!,
+                                                        {
+                                                            className:
+                                                                'w-6 h-6',
+                                                        },
+                                                    )}
+                                            </div>
+                                            <span className="text-lg">
+                                                {repo.language ?? 'None'}
+                                            </span>
+                                        </div>
                                     </CardFooter>
                                 </Card>
                             </Link>
