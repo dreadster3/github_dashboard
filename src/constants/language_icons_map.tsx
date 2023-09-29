@@ -1,14 +1,16 @@
-import CppIcon from '@/icons/devicons/cpp';
-import CSharpIcon from '@/icons/devicons/csharp';
-import HclIcon from '@/icons/devicons/hcl';
-import JavaIcon from '@/icons/devicons/java';
-import LatexIcon from '@/icons/devicons/latex';
-import LuaIcon from '@/icons/devicons/lua';
-import PhpIcon from '@/icons/devicons/php';
-import PythonIcon from '@/icons/devicons/python';
-import RustIcon from '@/icons/devicons/rust';
-import ShellIcon from '@/icons/devicons/shell';
-import TypescriptIcon from '@/icons/devicons/typescript';
+import {
+    CSharpIcon,
+    CppIcon,
+    HclIcon,
+    JavaIcon,
+    LatexIcon,
+    LuaIcon,
+    PhpIcon,
+    PythonIcon,
+    RustIcon,
+    ShellIcon,
+    TypescriptIcon,
+} from '@/icons/devicons';
 
 const language_icon_map: Map<string, any> = new Map(
     Object.entries({
