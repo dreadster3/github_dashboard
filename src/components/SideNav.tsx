@@ -1,10 +1,13 @@
 'use client';
 
+import useGetOrganizations from '@/hooks/useGetOrganizations';
 import { useSideNavigation } from '@/providers/SideNavProvider';
 import {
     ArrowRightOnRectangleIcon,
     CogIcon,
     HomeIcon,
+    UserIcon,
+    UsersIcon,
 } from '@heroicons/react/24/solid';
 import {
     ListItem,
@@ -12,7 +15,7 @@ import {
     ListItemSuffix,
 } from '@material-tailwind/react';
 import clsx from 'clsx';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import Link from 'next/link';
 import React from 'react';
 import Card from './core/card/Card';
@@ -66,6 +69,8 @@ function SideNav() {
     ];
 
     const { menu_items } = useSideNavigation();
+    const { data: session } = useSession();
+    const { data } = useGetOrganizations();
     const [open, set_open] = React.useState(false);
 
     return (
@@ -81,6 +86,21 @@ function SideNav() {
                 <div className="h-full">
                     {constant_buttons.map((button) => (
                         <SideNavButton key={button.text} {...button} />
+                    ))}
+                    <SideNavSeparator />
+                    {data?.map((org) => (
+                        <SideNavButton
+                            key={org.name}
+                            text={org.name}
+                            to={`/organizations/${org.name}`}
+                            prefix_icon={
+                                session?.user.username === org.name ? (
+                                    <UserIcon className="w-6 h-6 text-ctp-text" />
+                                ) : (
+                                    <UsersIcon className="w-6 h-6 text-ctp-text" />
+                                )
+                            }
+                        />
                     ))}
                     <SideNavSeparator />
                     {menu_items}

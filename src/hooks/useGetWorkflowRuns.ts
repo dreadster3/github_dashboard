@@ -1,6 +1,7 @@
 import get_query_client from '@/utils/query_client';
 import get_server_github_client from '@/utils/server_github_client';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 import {
     IPageQueryParameters,
     IWorkflowRunQueryParameters,
@@ -18,6 +19,7 @@ function useGetWorkflowRuns(
 ) {
     const githubClient = useGithubClient();
     const queryClient = useQueryClient();
+    const { data: session } = useSession();
 
     const { data, isLoading, isFetching } = useQuery(
         [
@@ -120,7 +122,7 @@ function useGetWorkflowRuns(
                     ),
                 };
             },
-            enabled: !!workflow_id,
+            enabled: !!workflow_id && !!session,
         },
     );
 

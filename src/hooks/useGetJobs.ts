@@ -1,6 +1,7 @@
 import get_query_client from '@/utils/query_client';
 import get_server_github_client from '@/utils/server_github_client';
 import { useQuery } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 import { IPageQueryParameters } from '../clients/github_client';
 import useGithubClient from './useGithubClient';
 
@@ -11,6 +12,7 @@ function useGetJobs(
     options?: IPageQueryParameters,
 ) {
     const client = useGithubClient();
+    const { data: session } = useSession();
 
     const { data, isLoading } = useQuery(
         [
@@ -22,7 +24,7 @@ function useGetJobs(
         ],
         () => client.get_workflow_run_jobs_async(owner, repo, run_id, options),
         {
-            enabled: !!run_id,
+            enabled: !!run_id && !!session,
         },
     );
 

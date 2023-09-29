@@ -10,8 +10,6 @@ import WorkflowStatusLabel from './WorkflowStatusLabel';
 function LatestWorkflows() {
     const { organizationName, repositoryName } = useParams();
 
-    console.log(organizationName, repositoryName);
-
     const { data } = useGetAllWorkflowRuns(
         organizationName as string,
         repositoryName as string,

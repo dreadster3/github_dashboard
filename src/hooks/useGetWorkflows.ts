@@ -1,6 +1,7 @@
 import get_query_client from '@/utils/query_client';
 import get_server_github_client from '@/utils/server_github_client';
 import { QueryClient, useQuery } from '@tanstack/react-query';
+import { useSession } from 'next-auth/react';
 import { IPageQueryParameters } from '../clients/github_client';
 import useGithubClient from './useGithubClient';
 
@@ -10,6 +11,7 @@ function useGetWorkflows(
     options?: IPageQueryParameters,
 ) {
     const client = useGithubClient();
+    const { data: session } = useSession();
 
     const { data, isLoading } = useQuery(
         [
@@ -19,6 +21,9 @@ function useGetWorkflows(
             { page: options?.page ?? 1, per_page: options?.per_page },
         ],
         () => client.get_workflows_async(owner, repo, options),
+        {
+            enabled: !!session,
+        },
     );
 
     return { data, isLoading };

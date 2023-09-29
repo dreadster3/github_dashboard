@@ -16,6 +16,7 @@ function useGetOrganizations(options?: IPageQueryParameters) {
         ],
         () => client.get_organizations_async(options),
         {
+            enabled: !!session,
             select: (data) => {
                 return [
                     {
