@@ -132,6 +132,22 @@ class GithubClient {
         );
     }
 
+    async get_repository_async(
+        owner: string,
+        repository_name: string,
+        options?: IPageQueryParameters,
+    ): Promise<IRepository> {
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/repos/${owner}/${repository_name}`,
+            params: options,
+        };
+
+        const response = await this.axiosInstance.request(config);
+
+        return new Repository(response.data);
+    }
+
     async get_organization_repositories_async(
         organization: string,
         options?: IPageQueryParameters,

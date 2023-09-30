@@ -5,6 +5,7 @@ export interface IRepository {
     description: string;
     private: boolean;
     language?: string | null;
+    default_branch: string;
 }
 
 export class Repository implements IRepository {
@@ -14,6 +15,7 @@ export class Repository implements IRepository {
     description: string;
     private: boolean;
     language?: string | null;
+    default_branch: string;
 
     constructor(data: IRepository) {
         this.id = data.id;
@@ -22,5 +24,6 @@ export class Repository implements IRepository {
         this.description = data.description;
         this.private = data.private;
         this.language = data.language;
+        this.default_branch = data.default_branch;
     }
 }

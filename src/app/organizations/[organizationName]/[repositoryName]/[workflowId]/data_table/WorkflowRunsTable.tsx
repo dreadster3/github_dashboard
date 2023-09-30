@@ -10,6 +10,7 @@ import CardFooter from '@/components/core/card/CardFooter';
 import CardHeader from '@/components/core/card/CardHeader';
 import useDispatchWorkflow from '@/hooks/useDispatchWorkflow';
 import useGetBranches from '@/hooks/useGetBranches';
+import useGetRepository from '@/hooks/useGetRepository';
 import { IRuns } from '@/models/Runs';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useParams } from 'next/navigation';
@@ -42,12 +43,16 @@ function WorkflowRunsTable({
         organizationName as string,
         repositoryName as string,
     );
+    const { data: repo } = useGetRepository(
+        organizationName as string,
+        repositoryName as string,
+    );
     const { data: branches } = useGetBranches(
         organizationName as string,
         repositoryName as string,
     );
 
-    const [branch, setBranch] = useState(branches?.[0].name ?? '');
+    const [branch, setBranch] = useState(repo?.default_branch ?? '');
 
     const table = useReactTable({
         data: workflow_runs,
@@ -63,8 +68,8 @@ function WorkflowRunsTable({
     };
 
     useEffect(() => {
-        setBranch(branches?.[0].name ?? '');
-    }, [branches]);
+        setBranch(repo?.default_branch ?? '');
+    }, [repo]);
 
     return (
         <Card className="h-full w-full overflow-hidden">
