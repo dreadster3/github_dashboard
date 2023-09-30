@@ -64,6 +64,7 @@ function useDispatchWorkflow(owner: string, repo: string) {
                         run_number: workflow.run_number + 1,
                         status: EStatus.QUEUED,
                         conclusion: undefined,
+                        branch: vars.branch,
                     });
 
                     queryClient.setQueriesData(
@@ -77,12 +78,17 @@ function useDispatchWorkflow(owner: string, repo: string) {
                             ],
                             exact: false,
                         },
-                        {
-                            total_count: old_data.total_count + 1,
-                            workflow_runs: [
-                                new_workflow_run,
-                                ...old_runs.slice(0, old_runs.length - 1),
-                            ],
+                        (oldData: IRuns | undefined) => {
+                            return {
+                                total_count: oldData?.total_count ?? 0 + 1,
+                                workflow_runs: [
+                                    new_workflow_run,
+                                    ...(oldData?.workflow_runs.slice(
+                                        0,
+                                        old_runs.length - 1,
+                                    ) ?? []),
+                                ],
+                            };
                         },
                     );
 
@@ -101,7 +107,10 @@ function useDispatchWorkflow(owner: string, repo: string) {
                                 total_count: old_data?.total_count ?? 0 + 1,
                                 workflow_runs: [
                                     new_workflow_run,
-                                    ...(old_data?.workflow_runs ?? []),
+                                    ...(old_data?.workflow_runs.slice(
+                                        0,
+                                        old_runs.length - 1,
+                                    ) ?? []),
                                 ],
                             };
                         },

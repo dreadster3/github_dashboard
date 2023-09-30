@@ -20,7 +20,7 @@ function DataTableItemsPerPage({
             <div className="flex w-full flex-row-reverse">
                 <SelectMenu
                     disabled={disabled}
-                    defaultValue={perPage.toString()}
+                    value={perPage.toString()}
                     onValueChange={(value: string) =>
                         setPerPage(parseInt(value))
                     }

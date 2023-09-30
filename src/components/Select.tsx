@@ -1,36 +1,34 @@
+'use client';
+
 import { CheckIcon, ChevronDownIcon } from '@heroicons/react/24/solid';
 import * as Select from '@radix-ui/react-select';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 interface ISelectMenuProps {
-    defaultValue?: string;
+    value?: string;
     className?: string;
     onValueChange?: (value: string) => void;
     children?:
         | React.ReactElement<typeof SelectItem>[]
-        | React.ReactElement<typeof SelectGroup>[];
+        | React.ReactElement<typeof SelectGroup>[]
+        | React.ReactElement<typeof SelectItem>;
     view?: 'popper' | 'item-aligned';
     disabled?: boolean;
 }
 
 function SelectMenu({
-    defaultValue,
+    value: initial_value,
     view,
     className,
     children,
     disabled,
     onValueChange,
 }: ISelectMenuProps) {
-    const [value, set_value] = React.useState(defaultValue);
-
-    const handle_value_change = (value: string) => {
-        onValueChange?.(value);
-        set_value(value);
-    };
+    const current_value = useMemo(() => initial_value, [initial_value]);
 
     return (
-        <Select.Root defaultValue={value} onValueChange={handle_value_change}>
+        <Select.Root value={current_value} onValueChange={onValueChange}>
             <Select.Trigger
                 disabled={disabled}
                 className={clsx(

@@ -122,34 +122,36 @@ function useGetWorkflowRuns(
                     ),
                 };
             },
-            enabled: !!workflow_id && !!session,
+            enabled: !!workflow_id && !!session && !!owner && !!repo,
         },
     );
 
     const prefetch_next_page = () => {
         if (options?.per_page) {
-            queryClient.prefetchQuery(
-                [
-                    owner,
-                    repo,
-                    'workflow_runs',
-                    workflow_id,
-                    {
-                        page: (options?.page ?? 1) + 1,
-                        per_page: options.per_page,
-                    },
-                ],
-                async () =>
-                    githubClient.get_workflow_runs_async(
+            if (session) {
+                queryClient.prefetchQuery(
+                    [
                         owner,
                         repo,
+                        'workflow_runs',
                         workflow_id,
                         {
                             page: (options?.page ?? 1) + 1,
                             per_page: options.per_page,
                         },
-                    ),
-            );
+                    ],
+                    async () =>
+                        githubClient.get_workflow_runs_async(
+                            owner,
+                            repo,
+                            workflow_id,
+                            {
+                                page: (options?.page ?? 1) + 1,
+                                per_page: options.per_page,
+                            },
+                        ),
+                );
+            }
         }
     };
 

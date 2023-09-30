@@ -29,7 +29,7 @@ function useGetAllWorkflowRuns(
             );
         },
         {
-            enabled: !!session,
+            enabled: !!session && !!owner && !!repo,
             placeholderData: () => {
                 const cached_data: IRuns | undefined =
                     query_client.getQueryData([owner, repo, 'workflow_runs'], {
