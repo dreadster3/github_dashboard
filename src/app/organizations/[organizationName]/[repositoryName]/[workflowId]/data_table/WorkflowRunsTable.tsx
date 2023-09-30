@@ -1,6 +1,7 @@
 'use client';
 
 import DataTable from '@/components/DataTable';
+import SelectMenu, { SelectItem } from '@/components/Select';
 import TablePagination from '@/components/TablePagination';
 import Button from '@/components/core/Button';
 import Card from '@/components/core/card/Card';
@@ -8,9 +9,11 @@ import CardBody from '@/components/core/card/CardBody';
 import CardFooter from '@/components/core/card/CardFooter';
 import CardHeader from '@/components/core/card/CardHeader';
 import useDispatchWorkflow from '@/hooks/useDispatchWorkflow';
+import useGetBranches from '@/hooks/useGetBranches';
 import { IRuns } from '@/models/Runs';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useParams } from 'next/navigation';
+import { useEffect, useMemo, useState } from 'react';
 import { columns } from './columns';
 
 interface IWorkflowRunsTableProps {
@@ -33,12 +36,18 @@ function WorkflowRunsTable({
     workflow_id,
     isDataLoading,
 }: IWorkflowRunsTableProps) {
-    const workflow_runs = data?.workflow_runs ?? [];
+    const workflow_runs = useMemo(() => data?.workflow_runs ?? [], [data]);
     const { organizationName, repositoryName } = useParams();
     const { isLoading, dispatch_workflow } = useDispatchWorkflow(
         organizationName as string,
         repositoryName as string,
     );
+    const { data: branches } = useGetBranches(
+        organizationName as string,
+        repositoryName as string,
+    );
+
+    const [branch, setBranch] = useState(branches?.[0].name ?? '');
 
     const table = useReactTable({
         data: workflow_runs,
@@ -49,8 +58,13 @@ function WorkflowRunsTable({
     const handle_dispatch_button_click = () => {
         dispatch_workflow({
             workflow_id,
+            branch,
         });
     };
+
+    useEffect(() => {
+        setBranch(branches?.[0].name ?? '');
+    }, [branches]);
 
     return (
         <Card className="h-full w-full overflow-hidden">
@@ -61,6 +75,13 @@ function WorkflowRunsTable({
                 >
                     Dispatch
                 </Button>
+                <SelectMenu value={branch} onValueChange={setBranch}>
+                    {branches?.map((branch) => (
+                        <SelectItem key={branch.name} value={branch.name}>
+                            {branch.name}
+                        </SelectItem>
+                    ))}
+                </SelectMenu>
             </CardHeader>
             <CardBody className="max-h-[600px] overflow-auto p-0">
                 <DataTable table={table} />

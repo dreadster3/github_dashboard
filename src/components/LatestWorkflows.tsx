@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import { useMemo } from 'react';
 import { IRun } from '../models/Run';
 import { SideNavButton } from './SideNav';
-import WorkflowStatusLabel from './WorkflowStatusLabel';
+import StatusLabel from './StatusLabel';
 
 function LatestWorkflows() {
     const { organizationName, repositoryName } = useParams();
@@ -46,10 +46,11 @@ function LatestWorkflows() {
                             text={workflow_run.name}
                             to={`/organizations/${organizationName}/${repositoryName}/${workflow_run.workflow_id}`}
                             prefix_icon={
-                                <WorkflowStatusLabel
-                                    owner={organizationName as string}
-                                    repo={repositoryName as string}
-                                    workflow_id={workflow_run.workflow_id}
+                                <StatusLabel
+                                    status={
+                                        workflow_run.conclusion ??
+                                        workflow_run.status
+                                    }
                                 />
                             }
                         />

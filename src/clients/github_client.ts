@@ -1,3 +1,4 @@
+import Branch, { IBranch } from '@/models/Branch';
 import Jobs, { IJobs } from '@/models/Jobs';
 import {
     IGithubOrganization,
@@ -179,6 +180,22 @@ class GithubClient {
         return response.data.map(
             (repository: IRepository) => new Repository(repository),
         );
+    }
+
+    async get_branches_async(
+        owner: string,
+        repository_name: string,
+        options?: IPageQueryParameters,
+    ): Promise<IBranch[]> {
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/repos/${owner}/${repository_name}/branches`,
+            params: options,
+        };
+
+        const response = await this.axiosInstance.request(config);
+
+        return response.data.map((branch: IBranch) => new Branch(branch));
     }
 }
 

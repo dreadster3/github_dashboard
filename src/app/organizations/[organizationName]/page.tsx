@@ -9,9 +9,10 @@ import SearchBar from '@/components/table_addons/SearchBar';
 import language_icon_map from '@/constants/language_icons_map';
 import useGetOrganizationRepositories from '@/hooks/useGetRepositories';
 import GithubRepo from '@/icons/GithubRepo';
+import { useSideNavigation } from '@/providers/SideNavProvider';
 import { escapeRegExp } from '@/utils/string_utils';
 import Link from 'next/link';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface IPageParams {
     organizationName: string;
@@ -25,6 +26,11 @@ function Page({ params }: IPageProps) {
     const { organizationName } = params;
     const { data } = useGetOrganizationRepositories(organizationName);
     const [search, set_search] = useState('');
+    const { set_menu_items } = useSideNavigation();
+
+    useEffect(() => {
+        set_menu_items(<></>);
+    }, [set_menu_items]);
 
     return (
         <div className="w-full">
