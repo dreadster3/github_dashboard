@@ -6,10 +6,12 @@ import Title from '@/components/Title';
 import Accordion from '@/components/core/accordion/Accordion';
 import AccordionBody from '@/components/core/accordion/AccordionBody';
 import AccordionHeader from '@/components/core/accordion/AccordionHeader';
+import useGetRunLogs from '@/hooks/useGetJobLog';
 import useGetJobs from '@/hooks/useGetJobs';
 import { useSideNavigation } from '@/providers/SideNavProvider';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
+import JSZip from 'jszip';
 import { useEffect, useState } from 'react';
 
 interface IWorkflowRunViewParams {
@@ -24,6 +26,7 @@ interface IWorkflowRunViewProps {
 }
 
 function RunStepsView({ params }: IWorkflowRunViewProps) {
+    const zip = new JSZip();
     const { set_menu_items } = useSideNavigation();
     const { data: jobs, isLoading } = useGetJobs(
         params.organizationName,
@@ -32,6 +35,25 @@ function RunStepsView({ params }: IWorkflowRunViewProps) {
     );
     const [active_job, set_active_job] = useState<number>(0);
     const [open, set_open] = useState(0);
+    const { data: logs } = useGetRunLogs(
+        params.organizationName,
+        params.repositoryName,
+        params.runId,
+    );
+
+    // const get_logs_between_time = (start_time: string, end_time: string) => {
+    zip.loadAsync(logs ?? '').then((unzipped) => {
+        console.log(
+            unzipped
+                .file('render/2_Hello World.txt')
+                ?.async('string')
+                .then((data) => {
+                    console.log(data);
+                }),
+        );
+    });
+
+    // console.log(logs);
 
     useEffect(() => {
         set_menu_items(

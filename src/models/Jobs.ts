@@ -1,4 +1,4 @@
-import { IJob } from './Job';
+import Job, { IJob } from './Job';
 
 export interface IJobs {
     total_count: number;
@@ -11,7 +11,7 @@ class Jobs implements IJobs {
 
     constructor(jobs: IJobs) {
         this.total_count = jobs.total_count;
-        this.jobs = jobs.jobs;
+        this.jobs = jobs.jobs.map((job) => new Job(job));
     }
 }
 
