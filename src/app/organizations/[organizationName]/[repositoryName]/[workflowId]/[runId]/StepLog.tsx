@@ -65,38 +65,42 @@ function StepLog({
 
     return (
         <div>
-            {Object.keys(object_logs).map((key, index) => {
-                const line = key.replace(
-                    show_timestamps
-                        ? ''
-                        : /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z/,
-                    '',
-                );
-                const hidden_lines = logs_to_object(log)[key];
+            {log !== '' ? (
+                Object.keys(object_logs).map((key, index) => {
+                    const line = key.replace(
+                        show_timestamps
+                            ? ''
+                            : /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z/,
+                        '',
+                    );
+                    const hidden_lines = logs_to_object(log)[key];
 
-                if (hidden_lines.length > 0) {
-                    return (
-                        <LogGroup
-                            key={index}
-                            line={line}
-                            hidden_lines={hidden_lines.map((line: string) =>
-                                line.replace(
-                                    show_timestamps
-                                        ? ''
-                                        : /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z/,
-                                    '',
-                                ),
-                            )}
-                        />
-                    );
-                } else {
-                    return (
-                        <p className="whitespace-pre-wrap" key={index}>
-                            {line}
-                        </p>
-                    );
-                }
-            })}
+                    if (hidden_lines.length > 0) {
+                        return (
+                            <LogGroup
+                                key={index}
+                                line={line}
+                                hidden_lines={hidden_lines.map((line: string) =>
+                                    line.replace(
+                                        show_timestamps
+                                            ? ''
+                                            : /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z/,
+                                        '',
+                                    ),
+                                )}
+                            />
+                        );
+                    } else {
+                        return (
+                            <p className="whitespace-pre-wrap" key={index}>
+                                {line}
+                            </p>
+                        );
+                    }
+                })
+            ) : (
+                <p>No logs available</p>
+            )}
         </div>
     );
 }
