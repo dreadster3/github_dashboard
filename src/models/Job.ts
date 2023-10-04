@@ -1,5 +1,5 @@
 import { EConclusion, EStatus } from './Status';
-import { IStep } from './Step';
+import Step, { IStep } from './Step';
 
 export interface IJob {
     id: number;
@@ -24,7 +24,7 @@ class Job implements IJob {
         this.name = job.name;
         this.status = job.status;
         this.conclusion = job.conclusion;
-        this.steps = job.steps;
+        this.steps = job.steps.map((step) => new Step(step));
     }
 }
 

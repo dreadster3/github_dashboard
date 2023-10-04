@@ -213,6 +213,43 @@ class GithubClient {
 
         return response.data.map((branch: IBranch) => new Branch(branch));
     }
+
+    async get_job_log_async(
+        owner: string,
+        repository_name: string,
+        job_id: number,
+    ): Promise<string> {
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/repos/${owner}/${repository_name}/actions/jobs/${job_id}/logs`,
+            headers: {
+                Accept: 'application/vnd.github+json',
+            },
+        };
+
+        const response = await this.axiosInstance.request(config);
+
+        return response.data;
+    }
+
+    async get_workflow_run_log_async(
+        owner: string,
+        repository_name: string,
+        run_id: number,
+    ): Promise<Blob> {
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/repos/${owner}/${repository_name}/actions/runs/${run_id}/logs`,
+            headers: {
+                Accept: 'application/vnd.github+json',
+            },
+            responseType: 'blob',
+        };
+
+        const response = await this.axiosInstance.request(config);
+
+        return response.data;
+    }
 }
 
 export default GithubClient;
