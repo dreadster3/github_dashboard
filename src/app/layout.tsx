@@ -1,3 +1,4 @@
+import BreadCrumbNavigation from '@/components/BreadCrumbNavigation';
 import SideNav from '@/components/SideNav';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -21,10 +22,13 @@ export default function RootLayout({
             <body className="bg-ctp-base">
                 <Providers>
                     <div className="flex min-h-screen bg-ctp-base">
-                        <div className="flex w-full flex-row">
+                        <div className="flex flex-row w-full">
                             <SideNav />
-                            <div className="flex h-full w-full p-8 justify-center">
-                                <div className="flex xl:w-2/3 sm:w-full">
+                            <div className="flex justify-center p-8 w-full h-full">
+                                <div className="flex flex-col sm:w-full xl:w-2/3">
+                                    <div className="pb-7">
+                                        <BreadCrumbNavigation />
+                                    </div>
                                     {children}
                                 </div>
                             </div>
