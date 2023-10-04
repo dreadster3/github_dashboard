@@ -1,3 +1,5 @@
+'use client';
+
 import Accordion from '@/components/core/accordion/Accordion';
 import AccordionBody from '@/components/core/accordion/AccordionBody';
 import AccordionHeader from '@/components/core/accordion/AccordionHeader';
