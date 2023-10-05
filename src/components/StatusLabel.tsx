@@ -9,6 +9,7 @@ enum EStatus {
     SUCCESS = 'success',
     FAILURE = 'failure',
     CANCELLED = 'cancelled',
+    WAITING = 'waiting',
 }
 
 interface IStatusLabelProps {
@@ -29,6 +30,8 @@ function StatusLabel({ status, className }: IStatusLabelProps) {
                 return 'text-ctp-yellow';
             case EStatus.IN_PROGRESS:
                 return 'text-ctp-yellow animate-spin';
+            case EStatus.WAITING:
+                return 'text-ctp-peach';
             default:
                 return 'text-gray-400';
         }
@@ -38,6 +41,8 @@ function StatusLabel({ status, className }: IStatusLabelProps) {
         switch (status) {
             case EStatus.IN_PROGRESS:
                 return icons.s_circle_notch;
+            case EStatus.WAITING:
+                return icons.s_clock;
             default:
                 return icons.s_circle;
         }

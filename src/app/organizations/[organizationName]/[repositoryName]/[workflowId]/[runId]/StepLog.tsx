@@ -1,22 +1,18 @@
 'use client';
 
-import JSZip from 'jszip';
-import { useEffect, useMemo, useState } from 'react';
+import clsx from 'clsx';
+import { useMemo } from 'react';
 import LogGroup from './LogGroup';
 
 interface IStepLogProps {
-    job_name: string;
-    step_name: string;
-    step_number: number;
-    file: JSZip | undefined;
+    step_logs: string[];
     show_timestamps: boolean;
 }
 
-const logs_to_object = (logs: string) => {
+const logs_to_object = (logs: string[]) => {
     let current_group = '';
-    const lines = logs.split('\n');
     const object: any = {};
-    for (const line of lines) {
+    for (const line of logs) {
         const sanitized_line = line.replace(
             /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g,
             '',
@@ -42,38 +38,23 @@ const logs_to_object = (logs: string) => {
     return object;
 };
 
-function StepLog({
-    file,
-    step_name,
-    step_number,
-    job_name,
-    show_timestamps,
-}: IStepLogProps) {
-    const [log, set_log] = useState<string>('');
-    const object_logs = useMemo(() => logs_to_object(log), [log]);
-
-    useEffect(() => {
-        if (file) {
-            file
-                .file(`${job_name}/${step_number}_${step_name}.txt`)
-                ?.async('string')
-                .then((content) => {
-                    set_log(content);
-                });
-        }
-    }, [file]);
+function StepLog({ step_logs, show_timestamps }: IStepLogProps) {
+    const object_logs = useMemo(
+        () => logs_to_object(step_logs.slice()),
+        [step_logs],
+    );
 
     return (
         <div>
-            {log !== '' ? (
+            {step_logs.length !== 0 ? (
                 Object.keys(object_logs).map((key, index) => {
                     const line = key.replace(
                         show_timestamps
                             ? ''
-                            : /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z/,
+                            : /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z\s/,
                         '',
                     );
-                    const hidden_lines = logs_to_object(log)[key];
+                    const hidden_lines = object_logs[key];
 
                     if (hidden_lines.length > 0) {
                         return (
@@ -84,7 +65,7 @@ function StepLog({
                                     line.replace(
                                         show_timestamps
                                             ? ''
-                                            : /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z/,
+                                            : /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+Z\s/,
                                         '',
                                     ),
                                 )}
@@ -92,8 +73,22 @@ function StepLog({
                         );
                     } else {
                         return (
-                            <p className="whitespace-pre-wrap" key={index}>
-                                {line}
+                            <p
+                                className={clsx(
+                                    line.match(/\#\#\[warning\]/) &&
+                                        'text-ctp-peach',
+                                    line.match(/\#\#\[error\]/) &&
+                                        'text-ctp-red',
+                                    line.match(/\[command\]/) &&
+                                        'text-ctp-blue',
+                                    'whitespace-pre-wrap',
+                                )}
+                                key={index}
+                            >
+                                {line
+                                    .replace('##[warning]', '')
+                                    .replace('##[error]', '')
+                                    .replace('[command]', '')}
                             </p>
                         );
                     }

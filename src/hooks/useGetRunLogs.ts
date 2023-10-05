@@ -7,7 +7,7 @@ function useGetRunLogs(owner: string, repo: string, run_id: number) {
     const { data: session } = useSession();
 
     const { data, isLoading } = useQuery(
-        [owner, repo, 'logs', run_id],
+        [owner, repo, 'runs', 'logs', run_id],
         () => client.get_workflow_run_log_async(owner, repo, run_id),
         {
             enabled: !!session && !!owner && !!repo && !!run_id,
