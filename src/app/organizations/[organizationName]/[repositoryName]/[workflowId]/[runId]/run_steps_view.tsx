@@ -10,6 +10,8 @@ import AccordionBody from '@/components/core/accordion/AccordionBody';
 import AccordionHeader from '@/components/core/accordion/AccordionHeader';
 import useGetJobLogs from '@/hooks/useGetJobLogs';
 import useGetJobs from '@/hooks/useGetJobs';
+import useGetPendingDeployments from '@/hooks/useGetPendingDeployments';
+import useReviewPendingDeployment from '@/hooks/useReviewPendingDeployment';
 import { EConclusion, EStatus } from '@/models/Status';
 import { useSideNavigation } from '@/providers/SideNavProvider';
 import { ChevronDownIcon } from '@heroicons/react/24/solid';
@@ -42,6 +44,17 @@ function RunStepsView({ params }: IWorkflowRunViewProps) {
         params.organizationName,
         params.repositoryName,
         jobs?.jobs[active_job].id,
+    );
+    const { data: pending_deployments } = useGetPendingDeployments(
+        params.organizationName,
+        params.repositoryName,
+        params.runId,
+    );
+
+    const { mutate: review } = useReviewPendingDeployment(
+        params.organizationName,
+        params.repositoryName,
+        params.runId,
     );
 
     const logs_to_array = (logs: string) => {
@@ -84,8 +97,6 @@ function RunStepsView({ params }: IWorkflowRunViewProps) {
     };
 
     const step_logs = useMemo(() => logs_to_array(logs ?? ''), [logs]);
-
-    console.log(step_logs);
 
     useEffect(() => {
         set_menu_items(
@@ -142,8 +153,40 @@ function RunStepsView({ params }: IWorkflowRunViewProps) {
                 {jobs &&
                     jobs.jobs[active_job] &&
                     jobs.jobs[active_job].status === EStatus.WAITING && (
-                        <div className="flex justify-center items-center w-full h-full">
-                            <Button>Approve Job</Button>
+                        <div className="flex justify-center items-center w-full h-full gap-10">
+                            <Button
+                                onClick={() =>
+                                    review({
+                                        environment_id:
+                                            pending_deployments![0].environment
+                                                .id,
+                                        state: 'approved',
+                                    })
+                                }
+                                disabled={
+                                    !pending_deployments![0]
+                                        .current_user_can_approve
+                                }
+                            >
+                                Approve Job
+                            </Button>
+                            <Button
+                                onClick={() =>
+                                    review({
+                                        environment_id:
+                                            pending_deployments![0].environment
+                                                .id,
+                                        state: 'rejected',
+                                    })
+                                }
+                                disabled={
+                                    !pending_deployments![0]
+                                        .current_user_can_approve
+                                }
+                                color="red"
+                            >
+                                Reject Job
+                            </Button>
                         </div>
                     )}
                 {jobs &&

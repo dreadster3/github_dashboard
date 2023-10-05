@@ -1,4 +1,8 @@
 import Branch, { IBranch } from '@/models/Branch';
+import Deployment, {
+    IDeployment,
+    IReviewDeployment,
+} from '@/models/Deployment';
 import Jobs, { IJobs } from '@/models/Jobs';
 import {
     IGithubOrganization,
@@ -249,6 +253,42 @@ class GithubClient {
         const response = await this.axiosInstance.request(config);
 
         return response.data;
+    }
+
+    async get_pending_deployments_workflow_run_async(
+        owner: string,
+        repository_name: string,
+        run_id: number,
+    ): Promise<IDeployment[]> {
+        const config: AxiosRequestConfig = {
+            method: 'GET',
+            url: `/repos/${owner}/${repository_name}/actions/runs/${run_id}/pending_deployments`,
+        };
+
+        const response = await this.axiosInstance.request(config);
+
+        return response.data.map(
+            (deployment: IDeployment) => new Deployment(deployment),
+        );
+    }
+
+    async review_pending_deployments_workflow_run_async(
+        owner: string,
+        repository_name: string,
+        run_id: number,
+        deployment_review: IReviewDeployment,
+    ): Promise<void> {
+        const config: AxiosRequestConfig = {
+            method: 'POST',
+            url: `/repos/${owner}/${repository_name}/actions/runs/${run_id}/pending_deployments`,
+            data: {
+                environment_ids: [deployment_review.environment_id],
+                state: deployment_review.state,
+                comment: deployment_review.comment ?? 'Approved in gitdash',
+            },
+        };
+
+        await this.axiosInstance.request(config);
     }
 }
 
