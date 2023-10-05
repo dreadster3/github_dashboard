@@ -164,8 +164,10 @@ function RunStepsView({ params }: IWorkflowRunViewProps) {
                                     })
                                 }
                                 disabled={
-                                    !pending_deployments![0]
-                                        .current_user_can_approve
+                                    !(
+                                        pending_deployments?.[0]
+                                            .current_user_can_approve ?? false
+                                    )
                                 }
                             >
                                 Approve Job
@@ -180,8 +182,10 @@ function RunStepsView({ params }: IWorkflowRunViewProps) {
                                     })
                                 }
                                 disabled={
-                                    !pending_deployments![0]
-                                        .current_user_can_approve
+                                    !(
+                                        pending_deployments?.[0]
+                                            .current_user_can_approve ?? false
+                                    )
                                 }
                                 color="red"
                             >
