@@ -39,13 +39,17 @@ const theme = {
             color: 'blue',
         },
         valid: {
-            colors: ['blue'],
+            colors: ['blue', 'red'],
         },
         styles: {
             variants: {
                 filled: {
                     blue: {
                         background: 'bg-ctp-blue',
+                        color: 'text-ctp-base',
+                    },
+                    red: {
+                        background: 'bg-ctp-red',
                         color: 'text-ctp-base',
                     },
                 },

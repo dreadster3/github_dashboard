@@ -11,7 +11,7 @@ export interface IButtonProps {
     disabled?: boolean;
     isLoading?: boolean;
     isInvisible?: boolean;
-    color?: 'blue';
+    color?: 'blue' | 'red';
     size?: 'sm' | 'md' | 'lg';
 }
 

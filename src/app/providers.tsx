@@ -27,7 +27,9 @@ function Providers({ children }: IProvidersProps) {
                     <MThemeProvider value={theme}>
                         <SideNavProvider>
                             <SessionProvider>{children}</SessionProvider>
-                            <ReactQueryDevtools initialIsOpen={false} />
+                            {process.env.NODE_ENV === 'development' && (
+                                <ReactQueryDevtools initialIsOpen={false} />
+                            )}
                         </SideNavProvider>
                     </MThemeProvider>
                 </ThemeProvider>

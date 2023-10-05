@@ -10,6 +10,8 @@ import {
     faSpinner,
 } from '@fortawesome/free-solid-svg-icons';
 
+import { faClock } from '@fortawesome/free-regular-svg-icons';
+
 const icons = {
     s_search: faMagnifyingGlass,
     s_circle: faCircle,
@@ -20,6 +22,7 @@ const icons = {
     s_chevron_down: faChevronDown,
     s_check: faCheck,
     s_home: faHome,
+    s_clock: faClock,
 };
 
 export default icons;
