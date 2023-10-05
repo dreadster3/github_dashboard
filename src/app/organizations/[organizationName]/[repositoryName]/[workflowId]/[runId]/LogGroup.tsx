@@ -29,7 +29,7 @@ function LogGroup({ line, hidden_lines }: ILogGroupProps) {
         >
             <AccordionHeader
                 onClick={() => set_open(!open)}
-                className="p-0 text-sm font-normal whitespace-pre-wrap border-0 text-ctp-text"
+                className="p-0 text-sm font-semibold whitespace-pre-wrap border-0 text-ctp-text"
             >
                 {line}
             </AccordionHeader>
