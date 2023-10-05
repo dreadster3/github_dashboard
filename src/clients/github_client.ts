@@ -284,7 +284,7 @@ class GithubClient {
             data: {
                 environment_ids: [deployment_review.environment_id],
                 state: deployment_review.state,
-                comment: deployment_review.comment ?? 'Approved in gitdash',
+                comment: deployment_review.comment ?? 'Approved in gitdashing',
             },
         };
 
