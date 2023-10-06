@@ -1,4 +1,4 @@
-import SelectMenu, { SelectItem } from '../Select.tsx';
+import SelectMenu, { SelectItem } from '../Select';
 
 interface IDataTableItemsPerPageProps {
     perPage: number;
@@ -17,7 +17,7 @@ function DataTableItemsPerPage({
 }: IDataTableItemsPerPageProps) {
     return (
         <div className={className}>
-            <div className="flex w-full flex-row-reverse">
+            <div className="flex flex-row-reverse w-full">
                 <SelectMenu
                     disabled={disabled}
                     value={perPage.toString()}
