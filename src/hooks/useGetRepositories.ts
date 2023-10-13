@@ -1,3 +1,4 @@
+import { auth_options } from '@/app/api/auth/[...nextauth]/route';
 import { IPageQueryParameters } from '@/clients/github_client';
 import get_query_client from '@/utils/query_client';
 import get_server_github_client from '@/utils/server_github_client';
@@ -42,7 +43,7 @@ export const server_prefetch_organization_repositories_async = async (
     options?: IPageQueryParameters,
 ): Promise<QueryClient> => {
     // TODO: Improve this as server session gets fetched twice
-    const session = await getServerSession();
+    const session = await getServerSession(auth_options);
     const github_client = await get_server_github_client();
     const query_client = get_query_client();
 
