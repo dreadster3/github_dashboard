@@ -28,7 +28,10 @@ function OrganizationsView() {
                         key={organization.name}
                         className="p-4 w-1/3 aspect-[0.8]"
                     >
-                        <Link href={`/organizations/${organization.name}`}>
+                        <Link
+                            as={`/organizations/${organization.name}`}
+                            href={`/organizations/[organizationName]`}
+                        >
                             <Card className="overflow-hidden">
                                 <CardHeader className="flex items-center w-full">
                                     <Image
@@ -36,6 +39,7 @@ function OrganizationsView() {
                                         className="w-full"
                                         width={460}
                                         height={460}
+                                        priority
                                         alt={organization.name}
                                     />
                                 </CardHeader>
